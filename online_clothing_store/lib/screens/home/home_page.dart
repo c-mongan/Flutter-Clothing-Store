@@ -2,40 +2,53 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:health_app_fyp/model/user_model.dart';
-import 'login_screen.dart';
 
-class HomePage extends StatefulWidget {
+import '../../widgets/customised_appbar.dart';
+import '../../widgets/customised_navbar.dart';
+import '../authentication/login_screen.dart';
+
+//class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  @override
-  _HomePageState createState() => _HomePageState();
-}
+//Route name
+  static const String routeName = '/';
 
-class _HomePageState extends State<HomePage> {
-  User? user = FirebaseAuth.instance.currentUser;
-  UserModel loggedInUser = UserModel();
-
-  @override
-  void initState() {
-    super.initState();
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(user!.uid)
-        .get()
-        .then((value) {
-      loggedInUser = UserModel.fromMap(value.data());
-      setState(() {});
-    });
+  //Route Method
+  static Route route() {
+    return MaterialPageRoute(
+        settings: const RouteSettings(name: routeName),
+        builder: (_) => const HomePage());
   }
+
+//   @override
+//   _HomePageState createState() => _HomePageState();
+// }
+
+// class _HomePageState extends State<HomePage> {
+//   User? user = FirebaseAuth.instance.currentUser;
+//   UserModel loggedInUser = UserModel();
+
+  // @override
+  // void initState() {
+
+  //   FirebaseFirestore.instance
+  //       .collection("users")
+  //       .doc(user!.uid)
+  //       .get()
+  //       .then((value) {
+  //     loggedInUser = UserModel.fromMap(value.data());
+  //       super.initState();
+
+  //     setState(() {});
+
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        backgroundColor: Colors.blue,
-        elevation: 0,
-      ),
+      appBar: const CustomisedAppBar(title: 'Home'),
+      bottomNavigationBar: const CustomisedNavigationBar(),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -43,8 +56,8 @@ class _HomePageState extends State<HomePage> {
             gradient: LinearGradient(
                 // colors: [Colors.red, Colors.white, Colors.red],
                 colors: [
-              Colors.blue,
-              Colors.red,
+              Colors.white,
+              Colors.black,
               // Colors.red,
               //Colors.blue,
 
@@ -60,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 55,
                   child: Text(
-                    "Welcome ${loggedInUser.firstName}!",
+                    "Welcome !",
                     // "Welcome ${loggedInUser.firstName} ${loggedInUser.secondName}!",
                     style: const TextStyle(
                         fontSize: 25,
@@ -82,13 +95,12 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 25,
                 ),
-                Text(
-                    "Your Name: ${loggedInUser.firstName} ${loggedInUser.secondName}",
+                Text("Your Name:",
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
                     )),
-                Text("Your E-mail: ${loggedInUser.email}",
+                Text("Your E-mail: ",
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -109,11 +121,11 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ));
-}
 
-Future<void> logout(BuildContext context) async {
-  await FirebaseAuth.instance.signOut();
-  Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const LoginScreen()));
-  Fluttertoast.showToast(msg: "Logout Successful! ");
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginScreen()));
+    Fluttertoast.showToast(msg: "Logout Successful! ");
+  }
 }

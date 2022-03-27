@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:health_app_fyp/screens/landpage.dart';
-import 'package:health_app_fyp/screens/register_screen.dart';
+import 'package:health_app_fyp/screens/authentication/register_screen.dart';
+
+
+import '../home/home_page.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -207,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Fluttertoast.showToast(msg: "Login Successful! "),
                   //Login Success message
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const HomeScreen())),
+                      builder: (context) => const HomePage())),
                   //Navigates the user to Home Screen
                 });
       } on FirebaseAuthException catch (error) {

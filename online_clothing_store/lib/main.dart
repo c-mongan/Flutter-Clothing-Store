@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:health_app_fyp/screens/login_screen.dart';
+import 'package:health_app_fyp/configurations/app_router.dart';
+
+import 'screens/home/home_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,9 +42,13 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.grey,
       ),
-      home: const LoginScreen(),
+
+      onGenerateRoute: ApplicationRouter.onGenerateRoute,
+      //This will need to change to Login
+      initialRoute: HomePage.routeName,
+      // home: const LoginScreen(),
     );
   }
 }
