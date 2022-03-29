@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../controllers/basket_controller.dart';
 import '../controllers/product_controller.dart';
+import '../screens/product/product_page.dart';
 
 class InventoryProducts extends StatelessWidget {
   final productController = Get.put(ProductController());
@@ -11,24 +12,30 @@ class InventoryProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-        Obx(
-          () =>
-        Flexible(
-      child: ListView.builder(
-          itemCount: productController.products.length,
-          itemBuilder: (BuildContext context, int index) {
-            return InventoryProductCard(index: index);
-          }),
-    )
-    ,
+    return Obx(
+      () => Flexible(
+        child: 
+      
+
+            
+            //     GridView.builder(
+            // gridDelegate:
+            //     SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                ListView.builder(
+            itemCount: productController.products.length,
+            itemBuilder: (BuildContext context, int index) {
+              return InventoryProductCard(index: index);
+            }),
+      ),
     );
   }
 }
 
+//
+
 class InventoryProductCard extends StatelessWidget {
   final basketController = Get.put(BasketController());
-   final ProductController productController = Get.find();
+  final ProductController productController = Get.find();
   final int index;
 
   InventoryProductCard({
@@ -70,7 +77,22 @@ class InventoryProductCard extends StatelessWidget {
               //Adds product to cart
               basketController.addProduct(productController.products[index]);
             },
-            icon: Icon(
+            icon: const Icon(
+              Icons.add_circle,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/product',
+                  arguments: productController.products[index]);
+            },
+
+            // onTap: () => Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => ProductPage(
+            //             product: productController.products[index]),
+            icon: const Icon(
               Icons.add_circle,
             ),
           ),
@@ -107,12 +129,10 @@ class InventoryProductCard extends StatelessWidget {
 // }
 
 // class CatalogProductCard extends StatelessWidget {
-  
+
 //   final cartController = Get.put(BasketController());
 //   final ProductController productController = Get.find();
 //   final int index;
-
-  
 
 //   CatalogProductCard({
 //     Key? key,

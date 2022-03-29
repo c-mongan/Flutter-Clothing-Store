@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../model/product.dart';
 import '../screens/screens.dart';
 
 class ApplicationRouter {
@@ -12,15 +13,15 @@ class ApplicationRouter {
         return LoadingPage.route();
       case BasketPage.routeName:
         return BasketPage.route();
-         case CheckoutPage.routeName:
+      case CheckoutPage.routeName:
         return CheckoutPage.route();
-         case InventoryPage.routeName:
+      case InventoryPage.routeName:
         return InventoryPage.route();
       case WishlistPage.routeName:
         return WishlistPage.route();
       case ProductPage.routeName:
-        return ProductPage.route();
-    
+        return ProductPage.route(settings.arguments as Product);
+
       default:
         return _errorRoute();
     }
