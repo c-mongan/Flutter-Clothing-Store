@@ -5,10 +5,10 @@ import '../controllers/basket_controller.dart';
 import '../controllers/product_controller.dart';
 import '../screens/product/product_page.dart';
 
-class InventoryProducts extends StatelessWidget {
+class ShoesProducts extends StatelessWidget {
   final productController = Get.put(ProductController());
 
-  InventoryProducts({Key? key}) : super(key: key);
+  ShoesProducts({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +22,9 @@ class InventoryProducts extends StatelessWidget {
             // gridDelegate:
             //     SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                 ListView.builder(
-            itemCount: productController.products.length,
+            itemCount: productController.fruits.length,
             itemBuilder: (BuildContext context, int index) {
-              return InventoryProductCard(index: index);
+              return FruitProductCard(index: index);
             }),
       ),
     );
@@ -33,12 +33,12 @@ class InventoryProducts extends StatelessWidget {
 
 //
 
-class InventoryProductCard extends StatelessWidget {
+class FruitProductCard extends StatelessWidget {
   final basketController = Get.put(BasketController());
   final ProductController productController = Get.find();
   final int index;
 
-  InventoryProductCard({
+  FruitProductCard({
     Key? key,
     required this.index,
   }) : super(key: key);
@@ -56,13 +56,13 @@ class InventoryProductCard extends StatelessWidget {
           CircleAvatar(
             radius: 40,
             backgroundImage: NetworkImage(
-              productController.products[index].imageUrl,
+              productController.fruits[index].imageUrl,
             ),
           ),
           SizedBox(width: 20),
           Expanded(
             child: Text(
-              productController.products[index].name,
+              productController.fruits[index].name,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
@@ -70,12 +70,12 @@ class InventoryProductCard extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Text('€ ${productController.products[index].price}'),
+            child: Text('€ ${productController.fruits[index].price}'),
           ),
           IconButton(
             onPressed: () {
               //Adds product to cart
-              basketController.addProduct(productController.products[index]);
+              basketController.addProduct(productController.fruits[index]);
             },
             icon: const Icon(
               Icons.add_circle,
@@ -84,21 +84,18 @@ class InventoryProductCard extends StatelessWidget {
           IconButton(
             onPressed: () {
               Navigator.pushNamed(context, '/product',
-                  arguments: productController.products[index]);
+                  arguments: productController.fruits[index]);
             },
 
-        
+            // onTap: () => Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => ProductPage(
+            //             product: productController.fruits[index]),
             icon: const Icon(
               Icons.add_circle,
             ),
           ),
-
-
-              // onTap: () => Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (context) => ProductPage(
-            //             product: productController.products[index]),
         ],
       ),
     );
@@ -122,7 +119,7 @@ class InventoryProductCard extends StatelessWidget {
 //     return Obx(
 //       () => Flexible(
 //         child: ListView.builder(
-//             itemCount: productController.products.length,
+//             itemCount: productController.fruits.length,
 //             itemBuilder: (BuildContext context, int index) {
 //               return CatalogProductCard(index: index);
 //             }),
@@ -155,13 +152,13 @@ class InventoryProductCard extends StatelessWidget {
 //           CircleAvatar(
 //             radius: 40,
 //             backgroundImage: NetworkImage(
-//               productController.products[index].imageUrl,
+//               productController.fruits[index].imageUrl,
 //             ),
 //           ),
 //           SizedBox(width: 20),
 //           Expanded(
 //             child: Text(
-//               productController.products[index].name,
+//               productController.fruits[index].name,
 //               style: TextStyle(
 //                 fontWeight: FontWeight.bold,
 //                 fontSize: 18,
@@ -169,11 +166,11 @@ class InventoryProductCard extends StatelessWidget {
 //             ),
 //           ),
 //           Expanded(
-//             child: Text('${productController.products[index].price}'),
+//             child: Text('${productController.fruits[index].price}'),
 //           ),
 //           IconButton(
 //             onPressed: () {
-//               cartController.addProduct(productController.products[index]);
+//               cartController.addProduct(productController.fruits[index]);
 //             },
 //             icon: Icon(
 //               Icons.add_circle,

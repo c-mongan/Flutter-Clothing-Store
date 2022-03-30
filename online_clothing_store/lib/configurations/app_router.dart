@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../model/product.dart';
+import '../screens/inventory/producttype/shoes.dart';
 import '../screens/screens.dart';
 
 class ApplicationRouter {
@@ -20,7 +21,11 @@ class ApplicationRouter {
       case WishlistPage.routeName:
         return WishlistPage.route();
       case ProductPage.routeName:
-        return ProductPage.route(settings.arguments as Product);
+        return ProductPage.route(
+          settings.arguments as Product,
+        );
+      case ShoesPage.routeName:
+        return ShoesPage.route();
 
       default:
         return _errorRoute();

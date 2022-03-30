@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:health_app_fyp/screens/checkout/checkout_page.dart';
+import 'package:health_app_fyp/screens/inventory/producttype/shoes.dart';
 
+import '../../widgets/carosel_slider.dart';
 import '../../widgets/customised_appbar.dart';
 import '../../widgets/customised_navbar.dart';
 import '../../widgets/inventory_products.dart';
@@ -13,7 +15,7 @@ import '../basket/basket_page.dart';
 
 //class HomePage extends StatefulWidget {
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
 //Route name
   static const String routeName = '/';
@@ -22,7 +24,7 @@ class HomePage extends StatelessWidget {
   static Route route() {
     return MaterialPageRoute(
         settings: const RouteSettings(name: routeName),
-        builder: (_) => const HomePage());
+        builder: (_) => HomePage());
   }
 
 //   @override
@@ -47,6 +49,10 @@ class HomePage extends StatelessWidget {
   //     setState(() {});
 
   //   });
+
+  void shoes(BuildContext context) {
+    Navigator.pushNamed(context, '/shoes');
+  }
   // }
 
   @override
@@ -67,76 +73,102 @@ class HomePage extends StatelessWidget {
 
                 // Colors.orange,
               ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-          child: SafeArea(
-              child: Column(
-            children: [
-              InventoryProducts(),
-             // CatalogProducts(),
+          child: Expanded(
+              child: SafeArea(
+                  child: SingleChildScrollView(
+                      // <-- wrap this around
+                      child: Column(
+            children: <Widget>[
+              // remaining stuffs
+
+              const SizedBox(
+                child: CustomCarouselFB2(),
+                height: 250,
+              ),
+
+              SizedBox(
+                height: 200,
+                child: InventoryProducts(),
+              ),
+
+              // CustomCarouselFB2(),
+
+              // CatalogProducts(),
 
               ElevatedButton(
                   onPressed: () => Get.to(() => BasketPage()),
                   child: const Text("Go to Cart")),
+
+//Navigates to cateogry page
+              // IconButton(
+              //   onPressed: () {
+              //     Navigator.pushNamed(context, '/shoes');
+              //     //arguments: productController.products[index]);
+              //   },
+              //   icon: const Icon(
+              //     Icons.four_g_plus_mobiledata_outlined,
+              //   ),
+              // ),
             ],
-          ))
+          ))))));
 
-          // child: Center(
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(20),
-          //     child: Column(
-          //       mainAxisAlignment: MainAxisAlignment.center,
-          //       crossAxisAlignment: CrossAxisAlignment.center,
-          //       children: <Widget>[
-          //         SizedBox(
-          //           height: 55,
-          //           child: Text(
-          //             "Welcome !",
-          //             // "Welcome ${loggedInUser.firstName} ${loggedInUser.secondName}!",
-          //             style: const TextStyle(
-          //                 fontSize: 25,
-          //                 fontWeight: FontWeight.bold,
-          //                 color: Colors.white),
-          //           ),
-          //         ),
-          //         const SizedBox(
-          //           height: 15,
-          //         ),
-          //         const SizedBox(
-          //           height: 120,
-          //           // child: Image.asset("assets/healthy1.png",
-          //           //     fit: BoxFit.contain)
-          //         ),
-          //         // ignore: prefer_const_constructors
+  // child: Center(
+  //   child: Padding(
+  //     padding: const EdgeInsets.all(20),
+  //     child: Column(
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       crossAxisAlignment: CrossAxisAlignment.center,
+  //       children: <Widget>[
+  //         SizedBox(
+  //           height: 55,
+  //           child: Text(
+  //             "Welcome !",
+  //             // "Welcome ${loggedInUser.firstName} ${loggedInUser.secondName}!",
+  //             style: const TextStyle(
+  //                 fontSize: 25,
+  //                 fontWeight: FontWeight.bold,
+  //                 color: Colors.white),
+  //           ),
+  //         ),
+  //         const SizedBox(
+  //           height: 15,
+  //         ),
+  //         const SizedBox(
+  //           height: 120,
+  //           // child: Image.asset("assets/healthy1.png",
+  //           //     fit: BoxFit.contain)
+  //         ),
+  //         // ignore: prefer_const_constructors
 
-          //         // ignore: prefer_const_constructors
-          //         SizedBox(
-          //           height: 25,
-          //         ),
-          //         Text("Your Name:",
-          //             style: const TextStyle(
-          //               color: Colors.white,
-          //               fontWeight: FontWeight.w500,
-          //             )),
-          //         Text("Your E-mail: ",
-          //             style: const TextStyle(
-          //               color: Colors.white,
-          //               fontWeight: FontWeight.w500,
-          //             )),
-          //         const SizedBox(
-          //           height: 25,
-          //         ),
-          //         ActionChip(
-          //             label: const Text("Log Out"),
-          //             labelStyle:
-          //                 const TextStyle(color: Colors.white, fontSize: 15),
-          //             backgroundColor: Colors.red,
-          //             onPressed: () {
-          //               logout(context);
-          //             }),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          ));
+  //         // ignore: prefer_const_constructors
+  //         SizedBox(
+  //           height: 25,
+  //         ),
+  //         Text("Your Name:",
+  //             style: const TextStyle(
+  //               color: Colors.white,
+  //               fontWeight: FontWeight.w500,
+  //             )),
+  //         Text("Your E-mail: ",
+  //             style: const TextStyle(
+  //               color: Colors.white,
+  //               fontWeight: FontWeight.w500,
+  //             )),
+  //         const SizedBox(
+  //           height: 25,
+  //         ),
+  //         ActionChip(
+  //             label: const Text("Log Out"),
+  //             labelStyle:
+  //                 const TextStyle(color: Colors.white, fontSize: 15),
+  //             backgroundColor: Colors.red,
+  //             onPressed: () {
+  //               logout(context);
+  //             }),
+  //       ],
+  //     ),
+  //   ),
+  // ),
 
   Future<void> logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
@@ -145,3 +177,4 @@ class HomePage extends StatelessWidget {
     Fluttertoast.showToast(msg: "Logout Successful! ");
   }
 }
+

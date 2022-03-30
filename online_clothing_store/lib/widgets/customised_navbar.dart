@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_app_fyp/model/product.dart';
 
 class CustomisedNavigationBar extends StatelessWidget {
   const CustomisedNavigationBar({
