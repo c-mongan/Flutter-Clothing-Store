@@ -47,10 +47,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
       ),
 
-      onGenerateRoute: ApplicationRouter.onGenerateRoute,
-      //This will need to change to Login
-      initialRoute: HomePage.routeName,
-      //  home: const LoginScreen(),
+      //  onGenerateRoute: ApplicationRouter.onGenerateRoute,
+      //   //This will need to change to Login
+      //  initialRoute: HomePage.routeName,
+      home: HomePage(),
     );
   }
 }

@@ -14,18 +14,16 @@ class InventoryProducts extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Flexible(
-        child: 
-      
+        child:
 
-            
             //     GridView.builder(
             // gridDelegate:
             //     SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                ListView.builder(
-            itemCount: productController.products.length,
-            itemBuilder: (BuildContext context, int index) {
-              return InventoryProductCard(index: index);
-            }),
+            ListView.builder(
+                itemCount: productController.products.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InventoryProductCard(index: index);
+                }),
       ),
     );
   }
@@ -46,62 +44,77 @@ class InventoryProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 10,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CircleAvatar(
-            radius: 40,
-            backgroundImage: NetworkImage(
-              productController.products[index].imageUrl,
-            ),
-          ),
-          SizedBox(width: 20),
-          Expanded(
-            child: Text(
-              productController.products[index].name,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 10,
+        ),
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () {
+            Get.to(() =>
+                (ProductPage(product: productController.products[index])));
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CircleAvatar(
+                radius: 40,
+                backgroundImage: NetworkImage(
+                  productController.products[index].imageUrl,
+                ),
               ),
-            ),
-          ),
-          Expanded(
-            child: Text('€ ${productController.products[index].price}'),
-          ),
-          IconButton(
-            onPressed: () {
-              //Adds product to cart
-              basketController.addProduct(productController.products[index]);
-            },
-            icon: const Icon(
-              Icons.add_circle,
-            ),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/product',
-                  arguments: productController.products[index]);
-            },
-
-        
-            icon: const Icon(
-              Icons.add_circle,
-            ),
-          ),
-
+              SizedBox(width: 20),
+              Expanded(
+                child: Text(
+                  productController.products[index].name,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Text('€ ${productController.products[index].price}'),
+              ),
+              IconButton(
+                onPressed: () {
+                  //Adds product to cart
+                  basketController
+                      .addProduct(productController.products[index]);
+                },
+                icon: const Icon(
+                  Icons.add_circle,
+                ),
+              ),
+              // TextButton(
+              //   style: TextButton.styleFrom(
+              //     padding: const EdgeInsets.all(1.0),
+              //     primary: Colors.white,
+              //     textStyle: const TextStyle(fontSize: 10),
+              //   ),
+              //   onPressed: () {
+              //     Get.to(() => (ProductPage(
+              //         product: productController.products[index])));
+              //   },
+              //   child: const Text('View'),
+              // ),
+              // IconButton(
+              //   onPressed: () {
+              //
+              //   },
+              //   icon: const Icon(
+              //     Icons.add_circle,
+              //   ),
+              // ),
 
               // onTap: () => Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (context) => ProductPage(
-            //             product: productController.products[index]),
-        ],
-      ),
-    );
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => ProductPage(
+              //             product: productController.products[index]),
+            ],
+          ),
+        ));
   }
 }
 

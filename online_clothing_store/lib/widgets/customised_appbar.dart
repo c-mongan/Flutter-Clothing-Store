@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:health_app_fyp/screens/screens.dart';
 
 class CustomisedAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
@@ -14,7 +16,7 @@ class CustomisedAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true, // This is all you need to centre titles
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       elevation: 0,
       title: Container(
         color: Colors.grey,
@@ -38,7 +40,8 @@ class CustomisedAppBar extends StatelessWidget with PreferredSizeWidget {
       actions: [
         IconButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/wish');
+            // Navigator.pushNamed(context, '/wish');
+            Get.to(WishlistPage());
           },
           icon: const Icon(Icons.favorite_outline_sharp),
         )

@@ -21,7 +21,7 @@ class BasketController extends GetxController {
     Get.snackbar(
       "Product Added",
       "You have added the ${product.name} to the basket",
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       duration: const Duration(seconds: 3),
     );
   }

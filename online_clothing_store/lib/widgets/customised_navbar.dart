@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:health_app_fyp/model/product.dart';
+import 'package:health_app_fyp/screens/basket/basket_page.dart';
 
 class CustomisedNavigationBar extends StatelessWidget {
   const CustomisedNavigationBar({
@@ -15,7 +17,8 @@ class CustomisedNavigationBar extends StatelessWidget {
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, "/");
+              // Navigator.pushNamed(context, "/");
+              Get.toNamed('/');
             },
             icon: const Icon(
               Icons.home,
@@ -24,7 +27,9 @@ class CustomisedNavigationBar extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, "/basket");
+              Get.to(BasketPage());
+             
+             
             },
             icon: const Icon(
               Icons.shopping_cart_outlined,

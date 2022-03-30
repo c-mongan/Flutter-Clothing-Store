@@ -1,32 +1,37 @@
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:health_app_fyp/model/product.dart';
 import '../../constants/colors.dart';
 import '../../constants/style.dart';
-
-
-
-
+import '../../controllers/basket_controller.dart';
+import '../../controllers/product_controller.dart';
+import '../../widgets/customised_navbar.dart';
 
 class ProductPage extends StatelessWidget {
-  static const String routeName = '/product';
+  // static const String routeName = '/product';
 
   final Product product;
+  final basketController = Get.put(BasketController());
+  final ProductController productController = Get.find();
 
-  const ProductPage({Key? key, required this.product}) : super(key: key);
+  ProductPage({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
 
-  static Route route(product) {
-    return MaterialPageRoute(
-      settings: const RouteSettings(name: routeName),
-      builder: (context) => ProductPage(product: product),
-    );
-  }
-
-
+  // static Route route(product) {
+  //   return MaterialPageRoute(
+  //     settings: const RouteSettings(name: routeName),
+  //     builder: (context) => ProductPage(product: product),
+  //   );
+  // }
+  late int index = productController.products.indexOf(product);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      bottomNavigationBar: const CustomisedNavigationBar(),
       body: Stack(
         children: [
           Positioned(
@@ -43,77 +48,77 @@ class ProductPage extends StatelessWidget {
                   )),
             ),
           ),
-          Positioned(
-            top: 60,
-            right: 20,
-            child: Container(
-              height: 32,
-              width: 32,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(product.imageUrl),
-                  )),
-            ),
-          ),
-          Positioned(
-            top: 150,
-            right: 24,
-            child: Container(
-              height: 276,
-              width: 73,
-              decoration: BoxDecoration(
-                  gradient: AppColor.gradient,
-                  borderRadius: BorderRadius.circular(20)),
-              child: Column(children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 6),
-                  height: 61,
-                  width: 61,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(product.imageUrl),
-                      )),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 6),
-                  height: 61,
-                  width: 61,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(product.imageUrl),
-                      )),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 6),
-                  height: 61,
-                  width: 61,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(product.imageUrl),
-                      )),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 6),
-                  height: 61,
-                  width: 61,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(product.imageUrl),
-                      )),
-                ),
-              ]),
-            ),
-          ),
+          // Positioned(
+          //   top: 60,
+          //   right: 20,
+          //   child: Container(
+          //     height: 32,
+          //     width: 32,
+          //     decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(16),
+          //         image: DecorationImage(
+          //           fit: BoxFit.cover,
+          //           image: NetworkImage(product.imageUrl),
+          //         )),
+          //   ),
+          // ),
+          // Positioned(
+          //   top: 150,
+          //   right: 24,
+          //   child: Container(
+          //     height: 276,
+          //     width: 73,
+          //     decoration: BoxDecoration(
+          //         gradient: AppColor.gradient,
+          //         borderRadius: BorderRadius.circular(20)),
+          //     child: Column(children: [
+          //       Container(
+          //         margin: const EdgeInsets.only(top: 6),
+          //         height: 61,
+          //         width: 61,
+          //         decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(16),
+          //             image: DecorationImage(
+          //               fit: BoxFit.cover,
+          //               image: NetworkImage(product.imageUrl),
+          //             )),
+          //       ),
+          //       Container(
+          //         margin: const EdgeInsets.only(top: 6),
+          //         height: 61,
+          //         width: 61,
+          //         decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(16),
+          //             image: DecorationImage(
+          //               fit: BoxFit.cover,
+          //               image: NetworkImage(product.imageUrl),
+          //             )),
+          //       ),
+          //       Container(
+          //         margin: const EdgeInsets.only(top: 6),
+          //         height: 61,
+          //         width: 61,
+          //         decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(16),
+          //             image: DecorationImage(
+          //               fit: BoxFit.cover,
+          //               image: NetworkImage(product.imageUrl),
+          //             )),
+          //       ),
+          //       Container(
+          //         margin: const EdgeInsets.only(top: 6),
+          //         height: 61,
+          //         width: 61,
+          //         decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(16),
+          //             image: DecorationImage(
+          //               fit: BoxFit.cover,
+          //               image: NetworkImage(product.imageUrl),
+          //             )),
+          //       ),
+          //     ]),
+          //   ),
+          // ),
           Positioned(
               bottom: 0,
               child: Container(
@@ -141,29 +146,55 @@ class ProductPage extends StatelessWidget {
                         ),
                       ),
                       ProductNameAndPrice(product: product),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      Text('Size',
-                          style: AppStyle.text
-                              .copyWith(color: Colors.white.withOpacity(.8))),
-                      const Spacing(),
                       Row(
-                        children: const [
-                          RectButtonSelected(
-                            label: 'S',
-                          ),
-                          RectButton(
-                            label: 'M',
-                          ),
-                          RectButton(
-                            label: 'L',
-                          ),
-                          RectButton(
-                            label: 'XL',
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            product.manufacturer,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.grey,
+                            ),
                           ),
                         ],
                       ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            product.category,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      // const SizedBox(
+                      //   height: 16,
+                      // ),
+                      // Text('Size',
+                      //     style: AppStyle.text
+                      //         .copyWith(color: Colors.white.withOpacity(.8))),
+                      // const Spacing(),
+                      // Row(
+                      //   children: const [
+                      //     RectButtonSelected(
+                      //       label: 'S',
+                      //     ),
+                      //     RectButton(
+                      //       label: 'M',
+                      //     ),
+                      //     RectButton(
+                      //       label: 'L',
+                      //     ),
+                      //     RectButton(
+                      //       label: 'XL',
+                      //     ),
+                      //   ],
+                      // ),
                       const Spacing(),
                       Row(
                         children: const [
@@ -189,7 +220,10 @@ class ProductPage extends StatelessWidget {
                                               BorderRadius.circular(16))),
                                   minimumSize: MaterialStateProperty.all(
                                       Size(size.width / 1.4, 37))),
-                              onPressed: () {},
+                              onPressed: () {
+                                basketController.addProduct(
+                                    productController.products[index]);
+                              },
                               child: Text('Add To Cart',
                                   style: AppStyle.h3
                                       .copyWith(color: Colors.white))))
@@ -312,19 +346,15 @@ class ProductNameAndPrice extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          product.name +
-              " " +
-              product.uid +
-              " " +
-              product.manufacturer +
-              " " +
-              product.category,
+          product.name,
           style: AppStyle.h1Light,
         ),
         Text(
-          product.price.toString(),
-          style: AppStyle.h1Light
-              .copyWith(color: AppColor.primary, fontWeight: FontWeight.w600),
+          " €" + product.price.toString(),
+          style: AppStyle.h1Light.copyWith(
+              color: AppColor.primary,
+              fontWeight: FontWeight.w600,
+              fontSize: 20),
         ),
       ],
     );

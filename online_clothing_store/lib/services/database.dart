@@ -13,10 +13,10 @@ class FirestoreDB {
     });
   }
 
-  Stream<List<Product>> getAllFruit() {
+  Stream<List<Product>> getAllFootwear() {
     return _firebaseFirestore
         .collection('product')
-        .where('category', isEqualTo: 'fruit')
+        .where('category', isEqualTo: 'footwear')
         .snapshots()
         .map((snapshot) {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();

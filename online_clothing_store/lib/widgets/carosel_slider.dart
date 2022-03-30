@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,7 +31,7 @@ List<Widget> cards = [
       // "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Working_late_re_0c3y%201.png?alt=media&token=7b880917-2390-4043-88e5-5d58a9d70555",
       subtitle: "Browse all footwear",
       onPressed: () {
-        Get.to(const ShoesPage());
+        Get.to( ShoesPage());
       }),
 ];
 
@@ -66,11 +65,11 @@ class _CustomCarouselFB2State extends State<CustomCarouselFB2> {
           });
         },
         itemBuilder: (BuildContext context, int position) {
-          return imageSlider(position);
+          return imageSlider(position, context);
         });
   }
 
-  Widget imageSlider(int position) {
+  Widget imageSlider(int position, BuildContext context) {
     return AnimatedBuilder(
       animation: _pageController,
       builder: (BuildContext context, widget) {

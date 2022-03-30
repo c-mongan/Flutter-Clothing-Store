@@ -57,7 +57,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: const CustomisedAppBar(title: 'Products'),
+      appBar: CustomisedAppBar(title: 'Products'),
       bottomNavigationBar: const CustomisedNavigationBar(),
       body: Container(
           width: MediaQuery.of(context).size.width,
@@ -73,21 +73,41 @@ class HomePage extends StatelessWidget {
 
                 // Colors.orange,
               ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-          child: Expanded(
-              child: SafeArea(
-                  child: SingleChildScrollView(
-                      // <-- wrap this around
-                      child: Column(
+          // child: Expanded(
+          child: SafeArea(
+              child: SingleChildScrollView(
+                  // <-- wrap this around
+                  child: Column(
             children: <Widget>[
               // remaining stuffs
-
+              Divider(
+                color: Colors.grey,
+                thickness: 1,
+              ),
               const SizedBox(
                 child: CustomCarouselFB2(),
                 height: 250,
               ),
 
+              Divider(
+                color: Colors.white,
+                thickness: 1,
+              ),
+
+              Text(
+                "All Items",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+
+              Divider(
+                color: Colors.white,
+                thickness: 1,
+              ),
               SizedBox(
-                height: 200,
+                height: 300,
                 child: InventoryProducts(),
               ),
 
@@ -95,9 +115,9 @@ class HomePage extends StatelessWidget {
 
               // CatalogProducts(),
 
-              ElevatedButton(
-                  onPressed: () => Get.to(() => BasketPage()),
-                  child: const Text("Go to Cart")),
+              // ElevatedButton(
+              //     onPressed: () => Get.to(() => BasketPage()),
+              //     child: const Text("Go to Cart")),
 
 //Navigates to cateogry page
               // IconButton(
@@ -110,7 +130,9 @@ class HomePage extends StatelessWidget {
               //   ),
               // ),
             ],
-          ))))));
+          ))))
+      // )
+      );
 
   // child: Center(
   //   child: Padding(
@@ -177,4 +199,3 @@ class HomePage extends StatelessWidget {
     Fluttertoast.showToast(msg: "Logout Successful! ");
   }
 }
-
