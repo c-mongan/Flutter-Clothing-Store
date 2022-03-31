@@ -1,19 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:health_app_fyp/screens/checkout/checkout_page.dart';
-import 'package:health_app_fyp/screens/inventory/producttype/shoes.dart';
 
+import '../../controllers/basket_controller.dart';
+import '../../controllers/product_controller.dart';
 import '../../widgets/carosel_slider.dart';
 import '../../widgets/customised_appbar.dart';
 import '../../widgets/customised_navbar.dart';
 import '../../widgets/inventory_products.dart';
 import '../authentication/login_screen.dart';
-import '../basket/basket_page.dart';
 
-//class HomePage extends StatefulWidget {
+
+
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
@@ -50,10 +49,23 @@ class HomePage extends StatelessWidget {
 
   //   });
 
-  void shoes(BuildContext context) {
-    Navigator.pushNamed(context, '/shoes');
-  }
+  // void shoes(BuildContext context) {
+  //   Navigator.pushNamed(context, '/shoes');
+  //}
   // }
+
+  final cartController = Get.put(BasketController());
+  final productController = Get.put(ProductController());
+  final BasketController controller = Get.find();
+  late int index = index;
+
+  isProducts(controller) {
+    if (controller.products.length == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -129,8 +141,18 @@ class HomePage extends StatelessWidget {
               //     Icons.four_g_plus_mobiledata_outlined,
               //   ),
               // ),
+
+              ActionChip(
+                  label: const Text("Log Out"),
+                  labelStyle:
+                      const TextStyle(color: Colors.white, fontSize: 15),
+                  backgroundColor: Colors.red,
+                  onPressed: () {
+                    logout(context, controller);
+                  }),
             ],
           ))))
+
       // )
       );
 
@@ -192,10 +214,37 @@ class HomePage extends StatelessWidget {
   //   ),
   // ),
 
-  Future<void> logout(BuildContext context) async {
-    await FirebaseAuth.instance.signOut();
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LoginScreen()));
-    Fluttertoast.showToast(msg: "Logout Successful! ");
+// void removeProduct(Product product) {
+//     if (_products.containsKey(product) && _products[product] == 1) {
+//       _products.removeWhere((key, value) => key == product);
+//     } else {
+//       _products[product] -= 1;
+//     }
+//   }
+
+// controller.removeProduct(product);
+
+//Cart empties on logout
+  Future<void> logout(BuildContext context, controller) async {
+    if (isProducts(controller) == false) {
+
+
+      //Clears list of products
+      controller.products.clear();
+      
+
+      await FirebaseAuth.instance.signOut();
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const LoginScreen()));
+      Fluttertoast.showToast(msg: "Logout Successful! ");
+    } else {
+      await FirebaseAuth.instance.signOut();
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const LoginScreen()));
+      Fluttertoast.showToast(msg: "Logout Successful! ");
+    }
+    
   }
+
 }
+

@@ -9,7 +9,7 @@ class BasketController extends GetxController {
   final _products = {}.obs;
 
 //Adds product to cart
-  void addProduct(Product product) {
+  void addProduct(Product product, int index) {
     //If product already in the cart, increase the quantity
     if (_products.containsKey(product)) {
       _products[product] += 1;

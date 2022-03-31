@@ -80,7 +80,7 @@ class InventoryProductCard extends StatelessWidget {
                 onPressed: () {
                   //Adds product to cart
                   basketController
-                      .addProduct(productController.products[index]);
+                      .addProduct(productController.products[index],index);
                 },
                 icon: const Icon(
                   Icons.add_circle,

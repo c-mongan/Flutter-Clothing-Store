@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:health_app_fyp/model/product.dart';
 import 'package:health_app_fyp/screens/basket/basket_page.dart';
+import 'package:health_app_fyp/screens/home/home_page.dart';
 
 class CustomisedNavigationBar extends StatelessWidget {
   const CustomisedNavigationBar({
@@ -18,7 +19,7 @@ class CustomisedNavigationBar extends StatelessWidget {
           IconButton(
             onPressed: () {
               // Navigator.pushNamed(context, "/");
-              Get.toNamed('/');
+              Get.to(HomePage());
             },
             icon: const Icon(
               Icons.home,
@@ -38,7 +39,7 @@ class CustomisedNavigationBar extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, "/user");
+              //Navigator.pushNamed(context, "/user");
             },
             icon: const Icon(
               Icons.person_outlined,

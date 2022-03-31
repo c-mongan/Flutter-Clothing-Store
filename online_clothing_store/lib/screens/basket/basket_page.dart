@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:health_app_fyp/screens/checkout/checkout_page.dart';
+
 import '../../controllers/basket_controller.dart';
+import '../../controllers/product_controller.dart';
 import '../../widgets/basket_products.dart';
 import '../../widgets/basket_total.dart';
 import '../../widgets/customised_appbar.dart';
@@ -9,11 +12,13 @@ import '../../widgets/customised_navbar.dart';
 
 //class CartPage extends StatefulWidget {
 class BasketPage extends StatelessWidget {
-  BasketPage({Key? key}) : super(key: key);
+  BasketPage({Key? key, index}) : super(key: key);
 //Route name
   static const String routeName = '/basket';
   final cartController = Get.put(BasketController());
+  final productController = Get.put(ProductController());
   final BasketController controller = Get.find();
+  late int index = index;
 
   isProducts(controller) {
     if (controller.products.length == 0) {
@@ -23,12 +28,12 @@ class BasketPage extends StatelessWidget {
     }
   }
 
-  //Route Method
-  static Route route() {
-    return MaterialPageRoute(
-        settings: const RouteSettings(name: routeName),
-        builder: (_) => BasketPage());
-  }
+  // //Route Method
+  // static Route route() {
+  //   return MaterialPageRoute(
+  //       settings: const RouteSettings(name: routeName),
+  //       builder: (_) => BasketPage());
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +42,64 @@ class BasketPage extends StatelessWidget {
       bottomNavigationBar: const CustomisedNavigationBar(),
       body: Column(children: [
         if (isProducts(controller) == true) ...[
-          const Text("Empty"),
+          const SizedBox(height: 100),
+          const Text(
+            "                     Your basket is empty",
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
+          ),
         ] else ...[
           BasketProducts(),
           BasketTotal(),
+          GradientIconButtonFb7(
+            gradient: const LinearGradient(
+                colors: [Color(0xff4338CA), Color(0xff6D28D9)]),
+            icon: const Icon(
+              Icons.home,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              // Get.to(CheckoutPage(controller));
+              // print(productController.products[index].name);
+              Get.to(CheckoutPage(controller));
+            },
+          )
         ],
       ]),
+    );
+  }
+}
+
+class GradientIconButtonFb7 extends StatelessWidget {
+  final double radius;
+  final Widget icon;
+  final LinearGradient gradient;
+  final Function() onPressed;
+
+  const GradientIconButtonFb7(
+      {required this.gradient,
+      required this.icon,
+      required this.onPressed,
+      this.radius = 48.0,
+      Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Ink(
+      width: radius,
+      height: radius,
+      decoration: ShapeDecoration(
+        gradient: gradient,
+        shape: const CircleBorder(side: BorderSide(color: Colors.transparent)),
+      ),
+      child: IconButton(
+        padding: EdgeInsets.zero,
+        splashRadius: radius / 2,
+        iconSize: radius / 2,
+        icon: icon,
+        onPressed: onPressed,
+      ),
     );
   }
 }

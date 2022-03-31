@@ -13,6 +13,12 @@ class FirestoreDB {
     });
   }
 
+  //  Stream<List<OrderItem>> getAllOrders() {
+  //   return _firebaseFirestore.collection('OrderItem').snapshots().map((snapshot) {
+  //     return snapshot.docs.map((doc) => OrderItem.fromSnapshot(doc)).toList();
+  //   });
+  // }
+
   Stream<List<Product>> getAllFootwear() {
     return _firebaseFirestore
         .collection('product')

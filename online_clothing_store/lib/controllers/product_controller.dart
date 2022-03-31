@@ -8,12 +8,14 @@ class ProductController extends GetxController {
  //List of product objects
   final products = <Product>[].obs;
     final footwear = <Product>[].obs;
+      // final orderitems= <OrderItem>[].obs;
 
 //Connects our products list to the database
   @override
   void onInit() {
     products.bindStream(FirestoreDB().getAllProducts());
      footwear.bindStream(FirestoreDB().getAllFootwear());
+        // orderitems.bindStream(FirestoreDB().getAllOrders());
   
     super.onInit();
 

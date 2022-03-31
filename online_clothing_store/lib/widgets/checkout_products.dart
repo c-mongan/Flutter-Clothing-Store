@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 import '../controllers/basket_controller.dart';
 import '../model/product.dart';
 
-class BasketProducts extends StatelessWidget {
+class CheckoutProducts extends StatelessWidget {
   final BasketController controller = Get.find();
 
-  BasketProducts({Key? key}) : super(key: key);
+  CheckoutProducts({Key? key}) : super(key: key);
 
   isProducts(controller) {
     if (controller.products.length == 0) {
@@ -22,12 +22,12 @@ class BasketProducts extends StatelessWidget {
   Widget build(BuildContext context) {
     //Obx allows us to see the changes in the basket (Product dictionary _products)
     return Obx(() => SizedBox(
-          height: 400,
+          height: 300,
           child: Column(children: [
             if (isProducts(controller) == true) ...[
               const SizedBox(height: 100),
               const Text(
-                "      Your basket is empty",
+                "      ",
                 style: TextStyle(fontSize: 20),
                 textAlign: TextAlign.center,
               )
@@ -85,19 +85,6 @@ class BasketProductCard extends StatelessWidget {
           ),
           Expanded(
             child: Text(product.name + "    €" + product.price.toString()),
-          ),
-          IconButton(
-            onPressed: () {
-              controller.removeProduct(product);
-            },
-            icon: Icon(Icons.remove_circle),
-          ),
-          Text('$quantity'),
-          IconButton(
-            onPressed: () {
-              controller.addProduct(product,index);
-            },
-            icon: Icon(Icons.add_circle),
           ),
         ],
       ),

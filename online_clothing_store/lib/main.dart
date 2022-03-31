@@ -50,7 +50,9 @@ class MyApp extends StatelessWidget {
       //  onGenerateRoute: ApplicationRouter.onGenerateRoute,
       //   //This will need to change to Login
       //  initialRoute: HomePage.routeName,
-      home: HomePage(),
+
+     home: LoginScreen(),
+      // home: HomePage(),
     );
   }
 }

@@ -6,9 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../model/user_model.dart';
 import '../home/home_page.dart';
 
-
-
-
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
 
@@ -244,12 +241,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.lightBlue),
                           ),
-                          SizedBox(
-                              height: 200,
-                              child: Image.asset(
-                                "assets/healthy1.png",
-                                fit: BoxFit.contain,
-                              )),
+                          // SizedBox(
+                          //     height: 200,
+                          //     child: Image.asset(
+                          //       "assets/healthy1.png",
+                          //       fit: BoxFit.contain,
+                          //     )),
                           Text(
                             "Register",
                             style: const TextStyle(
@@ -299,7 +296,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
 
- 
     UserModel userModel = UserModel();
 
     //Writing values
@@ -316,9 +312,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     Fluttertoast.showToast(msg: "Successfully created an account!");
 
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) =>  HomePage()),
-        (route) => false);
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
   }
 }

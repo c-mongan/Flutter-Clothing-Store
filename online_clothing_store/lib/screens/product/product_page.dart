@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:health_app_fyp/model/product.dart';
+import 'package:health_app_fyp/widgets/customised_appbar.dart';
 import '../../constants/colors.dart';
 import '../../constants/style.dart';
 import '../../controllers/basket_controller.dart';
@@ -31,6 +32,7 @@ class ProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: CustomisedAppBar(title: product.name),
       bottomNavigationBar: const CustomisedNavigationBar(),
       body: Stack(
         children: [
@@ -38,7 +40,7 @@ class ProductPage extends StatelessWidget {
             top: 0,
             child: Container(
               alignment: Alignment.topCenter,
-              height: size.height - 300,
+              height: size.height - 450,
               width: size.width,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
@@ -48,77 +50,7 @@ class ProductPage extends StatelessWidget {
                   )),
             ),
           ),
-          // Positioned(
-          //   top: 60,
-          //   right: 20,
-          //   child: Container(
-          //     height: 32,
-          //     width: 32,
-          //     decoration: BoxDecoration(
-          //         borderRadius: BorderRadius.circular(16),
-          //         image: DecorationImage(
-          //           fit: BoxFit.cover,
-          //           image: NetworkImage(product.imageUrl),
-          //         )),
-          //   ),
-          // ),
-          // Positioned(
-          //   top: 150,
-          //   right: 24,
-          //   child: Container(
-          //     height: 276,
-          //     width: 73,
-          //     decoration: BoxDecoration(
-          //         gradient: AppColor.gradient,
-          //         borderRadius: BorderRadius.circular(20)),
-          //     child: Column(children: [
-          //       Container(
-          //         margin: const EdgeInsets.only(top: 6),
-          //         height: 61,
-          //         width: 61,
-          //         decoration: BoxDecoration(
-          //             borderRadius: BorderRadius.circular(16),
-          //             image: DecorationImage(
-          //               fit: BoxFit.cover,
-          //               image: NetworkImage(product.imageUrl),
-          //             )),
-          //       ),
-          //       Container(
-          //         margin: const EdgeInsets.only(top: 6),
-          //         height: 61,
-          //         width: 61,
-          //         decoration: BoxDecoration(
-          //             borderRadius: BorderRadius.circular(16),
-          //             image: DecorationImage(
-          //               fit: BoxFit.cover,
-          //               image: NetworkImage(product.imageUrl),
-          //             )),
-          //       ),
-          //       Container(
-          //         margin: const EdgeInsets.only(top: 6),
-          //         height: 61,
-          //         width: 61,
-          //         decoration: BoxDecoration(
-          //             borderRadius: BorderRadius.circular(16),
-          //             image: DecorationImage(
-          //               fit: BoxFit.cover,
-          //               image: NetworkImage(product.imageUrl),
-          //             )),
-          //       ),
-          //       Container(
-          //         margin: const EdgeInsets.only(top: 6),
-          //         height: 61,
-          //         width: 61,
-          //         decoration: BoxDecoration(
-          //             borderRadius: BorderRadius.circular(16),
-          //             image: DecorationImage(
-          //               fit: BoxFit.cover,
-          //               image: NetworkImage(product.imageUrl),
-          //             )),
-          //       ),
-          //     ]),
-          //   ),
-          // ),
+          
           Positioned(
               bottom: 0,
               child: Container(
@@ -222,7 +154,7 @@ class ProductPage extends StatelessWidget {
                                       Size(size.width / 1.4, 37))),
                               onPressed: () {
                                 basketController.addProduct(
-                                    productController.products[index]);
+                                    productController.products[index], index);
                               },
                               child: Text('Add To Cart',
                                   style: AppStyle.h3
