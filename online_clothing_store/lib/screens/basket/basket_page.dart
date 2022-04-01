@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:health_app_fyp/screens/checkout/checkout_page.dart';
-
 import '../../controllers/basket_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../widgets/basket_products.dart';
@@ -10,10 +9,8 @@ import '../../widgets/basket_total.dart';
 import '../../widgets/customised_appbar.dart';
 import '../../widgets/customised_navbar.dart';
 
-//class CartPage extends StatefulWidget {
 class BasketPage extends StatelessWidget {
   BasketPage({Key? key, index}) : super(key: key);
-//Route name
   static const String routeName = '/basket';
   final cartController = Get.put(BasketController());
   final productController = Get.put(ProductController());
@@ -27,13 +24,6 @@ class BasketPage extends StatelessWidget {
       return false;
     }
   }
-
-  // //Route Method
-  // static Route route() {
-  //   return MaterialPageRoute(
-  //       settings: const RouteSettings(name: routeName),
-  //       builder: (_) => BasketPage());
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +45,7 @@ class BasketPage extends StatelessWidget {
             gradient: const LinearGradient(
                 colors: [Color(0xff4338CA), Color(0xff6D28D9)]),
             icon: const Icon(
-              Icons.home,
+              Icons.shopping_cart_checkout_sharp,
               color: Colors.white,
             ),
             onPressed: () {

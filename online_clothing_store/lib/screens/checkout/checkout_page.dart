@@ -1,3 +1,5 @@
+import 'package:health_app_fyp/designpatterns/strategy/order/order_summary/order_info_row.dart';
+import 'package:health_app_fyp/screens/payment/payment_page.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,10 +10,10 @@ import '../../controllers/basket_controller.dart';
 import '../../designpatterns/delivery_interface.dart';
 import '../../designpatterns/order/order.dart';
 import '../../designpatterns/order/order_products.dart';
+import '../../designpatterns/strategies/standard_delivery_strategy.dart';
 import '../../designpatterns/strategies/store_collection_strategy.dart';
 import '../../designpatterns/strategies/parcel_motel_strategy.dart';
 import '../../designpatterns/strategies/next_day_delivery_strategy.dart';
-import '../../designpatterns/strategy/order/order_summary/order_summary.dart';
 import '../../designpatterns/strategy/delivery_options.dart';
 import '../../widgets/checkout_products.dart';
 import '../../widgets/customised_appbar.dart';
@@ -23,29 +25,29 @@ class CheckoutPage extends StatefulWidget {
 
   @override
   _CheckoutPageState createState() => _CheckoutPageState();
+  static _CheckoutPageState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_CheckoutPageState>();
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
   final cartController = Get.put(BasketController());
   final BasketController controller = Get.find();
 
-  final List<InterfaceDeliveryCostsStrategy> _shippingCostsStrategyList = [
+//List of Different Delivery methods implementing the Strategy Pattern
+  final List<InterfaceDeliveryCostsStrategy> _deliveryOptionsList = [
     InStoreCollectionStrategy(),
     ParcelMotelStrategy(),
     PriorityDeliveryStrategy(),
+    StandardDeliveryStrategy(),
   ];
-  int _selectedStrategyIndex = 0;
+  int _selectedDeliveryIndex = 0;
   Order _order = Order();
 
   void _addToOrder() {
-    //setState(() {
     double total = double.parse(controller.total);
     OrderProducts orderTotal = OrderProducts(price: total);
     _order.addProductToOrder(orderTotal);
     print(controller.total);
-
-    //_order.addOrderItem();
-    // });
   }
 
   @override
@@ -54,10 +56,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
     _clearOrder();
     if (mounted) {
-      //check whether the state object is in tree
-
-      //_addToOrder();
-
       setState(() {});
     }
   }
@@ -70,7 +68,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   void _setSelectedStrategyIndex(int? index) {
     setState(() {
-      _selectedStrategyIndex = index!;
+      _selectedDeliveryIndex = index!;
     });
   }
 
@@ -103,11 +101,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     CheckoutProducts(),
-
-                    // OrderButtons(
-                    //   onAdd: _addToOrder,
-                    //   onClear: _clearOrder,
-                    // ),
                     const SizedBox(height: LayoutConstants.spaceM),
                     Stack(
                       children: <Widget>[
@@ -131,23 +124,27 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             children: <Widget>[
                               const SizedBox(height: LayoutConstants.spaceM),
                               DeliveryMethods(
-                                selectedIndex: _selectedStrategyIndex,
-                                deliveryOptions: _shippingCostsStrategyList,
+                                selectedIndex: _selectedDeliveryIndex,
+                                deliveryOptions: _deliveryOptionsList,
                                 onChanged: _setSelectedStrategyIndex,
                               ),
                               OrderDetails(
-                                shippingCostStrategy:
-                                    _shippingCostsStrategyList[
-                                        _selectedStrategyIndex],
+                                deliveryCostStrategy: _deliveryOptionsList[
+                                    _selectedDeliveryIndex],
                                 order: _order,
                               ),
-                              // Text(
-                              //   'Total' + controller.total.toString(),
-                              //   style: TextStyle(
-                              //     fontSize: 24,
-                              //     fontWeight: FontWeight.bold,
-                              //   ),
-                              // ),
+                              OutlinedButton(
+                                onPressed: () {
+                                  //Get.to(Second(), arguments: ["First data", "Second data"]);
+
+                                  Get.to(PaymentPage(), arguments: [
+                                    _deliveryOptionsList[
+                                        _selectedDeliveryIndex],
+                                    _order
+                                  ]);
+                                },
+                                child: const Text('Click Me'),
+                              )
                             ],
                           ),
                         ),
@@ -161,5 +158,67 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   void callThisMethod(bool isVisible) {
     debugPrint('_HomeScreenState.callThisMethod: isVisible: $isVisible');
+  }
+}
+
+class OrderDetails extends StatelessWidget {
+  final Order order;
+  final InterfaceDeliveryCostsStrategy deliveryCostStrategy;
+
+  //final StringCallback callback;
+
+  // ignore: use_key_in_widget_constructors
+  const OrderDetails({
+    required this.order,
+    required this.deliveryCostStrategy,
+    // required this.callback
+  });
+
+  double get deliveryCost => deliveryCostStrategy.calculate(order);
+  double get total => order.price + deliveryCost;
+
+  double getTotal(
+      Order order,
+      InterfaceDeliveryCostsStrategy _deliveryOptionsList(
+          [_selectedDeliveryIndex])) {
+    return order.price + deliveryCostStrategy.calculate(order);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(LayoutConstants.paddingM),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Order Details',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            const Divider(),
+            OrderInformationRow(
+              fontFamily: 'Montserrat',
+              label: 'Subtotal',
+              value: order.price,
+            ),
+            const SizedBox(height: LayoutConstants.spaceM),
+            OrderInformationRow(
+              fontFamily: 'Roboto',
+              label: 'Delivery',
+              value: deliveryCost,
+            ),
+            const Divider(),
+            OrderInformationRow(
+              fontFamily: 'RobotoMedium',
+              label: 'Order total',
+              value: total,
+            ),
+
+            //callback(total.toStringAsFixed(2)),
+          ],
+        ),
+      ),
+    );
   }
 }
