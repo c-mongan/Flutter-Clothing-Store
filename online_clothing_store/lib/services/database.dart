@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 import '../model/product.dart';
 
 class DatabaseService {
   static final DatabaseService databaseService = DatabaseService._internal();
+  late String uid;
 
-  factory DatabaseService() {
+  factory DatabaseService({required String uid}) {
     return databaseService;
   }
 
@@ -29,5 +29,38 @@ class DatabaseService {
         .map((snapshot) {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
     });
+  }
+
+  //collection reference
+  final CollectionReference userDataCollection = FirebaseFirestore.instance
+      .collection('UserData'); //Firestore will create this collection for us
+
+  Future updateUserData(String uid,
+  String? email
+  ,String firstName
+  ,String secondName
+  ,String cardNum
+  ,String cvv
+  ,String expiryDate
+  ,String address
+  ,String city
+  ,String zipCode
+  ,String country
+  ,String studentID
+     ) async {
+    return await userDataCollection.doc(uid).set(({
+      'uid': uid,
+      'email': email,
+      'firstName': firstName,
+      'secondName': secondName,
+      'cardNum': cardNum,
+      'cvv': cvv,
+      'expiryDate': expiryDate,
+      'address': address,
+      'city': city,
+      'zipCode': zipCode,
+      'country': country,
+      'studentID': studentID,
+        }));
   }
 }

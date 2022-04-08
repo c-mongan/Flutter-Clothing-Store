@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../model/user_model.dart';
+import '../../services/database.dart';
 import '../home/home_page.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -296,18 +297,33 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
 
+    await DatabaseService(uid: user!.uid).updateUserData(
+      user.uid,
+      user.email,
+      firstNameEditingController.text,
+      secondNameEditingController.text,
+      "",
+      "",
+      "",
+      "Address",
+      "City",
+      "Zipcode",
+      "Country",
+      "",
+    );
+
     UserModel userModel = UserModel();
 
     //Writing values
 
-    userModel.email = user?.email;
-    userModel.uid = user?.uid;
+    userModel.email = user.email;
+    userModel.uid = user.uid;
     userModel.firstName = firstNameEditingController.text;
     userModel.secondName = secondNameEditingController.text;
 
     await firebaseFirestore
         .collection("users")
-        .doc(user?.uid)
+        .doc(user.uid)
         .set(userModel.toMap());
 
     Fluttertoast.showToast(msg: "Successfully created an account!");

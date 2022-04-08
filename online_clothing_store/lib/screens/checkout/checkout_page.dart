@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:health_app_fyp/model/user_data.dart';
 import 'package:health_app_fyp/screens/payment/payment_page.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +40,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
   final cartController = Get.put(BasketController());
   final BasketController controller = Get.find();
 
+  User? user = FirebaseAuth.instance.currentUser;
+  UserInformation loggedInUser = UserInformation();
+
 //List of Different Delivery methods implementing the Strategy Pattern
   final List<InterfaceDeliveryCostsStrategy> _deliveryOptionsList = [
     InStoreCollectionStrategy(),
@@ -58,7 +64,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void initState() {
     super.initState();
 
+    FirebaseFirestore.instance
+        .collection("UserData")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserInformation.fromMap(value.data());
+    });
     _clearOrder();
+
     if (mounted) {
       setState(() {});
     }
@@ -106,7 +120,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   children: <Widget>[
                     SizedBox(height: 20),
                     Text(
-                      'Your basket',
+                      'Your basket  ${loggedInUser.firstName}',
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

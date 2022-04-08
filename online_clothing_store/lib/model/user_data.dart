@@ -7,10 +7,10 @@ class UserInformation {
   String? cvv;
   String? expiryDate;
   String? address;
-  // String? bmi;
-  // String? tdee;
-  // String? activityLevel;
-  // String? bmiTime;
+  String? city;
+  String? zipCode;
+  String? country;
+  String? studentID;
 
   UserInformation({
     this.uid,
@@ -19,25 +19,30 @@ class UserInformation {
     this.secondName,
     this.address,
     this.cardNum,
-    // this.activityLevel,
     this.cvv,
-    // this.tdee,
-    // this.bmi,
     this.expiryDate,
-    // this.bmiTime
+    this.city,
+    this.zipCode,
+    this.country,
+    this.studentID,
   });
 
   //Get Data from the server
   factory UserInformation.fromMap(map) {
     return UserInformation(
-        uid: map['uid'],
-        email: map['email'],
-        firstName: map['firstName'],
-        secondName: map['secondName'],
-        address: map['address'],
-        cardNum: map['cardNum'],
-        cvv: map['cvv'],
-        expiryDate: map['expiryDate']);
+      uid: map['uid'],
+      email: map['email'],
+      firstName: map['firstName'],
+      secondName: map['secondName'],
+      address: map['address'],
+      cardNum: map['cardNum'],
+      cvv: map['cvv'],
+      expiryDate: map['expiryDate'],
+      city: map['city'],
+      zipCode: map['zipCode'],
+      country: map['country'],
+      studentID: map['studentID'],
+    );
   }
 
 //Send data to our server
@@ -49,18 +54,27 @@ class UserInformation {
       'secondName': secondName,
       'address': address,
       'cardNum': cardNum,
-
       'cvv': cvv,
-      // 'bmi': bmi,
-      // 'bmiTime': bmiTime,
-      // 'tdee': tdee,
       'expiryDate': expiryDate,
+      'city': city,
+      'zipCode': zipCode,
+      'country': country,
+      'studentID': studentID,
     };
   }
 
   UserInformation fromJson(Map<String, dynamic> json) => UserInformation(
-      cardNum: json['cardNum'],
-      cvv: json['cvv'],
-      expiryDate: json['expiryDate'],
-      address: json['address']);
+        uid: json['uid'],
+        email: json['email'],
+        firstName: json['firstName'],
+        secondName: json['secondName'],
+        address: json['address'],
+        cardNum: json['cardNum'],
+        cvv: json['cvv'],
+        expiryDate: json['expiryDate'],
+        city: json['city'],
+        zipCode: json['zipCode'],
+        country: json['country'],
+        studentID: json['studentID'],
+      );
 }

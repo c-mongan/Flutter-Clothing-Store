@@ -1,11 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:health_app_fyp/screens/checkout/checkout_page.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../controllers/basket_controller.dart';
+import '../../model/user_data.dart';
 import '../../widgets/customised_appbar.dart';
 import '../../widgets/customised_navbar.dart';
+import '../home/home_page.dart';
 import '../payment/payment_page.dart';
 
 class AddressPage extends StatefulWidget {
@@ -47,9 +52,56 @@ final countryEditingController = TextEditingController();
 final confirmPasswordEditingController = TextEditingController();
 
 class _AddressPageState extends State<AddressPage> {
+  // @override
+
+  User? user = FirebaseAuth.instance.currentUser;
+  UserInformation loggedInUser = UserInformation();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // if (mounted) {
+    FirebaseFirestore.instance
+        .collection("UserData")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserInformation.fromMap(value.data());
+    });
+
+    setState(() {});
+    // }
+  }
+
+  void asyncMethod(bool isVisible) async {
+    FirebaseFirestore.instance
+        .collection("UserData")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserInformation.fromMap(value.data());
+
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  void callThisMethod(bool isVisible) {
+  debugPrint('_HomeScreenState.callThisMethod: isVisible: $isVisible');
+}
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+    return VisibilityDetector(
+        key: Key("key"),
+        onVisibilityChanged: (VisibilityInfo info) {
+          bool isVisible = info.visibleFraction != 0;
+          asyncMethod(isVisible);
+        },
+    child:  Scaffold(
         appBar: CustomisedAppBar(title: 'Checkout'),
         bottomNavigationBar: CustomisedNavigationBar(),
         // body: Padding(
@@ -84,16 +136,16 @@ class _AddressPageState extends State<AddressPage> {
             ),
             TextBox(
               inputController: firstNameEditingController,
-              text: "First Name",
+              text: "${loggedInUser.firstName}",
             ),
 
             TextBox(
               inputController: secondNameEditingController,
-              text: "Second Name",
+              text: "${loggedInUser.secondName}",
             ),
             TextBox(
               inputController: emailEditingController,
-              text: "Email",
+              text: "${loggedInUser.email}",
             ),
 
             SizedBox(height: 20),
@@ -108,19 +160,19 @@ class _AddressPageState extends State<AddressPage> {
             ),
             TextBox(
               inputController: addressEditingController,
-              text: "Address",
+              text: "${loggedInUser.address}",
             ),
             TextBox(
               inputController: cityEditingController,
-              text: "City",
+              text: "${loggedInUser.city}",
             ),
             TextBox(
               inputController: zipCodeEditingController,
-              text: "Zipcode",
+              text: "${loggedInUser.zipCode}",
             ),
             TextBox(
               inputController: countryEditingController,
-              text: "Country",
+              text: "${loggedInUser.country}",
             ),
             SizedBox(height: 20),
 
@@ -181,7 +233,7 @@ class _AddressPageState extends State<AddressPage> {
               order: data[1],
             ),
           ],
-        )));
+        ))));
     // ));
     // // ),]
 

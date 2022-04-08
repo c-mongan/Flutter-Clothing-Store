@@ -47,9 +47,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
       ),
 
-      //  home: LoginScreen(),
+      home: LoginScreen(),
 
-      home: HomePage(),
+      // home: HomePage(),
     );
   }
 }

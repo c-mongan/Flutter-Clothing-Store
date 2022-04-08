@@ -59,7 +59,7 @@ class OrderConfirmation extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hi Conor,',
+                    'Hi Conor ,',
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   SizedBox(height: 10),
