@@ -1,3 +1,4 @@
+import 'package:health_app_fyp/screens/order_confirmation/order_confirmation.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,22 +28,15 @@ class _PaymentPageState extends State<PaymentPage> {
   final cartController = Get.put(BasketController());
   final BasketController controller = Get.find();
 
-  void _setSelectedStrategyIndex(int? index) {
-    setState(() {
-      _selectedIndex = index!;
-    });
-  }
-
   List paymentOptions = [
     "Paypal",
-    "Card",
-    // "Cash",
-    // "Bank Transfer",
-    "Cash on Delivery",
+    "Debit / Credit Card",
+  
     "Bitcoin"
   ];
 
   int _selectedIndex = 0;
+  int index = 0;
   late ValueChanged<int?> onChanged;
 
   var data = Get.arguments;
@@ -91,25 +85,55 @@ class _PaymentPageState extends State<PaymentPage> {
               RadioListTile<int>(
                 title: Text(paymentOptions[i]),
                 value: i,
-                groupValue: _selectedIndex,
-                onChanged: _setSelectedStrategyIndex,
+                groupValue: index,
+                //  onChanged: _setSelectedStrategyIndex,
+                onChanged: (int? value) {
+                  setState(() {
+                    index = i;
+                  });
+                },
                 dense: true,
                 activeColor: Colors.black,
               ),
+
+            SizedBox(height: 20),
+            ListTileButton(
+                text: "My Cards",
+                leadingIcon: Icon(Icons.monetization_on),
+                trailingIcon: Icon(Icons.chevron_right),
+                onTap: () {},
+                color: Color(Colors.black.value)),
+
+            // ListTileTheme(
+            //   child: ListTile(
+            //     leading: Icon(Icons.monetization_on),
+            //     title: Text(
+            //       'My Cards',
+            //       textScaleFactor: 1,
+            //     ),
+            //     trailing: Icon(Icons.chevron_right),
+            //     selected: false,
+            //     onTap: () {},
+            //   ),
+            //   textColor: Color(0xFF4338CA),
+            //   iconColor: Color(0xFF4338CA),
+            // ),
 
             OutlinedButton(
               onPressed: () {
                 debugPrint('Received click');
 
-                if (_selectedIndex == 0) {
-                  print("Paypal");
-                } else if (_selectedIndex == 1) {
-                  print("Card");
-                } else if (_selectedIndex == 2) {
-                  print("Cash on Delivery");
-                } else if (_selectedIndex == 3) {
-                  print("Bitcoin");
-                }
+                // if (_selectedIndex == 0) {
+                //   print("Paypal");
+                // } else if (_selectedIndex == 1) {
+                //   print("Card");
+                // } else if (_selectedIndex == 2) {
+                //   print("Cash on Delivery");
+                // } else if (_selectedIndex == 3) {
+                //   print("Bitcoin");
+
+                Get.to(OrderConfirmation());
+                // }
               },
               child: const Text('Pay Now'),
             ),
@@ -128,5 +152,39 @@ class _PaymentPageState extends State<PaymentPage> {
 
   void callThisMethod(bool isVisible) {
     debugPrint('_HomeScreenState.callThisMethod: isVisible: $isVisible');
+  }
+}
+
+class ListTileButton extends StatelessWidget {
+  final String text;
+  final Widget leadingIcon;
+  final Widget trailingIcon;
+  final Function() onTap;
+  final Color color;
+  const ListTileButton(
+      {required this.text,
+      required this.leadingIcon,
+      required this.trailingIcon,
+      required this.onTap,
+      this.color = const Color(0xFF4338CA),
+      Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTileTheme(
+      child: ListTile(
+        leading: leadingIcon,
+        title: Text(
+          text,
+          textScaleFactor: 1,
+        ),
+        trailing: trailingIcon,
+        selected: false,
+        onTap: onTap,
+      ),
+      textColor: color,
+      iconColor: color,
+    );
   }
 }

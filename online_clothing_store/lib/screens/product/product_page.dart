@@ -43,8 +43,35 @@ class _ProductPageState extends State<ProductPage> {
 
   final Item _item = Item.initial();
 
+  bool showCustomisation = false;
+  bool showDetails = true;
+
   late String color;
   late String initialColor;
+
+  _showCustomisation(showCustomisation) {
+    if (showCustomisation == false) {
+      setState(() {
+        showCustomisation = false;
+      });
+    } else {
+      setState(() {
+        showCustomisation = true;
+      });
+    }
+  }
+
+  _showDetails(showDetails) {
+    if (showDetails == false) {
+      setState(() {
+        showDetails = false;
+      });
+    } else {
+      setState(() {
+        showDetails = true;
+      });
+    }
+  }
 
   Color displayColor(String color) {
     switch (color) {
@@ -205,23 +232,18 @@ class _ProductPageState extends State<ProductPage> {
         fourthIsSelected = !fourthIsSelected;
 
         break;
-      
     }
   }
 
-  
   late int index = productController.products.indexOf(widget.product);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: CustomisedAppBar(title: widget.product.name),
-      bottomNavigationBar: const CustomisedNavigationBar(),
-      body:
- 
-          Stack(
-        children: [
+        appBar: CustomisedAppBar(title: widget.product.name),
+        bottomNavigationBar: const CustomisedNavigationBar(),
+        body: Stack(children: [
           Positioned(
             top: 0,
             child: Container(
@@ -234,7 +256,6 @@ class _ProductPageState extends State<ProductPage> {
                     fit: BoxFit.cover,
                     image: NetworkImage(widget.product.imageUrl),
                   )),
-              
             ),
           ),
           Positioned(
@@ -251,242 +272,309 @@ class _ProductPageState extends State<ProductPage> {
                       padding: const EdgeInsets.all(24.0),
                       child: SingleChildScrollView(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Center(
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 16),
-                                height: 5,
-                                width: 32 * 1.5,
-                                decoration: BoxDecoration(
-                                  gradient: AppColor.gradient,
-                                  borderRadius: BorderRadius.circular(3),
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Center(
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 16),
+                                  height: 5,
+                                  width: 32 * 1.5,
+                                  decoration: BoxDecoration(
+                                    gradient: AppColor.gradient,
+                                    borderRadius: BorderRadius.circular(3),
+                                  ),
                                 ),
                               ),
-                            ),
-                            ProductNameAndPrice(product: widget.product),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  widget.product.manufacturer,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.grey,
+                              ProductNameAndPrice(product: widget.product),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    widget.product.manufacturer,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.grey,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 25),
-                            const SizedBox(height: LayoutConstants.spaceM),
-                            Divider(color: Colors.grey, height: 3),
-                            Row(
-                              children: <Widget>[
-                                SizedBox(height: LayoutConstants.spaceM),
-                                const Spacing(),
-                                Row(
-                                  children: [
-                                    // TabTitle(label: 'Details', selected: true
+                                ],
+                              ),
+                              SizedBox(height: 25),
+                              const SizedBox(height: LayoutConstants.spaceM),
+                              Divider(color: Colors.grey, height: 3),
+                              Row(
+                                children: <Widget>[
+                                  SizedBox(height: LayoutConstants.spaceM),
+                                  const Spacing(),
+                                  Row(
+                                    children: [
+                                      // TabTitle(label: 'Details', selected: true
 
-                                    // ),
-                                    TextButton(
-                                        style: TextButton.styleFrom(
-                                          textStyle: TextStyle(
-                                              fontSize: 15, color: Colors.grey),
-                                        ),
-                                        onPressed: null,
-                                        child: Text(
-                                          'Details',
-                                          style: TextStyle(
-                                            color: Colors.grey,
+                                      // ),
+                                      TextButton(
+                                          style: TextButton.styleFrom(
+                                            textStyle: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.grey),
                                           ),
-                                        )),
+                                          onPressed: () {
+                                            if (showDetails == false) {
+                                              setState(() {
+                                                showDetails = true;
+                                                showCustomisation = false;
+                                              });
+                                            }
 
-                                    SizedBox(width: 8),
-                              
-                                    TextButton(
-                                        style: TextButton.styleFrom(
-                                          textStyle: TextStyle(
-                                              fontSize: 15, color: Colors.grey),
-                                        ),
-                                        onPressed: null,
-                                        child: Text(
-                                          'Reviews',
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                          ),
-                                        )),
-                                    SizedBox(width: 8),
-                                    // TabTitle(label: 'Review', selected: false),
-                                    TextButton(
-                                        style: TextButton.styleFrom(
-                                          textStyle: TextStyle(
-                                              fontSize: 15, color: Colors.grey),
-                                        ),
-                                        onPressed: null,
-                                        child: Text(
-                                          'Customise',
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                          ),
-                                        ))
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Divider(color: Colors.grey, height: 3),
-                            SizedBox(height: 25),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            // Divider(color: Colors.grey, height: 3),
-                            // Text("Change Color"),
-                            Divider(color: Colors.grey, height: 3),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _changeColor();
-                                    });
-                                  },
-                                  child: Button(
-                                    selector: true,
-                                    color: getColor(_item),
-                                    submitted: isSubmitted,
-                                    text: "",
-                                  ),
-                                ),
-                                NeumorphicButton(
-                                    child: Text('Change Color'),
-                                    onPressed: _changeColor),
-                              ],
-                            ),
+                                            // else if (showDetails == true) {
+                                            //   setState(
+                                            //     () {
+                                            //       showDetails = false;
+                                            //       showCustomisation = false;
+                                            //     },
+                                            //   );
+                                            // }
+                                          },
+                                          child: Text(
+                                            'Details',
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                            ),
+                                          )),
 
-                            Divider(color: Colors.grey, height: 3),
-                            SizedBox(
-                              height: 35,
-                            ),
-                            // Divider(color: Colors.grey, height: 3),
-                            // Text("Change Size"),
-                            Divider(color: Colors.grey, height: 3),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _changeSize();
-                                      // secondIsSelected = false;
-                                      // thirdIsSelected = false;
-                                      // firstIsSelected = !firstIsSelected;
-                                      // fourthIsSelected = falsse;
-                                      // _item.height = "Small";
-                                      // // selectSize(_item);
-                                    });
-                                  },
-                                  child: Button(
-                                    selector: firstIsSelected,
-                                    color: Colors.grey,
-                                    submitted: isSubmitted,
-                                    text: "S",
+                                      SizedBox(width: 8),
+
+                                      TextButton(
+                                          style: TextButton.styleFrom(
+                                            textStyle: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.grey),
+                                          ),
+                                          onPressed: null,
+                                          child: Text(
+                                            'Reviews',
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                            ),
+                                          )),
+                                      SizedBox(width: 8),
+                                      // TabTitle(label: 'Review', selected: false),
+                                      TextButton(
+                                          style: TextButton.styleFrom(
+                                            textStyle: TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.grey),
+                                          ),
+                                          onPressed: () {
+                                            if (showCustomisation == false) {
+                                              setState(() {
+                                                showCustomisation = true;
+                                                showDetails = false;
+                                              });
+                                              // } else if (showCustomisation ==
+                                              //     true) {
+                                              //   setState(
+                                              //     () {
+                                              //       showCustomisation = false;
+                                              //       showDetails = true;
+                                              //     },
+                                              //   );
+                                            }
+                                          },
+                                          child: Text(
+                                            'Customise',
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                            ),
+                                          ))
+                                    ],
                                   ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _changeSize();
-                                      // firstIsSelected = false;
-                                      // thirdIsSelected = false;
-                                      // secondIsSelected = !secondIsSelected;
-                                      // fourthIsSelected = false;
-                                      // _item.height = "Medium";
-                                    });
-                                  },
-                                  child: Button(
-                                    selector: secondIsSelected,
-                                    color: Colors.grey,
-                                    submitted: isSubmitted,
-                                    text: "M",
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _changeSize();
-                                     
-                                    });
-                                  },
-                                  child: Button(
-                                    selector: thirdIsSelected,
-                                    color: Colors.grey,
-                                    submitted: isSubmitted,
-                                    text: "L",
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _changeSize();
-                                    
-                                    });
-                                  },
-                                  child: Button(
-                                    selector: fourthIsSelected,
-                                    color: Colors.grey,
-                                    submitted: isSubmitted,
-                                    text: "XL",
-                                  ),
-                                ),
-                                SizedBox(width: 35),
-                                NeumorphicButton(
-                                    child: Text('Change Size'),
-                                    onPressed: _changeSize),
-                              
-                              ],
-                            ),
-                         
-                            Divider(color: Colors.grey, height: 3),
-                            SizedBox(
-                              height: 35,
-                            ),
-                            Row(
-                              children: <Widget>[
-                              
+                                ],
+                              ),
+                              if (showDetails == true) ...[
                                 NeumorphicButton(
                                   child: Text('Add to Cart'),
                                   onPressed: () => basketController.addProduct(
                                       productController.products[index], index),
                                 ),
-                                SizedBox(
-                                  width: 130,
-                                ),
-                                NeumorphicButton(
-                                  child: Text('Undo'),
-                                  onPressed: _undo,
-                                ),
                               ],
-                            ),
-                            SizedBox(height: 10),
+                              if (showCustomisation == true) ...[
+                                Divider(color: Colors.grey, height: 3),
+                                SizedBox(height: 25),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                // Divider(color: Colors.grey, height: 3),
+                                // Text("Change Color"),
+                                Divider(color: Colors.grey, height: 3),
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _changeColor();
+                                        });
+                                      },
+                                      child: Button(
+                                        selector: true,
+                                        color: getColor(_item),
+                                        submitted: isSubmitted,
+                                        text: "",
+                                      ),
+                                    ),
+                                    NeumorphicButton(
+                                        child: Text('Change Color'),
+                                        onPressed: _changeColor),
+                                  ],
+                                ),
 
-                            Divider(color: Colors.grey, height: 3),
+                                Divider(color: Colors.grey, height: 3),
+                                SizedBox(
+                                  height: 35,
+                                ),
+                                // Divider(color: Colors.grey, height: 3),
+                                // Text("Change Size"),
+                                Divider(color: Colors.grey, height: 3),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _changeSize();
+                                          // secondIsSelected = false;
+                                          // thirdIsSelected = false;
+                                          // firstIsSelected = !firstIsSelected;
+                                          // fourthIsSelected = falsse;
+                                          // _item.height = "Small";
+                                          // // selectSize(_item);
+                                        });
+                                      },
+                                      child: Button(
+                                        selector: firstIsSelected,
+                                        color: Colors.grey,
+                                        submitted: isSubmitted,
+                                        text: "S",
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _changeSize();
+                                          // firstIsSelected = false;
+                                          // thirdIsSelected = false;
+                                          // secondIsSelected = !secondIsSelected;
+                                          // fourthIsSelected = false;
+                                          // _item.height = "Medium";
+                                        });
+                                      },
+                                      child: Button(
+                                        selector: secondIsSelected,
+                                        color: Colors.grey,
+                                        submitted: isSubmitted,
+                                        text: "M",
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _changeSize();
+                                        });
+                                      },
+                                      child: Button(
+                                        selector: thirdIsSelected,
+                                        color: Colors.grey,
+                                        submitted: isSubmitted,
+                                        text: "L",
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _changeSize();
+                                        });
+                                      },
+                                      child: Button(
+                                        selector: fourthIsSelected,
+                                        color: Colors.grey,
+                                        submitted: isSubmitted,
+                                        text: "XL",
+                                      ),
+                                    ),
+                                    SizedBox(width: 65),
+                                    NeumorphicButton(
+                                        child: Text('Change Size'),
+                                        onPressed: _changeSize),
+                                  ],
+                                ),
 
-                        
-                          ],
-                        ),
+                                Divider(color: Colors.grey, height: 3),
+                                SizedBox(
+                                  height: 35,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    NeumorphicButton(
+                                      child: Text('Add to Cart'),
+                                      onPressed: () =>
+                                          basketController.addProduct(
+                                              productController.products[index],
+                                              index),
+                                    ),
+                                    SizedBox(
+                                      width: 150,
+                                    ),
+                                    NeumorphicButton(
+                                      child: Text('Undo'),
+                                      onPressed: _undo,
+                                    ),
+                                  ],
+                                ),
+                                // ] else if (showCustomisation = false) ...[
+                                //   Divider(color: Colors.grey, height: 3),
+                                //   SizedBox(height: 25),
+                                //   SizedBox(
+                                //     height: 5,
+                                //   ),
+                                //   // Divider(color: Colors.grey, height: 3),
+                                //   // Text("Change Color"),
+                                //   Divider(color: Colors.grey, height: 3),
+                                //   Row(
+                                //       mainAxisSize: MainAxisSize.max,
+                                //       mainAxisAlignment:
+                                //           MainAxisAlignment.spaceBetween,
+                                //       children: [
+                                //         //   // Divider(color: Colors.grey, height: 3),
+                                //         //   // SizedBox(
+                                //         //   //   height: 35,
+                                //         //   // ),
+                                //         Row(
+                                //           children: <Widget>[
+                                //             NeumorphicButton(
+                                //               child: const Text('Add to Cart'),
+                                //               onPressed: () =>
+                                //                   basketController.addProduct(
+                                //                       productController
+                                //                           .products[index],
+                                //                       index),
+                                //             ),
+                                //           ],
+                                //         )
+                                //       ])
+                                // ],
+                              ]
+                            ]),
                       ))))
-        ],
-      ),
-    );
+        ]));
   }
 }
 

@@ -3,7 +3,15 @@ import 'package:flutter/material.dart';
 
 import '../model/product.dart';
 
-class FirestoreDB {
+class DatabaseService {
+  static final DatabaseService databaseService = DatabaseService._internal();
+
+  factory DatabaseService() {
+    return databaseService;
+  }
+
+  DatabaseService._internal();
+
   // Initialise Firebase Cloud Firestore
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
@@ -12,12 +20,6 @@ class FirestoreDB {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
     });
   }
-
-  //  Stream<List<OrderItem>> getAllOrders() {
-  //   return _firebaseFirestore.collection('OrderItem').snapshots().map((snapshot) {
-  //     return snapshot.docs.map((doc) => OrderItem.fromSnapshot(doc)).toList();
-  //   });
-  // }
 
   Stream<List<Product>> getAllFootwear() {
     return _firebaseFirestore
