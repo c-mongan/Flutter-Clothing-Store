@@ -74,8 +74,8 @@ class ShoesProductCard extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     //Adds product to cart
-                    basketController
-                        .addProduct(productController.footwear[index],index);
+                    basketController.addProduct(
+                        productController.footwear[index], index);
                   },
                   icon: const Icon(
                     Icons.add_circle,

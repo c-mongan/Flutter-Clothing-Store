@@ -5,13 +5,10 @@ import 'package:health_app_fyp/widgets/basket_products.dart';
 
 import '../../constants/layout_constants.dart';
 import '../../controllers/basket_controller.dart';
-import '../../designpatterns/delivery_interface.dart';
-import '../../designpatterns/order/order.dart';
-import '../../designpatterns/order/order_products.dart';
-import '../../designpatterns/strategies/standard_delivery_strategy.dart';
-import '../../designpatterns/strategies/store_collection_strategy.dart';
-import '../../designpatterns/strategies/parcel_motel_strategy.dart';
-import '../../designpatterns/strategies/next_day_delivery_strategy.dart';
+import '../../designpatterns/strategy/delivery_interface.dart';
+import '../../designpatterns/strategy/order.dart';
+import '../../designpatterns/strategy/order_products.dart';
+
 import '../../designpatterns/strategy/delivery_options.dart';
 import '../../widgets/checkout_products.dart';
 import '../../widgets/customised_appbar.dart';
@@ -19,7 +16,7 @@ import '../../widgets/customised_navbar.dart';
 import '../checkout/checkout_page.dart';
 
 class PaymentPage extends StatefulWidget {
-  PaymentPage({Key? key}) : super(key: key);
+  const PaymentPage({Key? key}) : super(key: key);
   static String id = 'checkout_page';
 
   @override
@@ -29,6 +26,24 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   final cartController = Get.put(BasketController());
   final BasketController controller = Get.find();
+
+  void _setSelectedStrategyIndex(int? index) {
+    setState(() {
+      _selectedIndex = index!;
+    });
+  }
+
+  List paymentOptions = [
+    "Paypal",
+    "Card",
+    // "Cash",
+    // "Bank Transfer",
+    "Cash on Delivery",
+    "Bitcoin"
+  ];
+
+  int _selectedIndex = 0;
+  late ValueChanged<int?> onChanged;
 
   var data = Get.arguments;
 
@@ -63,37 +78,52 @@ class _PaymentPageState extends State<PaymentPage> {
       },
       child: Scaffold(
         appBar: const CustomisedAppBar(title: "Checkout"),
-        bottomNavigationBar: CustomisedNavigationBar(),
-        body:
-
-            // ScrollConfiguration(
-            //   behavior: const ScrollBehavior(),
-            //   child: SingleChildScrollView(
-            //     padding: const EdgeInsets.symmetric(
-            //       horizontal: LayoutConstants.paddingL,
-            //     ),
-            //     child:
-            Column(
+        bottomNavigationBar: const CustomisedNavigationBar(),
+        body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              child: Text(data[0].toString()), // first element set here
-            ),
-            Text(data[1].toString()), // second element set here
+            // Container(
+            //   child: Text(data[0].toString()), // first element set here
+            // ),
+            // Text(data[1].toString()), // second element set here
 
-            SizedBox(height: LayoutConstants.spaceM),
-         
-                OrderDetails(
-                  deliveryCostStrategy:
-                     data[0],
-                  order: data[1],
-                ),
-              ],
-          
-          
+            for (var i = 0; i < paymentOptions.length; i++)
+              RadioListTile<int>(
+                title: Text(paymentOptions[i]),
+                value: i,
+                groupValue: _selectedIndex,
+                onChanged: _setSelectedStrategyIndex,
+                dense: true,
+                activeColor: Colors.black,
+              ),
+
+            OutlinedButton(
+              onPressed: () {
+                debugPrint('Received click');
+
+                if (_selectedIndex == 0) {
+                  print("Paypal");
+                } else if (_selectedIndex == 1) {
+                  print("Card");
+                } else if (_selectedIndex == 2) {
+                  print("Cash on Delivery");
+                } else if (_selectedIndex == 3) {
+                  print("Bitcoin");
+                }
+              },
+              child: const Text('Pay Now'),
+            ),
+
+            const SizedBox(height: LayoutConstants.spaceM),
+
+            OrderDetails(
+              deliveryCostStrategy: data[0],
+              order: data[1],
+            ),
+          ],
         ),
       ),
-    ); 
+    );
   }
 
   void callThisMethod(bool isVisible) {

@@ -11,8 +11,6 @@ import '../../widgets/customised_navbar.dart';
 import '../../widgets/inventory_products.dart';
 import '../authentication/login_screen.dart';
 
-
-
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
@@ -94,7 +92,7 @@ class HomePage extends StatelessWidget {
               // remaining stuffs
               Divider(
                 color: Colors.grey,
-                thickness: 1,
+                thickness: 3,
               ),
               const SizedBox(
                 child: CustomCarouselFB2(),
@@ -102,8 +100,8 @@ class HomePage extends StatelessWidget {
               ),
 
               Divider(
-                color: Colors.white,
-                thickness: 1,
+                color: Colors.grey,
+                thickness: 3,
               ),
 
               Text(
@@ -115,8 +113,8 @@ class HomePage extends StatelessWidget {
               ),
 
               Divider(
-                color: Colors.white,
-                thickness: 1,
+                color: Colors.grey,
+                thickness: 3,
               ),
               SizedBox(
                 height: 300,
@@ -227,11 +225,8 @@ class HomePage extends StatelessWidget {
 //Cart empties on logout
   Future<void> logout(BuildContext context, controller) async {
     if (isProducts(controller) == false) {
-
-
       //Clears list of products
       controller.products.clear();
-      
 
       await FirebaseAuth.instance.signOut();
       Navigator.of(context).pushReplacement(
@@ -243,8 +238,5 @@ class HomePage extends StatelessWidget {
           MaterialPageRoute(builder: (context) => const LoginScreen()));
       Fluttertoast.showToast(msg: "Logout Successful! ");
     }
-    
   }
-
 }
-

@@ -28,35 +28,62 @@ class BasketPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomisedAppBar(title: "Basket"),
-      bottomNavigationBar: const CustomisedNavigationBar(),
-      body: Column(children: [
-        if (isProducts(controller) == true) ...[
-          const SizedBox(height: 100),
-          const Text(
-            "                     Your basket is empty",
-            style: TextStyle(fontSize: 20),
-            textAlign: TextAlign.center,
-          ),
-        ] else ...[
-          BasketProducts(),
-          BasketTotal(),
-          GradientIconButtonFb7(
-            gradient: const LinearGradient(
-                colors: [Color(0xff4338CA), Color(0xff6D28D9)]),
-            icon: const Icon(
-              Icons.shopping_cart_checkout_sharp,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              // Get.to(CheckoutPage(controller));
-              // print(productController.products[index].name);
-              Get.to(CheckoutPage(controller));
-            },
-          )
-        ],
-      ]),
-    );
+        appBar: const CustomisedAppBar(title: "Basket"),
+        bottomNavigationBar: const CustomisedNavigationBar(),
+        body: SingleChildScrollView(
+          child: Column(children: [
+            if (isProducts(controller) == true) ...[
+              const SizedBox(height: 200),
+              SizedBox(
+                height: 20,
+                width: 40,
+              ),
+              const Text(
+                "             Your basket is empty",
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 70,
+                width: 300,
+              ),
+              GradientIconButtonFb7(
+                gradient: const LinearGradient(
+                    colors: [Color(0xff4338CA), Color(0xff6D28D9)]),
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Get.back();
+                  //Get.to(CheckoutPage(controller));
+                },
+              )
+            ] else if (isProducts(controller) == false) ...[
+              SizedBox(height: 20),
+              Text(
+                'Your basket',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+              ),
+              BasketProducts(),
+              BasketTotal(),
+              GradientIconButtonFb7(
+                gradient: const LinearGradient(
+                    colors: [Color(0xff4338CA), Color(0xff6D28D9)]),
+                icon: const Icon(
+                  Icons.shopping_cart_checkout_sharp,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Get.to(CheckoutPage(controller));
+                },
+              )
+            ],
+          ]),
+        ));
   }
 }
 

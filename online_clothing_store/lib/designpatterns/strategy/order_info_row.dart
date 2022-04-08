@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+export 'order_info_row.dart';
 
 class OrderInformationRow extends StatelessWidget {
   final String label;

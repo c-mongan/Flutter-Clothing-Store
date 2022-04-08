@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/constants.dart';
-import '../delivery_interface.dart';
+import 'delivery_interface.dart';
 
 class DeliveryMethods extends StatelessWidget {
   List<InterfaceDeliveryCostsStrategy> deliveryOptions;

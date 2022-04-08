@@ -1,5 +1,5 @@
-import '../delivery_interface.dart';
-import '../order/order.dart';
+import '../strategy/delivery_interface.dart';
+import 'order.dart';
 
 class InStoreCollectionStrategy implements InterfaceDeliveryCostsStrategy {
   @override

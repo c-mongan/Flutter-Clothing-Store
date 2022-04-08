@@ -1,23 +1,27 @@
-import 'package:health_app_fyp/designpatterns/strategy/order/order_summary/order_info_row.dart';
 import 'package:health_app_fyp/screens/payment/payment_page.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:health_app_fyp/widgets/basket_products.dart';
+// import '../../designpatterns/strategy/orderorder_info_row.dart';
 
 import '../../constants/layout_constants.dart';
 import '../../controllers/basket_controller.dart';
-import '../../designpatterns/delivery_interface.dart';
-import '../../designpatterns/order/order.dart';
-import '../../designpatterns/order/order_products.dart';
-import '../../designpatterns/strategies/standard_delivery_strategy.dart';
-import '../../designpatterns/strategies/store_collection_strategy.dart';
-import '../../designpatterns/strategies/parcel_motel_strategy.dart';
-import '../../designpatterns/strategies/next_day_delivery_strategy.dart';
+import '../../designpatterns/strategy/delivery_interface.dart';
+import '../../designpatterns/strategy/next_day_delivery_strategy.dart';
+import '../../designpatterns/strategy/order.dart';
+import '../../designpatterns/strategy/order_products.dart';
+
 import '../../designpatterns/strategy/delivery_options.dart';
+
+import '../../designpatterns/strategy/order_info_row.dart';
+import '../../designpatterns/strategy/parcel_motel_strategy.dart';
+import '../../designpatterns/strategy/standard_delivery_strategy.dart';
+import '../../designpatterns/strategy/store_collection_strategy.dart';
 import '../../widgets/checkout_products.dart';
 import '../../widgets/customised_appbar.dart';
 import '../../widgets/customised_navbar.dart';
+import '../address/address.dart';
 
 class CheckoutPage extends StatefulWidget {
   CheckoutPage(controller);
@@ -100,6 +104,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
+                    SizedBox(height: 20),
+                    Text(
+                      'Your basket',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
                     CheckoutProducts(),
                     const SizedBox(height: LayoutConstants.spaceM),
                     Stack(
@@ -135,15 +147,25 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               ),
                               OutlinedButton(
                                 onPressed: () {
-                                  //Get.to(Second(), arguments: ["First data", "Second data"]);
-
-                                  Get.to(PaymentPage(), arguments: [
-                                    _deliveryOptionsList[
-                                        _selectedDeliveryIndex],
-                                    _order
-                                  ]);
+                                  if (_selectedDeliveryIndex ==
+                                          _deliveryOptionsList.length - 1 ||
+                                      _selectedDeliveryIndex ==
+                                          _deliveryOptionsList.length - 2) {
+                                    Get.to(AddressPage(), arguments: [
+                                      _deliveryOptionsList[
+                                          _selectedDeliveryIndex],
+                                      _order
+                                    ]);
+                                  } else {
+                                    Get.to(PaymentPage(), arguments: [
+                                      _deliveryOptionsList[
+                                          _selectedDeliveryIndex],
+                                      _order
+                                    ]);
+                                  }
+                                  //   //Get.to(Second(), arguments: ["First data", "Second data"]);
                                 },
-                                child: const Text('Click Me'),
+                                child: const Text('Continue'),
                               )
                             ],
                           ),

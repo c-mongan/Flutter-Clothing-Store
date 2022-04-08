@@ -1,6 +1,6 @@
-import '../delivery_interface.dart';
-import '../order/order.dart';
-import '../order/order_products.dart';
+import '../strategy/delivery_interface.dart';
+import 'order.dart';
+import '../strategy/order_products.dart';
 
 
 class ParcelMotelStrategy implements InterfaceDeliveryCostsStrategy {
