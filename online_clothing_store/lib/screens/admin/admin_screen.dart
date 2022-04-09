@@ -2,25 +2,33 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:health_app_fyp/screens/admin/admin_screen.dart';
+import 'package:health_app_fyp/screens/authentication/login_screen.dart';
 import 'package:health_app_fyp/screens/authentication/register_screen.dart';
 
 import '../home/home_page.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class AdminLoginScreen extends StatefulWidget {
+  const AdminLoginScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _AdminLoginScreenState createState() => _AdminLoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _AdminLoginScreenState extends State<AdminLoginScreen> {
   //form key
   final _formKey = GlobalKey<FormState>();
 
   //editing controller
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  _isAdmin(email, password) {
+    if (email == "admin123@gmail.com" && password == "admin123") {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   //firebase
   final _auth = FirebaseAuth.instance;
@@ -156,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         // )
                       ),
                       Text(
-                        "Login",
+                        "Admin Login",
                         style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -169,26 +177,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 35),
                       loginButton,
                       const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const Text("Don't have an account? "),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RegistrationScreen())); //This sends the user to sign up if they click it
-                            },
-                            child: const Text("Sign Up",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 212, 11, 62),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15)),
-                          ),
-                        ],
-                      ),
                       SizedBox(
                         height: 40,
                       ),
@@ -198,14 +186,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           // const Text("Admin "),
                           GestureDetector(
                             onTap: () {
-                              Get.to(AdminLoginScreen());
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) =>
-                              //             const RegistrationScreen())); //This sends the user to sign up if they click it
+                              Get.to(LoginScreen());
                             },
-                            child: const Text("Admin",
+                            child: const Text("Customer Login",
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 212, 11, 62),
                                     fontWeight: FontWeight.bold,
@@ -225,7 +208,22 @@ class _LoginScreenState extends State<LoginScreen> {
 //Login Method
 //Google async function
   void signIn(String email, String password) async {
-    if (_formKey.currentState!.validate()) {
+    _isAdmin(email, password);
+
+//   if (admin) {
+//   //...
+// } else {
+//   await FirebaseAuth.instance.signOut();
+//   // or just show alert that user is not an admin
+
+// }
+// );
+
+    if (_formKey.currentState!.validate() && !_isAdmin(email, password)) {
+      print("NOT ADMIN");
+
+      Fluttertoast.showToast(msg: "Invalid Admin Details! ");
+    } else if (_formKey.currentState!.validate() && _isAdmin(email, password)) {
       try {
         await _auth
             .signInWithEmailAndPassword(email: email, password: password)
