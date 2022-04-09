@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import 'package:health_app_fyp/model/product.dart';
@@ -31,6 +34,7 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   final basketController = Get.put(BasketController());
 
+  String uid = FirebaseAuth.instance.currentUser!.uid;
   final ProductController productController = Get.find();
 
   final CommandHistory _commandHistory = CommandHistory();
@@ -45,33 +49,34 @@ class _ProductPageState extends State<ProductPage> {
 
   bool showCustomisation = false;
   bool showDetails = true;
+  bool showReviews = false;
 
   late String color;
   late String initialColor;
 
-  _showCustomisation(showCustomisation) {
-    if (showCustomisation == false) {
-      setState(() {
-        showCustomisation = false;
-      });
-    } else {
-      setState(() {
-        showCustomisation = true;
-      });
-    }
-  }
+  // _showCustomisation(showCustomisation) {
+  //   if (showCustomisation == false) {
+  //     setState(() {
+  //       showCustomisation = false;
+  //     });
+  //   } else {
+  //     setState(() {
+  //       showCustomisation = true;
+  //     });
+  //   }
+  // }
 
-  _showDetails(showDetails) {
-    if (showDetails == false) {
-      setState(() {
-        showDetails = false;
-      });
-    } else {
-      setState(() {
-        showDetails = true;
-      });
-    }
-  }
+  // _showDetails(showDetails) {
+  //   if (showDetails == false) {
+  //     setState(() {
+  //       showDetails = false;
+  //     });
+  //   } else {
+  //     setState(() {
+  //       showDetails = true;
+  //     });
+  //   }
+  // }
 
   Color displayColor(String color) {
     switch (color) {
@@ -287,9 +292,9 @@ class _ProductPageState extends State<ProductPage> {
                                 ),
                               ),
                               ProductNameAndPrice(product: widget.product),
-                              SizedBox(
-                                height: 5,
-                              ),
+                              // SizedBox(
+                              //   height: 5,
+                              // ),
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -302,6 +307,45 @@ class _ProductPageState extends State<ProductPage> {
                                       color: Colors.grey,
                                     ),
                                   ),
+                                  FloatingActionButton(
+                                    backgroundColor: Colors.white,
+                                    elevation: 0,
+                                    onPressed: () {
+                                      //FIRE BASE ADD TO FAVOURITES
+
+                                      FirebaseFirestore.instance
+                                          .collection('wishlist')
+                                          .add({
+                                        'userID': uid,
+                                        'color1': widget.product.color,
+                                        'color2': widget.product.color2,
+                                        'category': widget.product.category,
+                                        'size': widget.product.size,
+                                        'productID': widget.product.uid,
+                                        "dateTime": DateTime.now(),
+                                        'description':
+                                            widget.product.description,
+                                        'price': widget.product.price,
+                                        'manufacturer':
+                                            widget.product.manufacturer,
+                                        'name': widget.product.name,
+                                        'imageUrl': widget.product.imageUrl,
+                                      });
+
+                                      Fluttertoast.showToast(
+                                          msg: "Added to favourites",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.TOP,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.grey,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+                                    },
+                                    child: const Icon(
+                                      Icons.favorite_border,
+                                      color: Colors.grey,
+                                    ),
+                                  )
                                 ],
                               ),
                               SizedBox(height: 25),
@@ -327,17 +371,9 @@ class _ProductPageState extends State<ProductPage> {
                                               setState(() {
                                                 showDetails = true;
                                                 showCustomisation = false;
+                                                showReviews = false;
                                               });
                                             }
-
-                                            // else if (showDetails == true) {
-                                            //   setState(
-                                            //     () {
-                                            //       showDetails = false;
-                                            //       showCustomisation = false;
-                                            //     },
-                                            //   );
-                                            // }
                                           },
                                           child: Text(
                                             'Details',
@@ -354,7 +390,15 @@ class _ProductPageState extends State<ProductPage> {
                                                 fontSize: 15,
                                                 color: Colors.grey),
                                           ),
-                                          onPressed: null,
+                                          onPressed: () {
+                                            if (showReviews == false) {
+                                              setState(() {
+                                                showReviews = true;
+                                                showCustomisation = false;
+                                                showDetails = false;
+                                              });
+                                            }
+                                          },
                                           child: Text(
                                             'Reviews',
                                             style: TextStyle(
@@ -374,6 +418,7 @@ class _ProductPageState extends State<ProductPage> {
                                               setState(() {
                                                 showCustomisation = true;
                                                 showDetails = false;
+                                                showReviews = false;
                                               });
                                               // } else if (showCustomisation ==
                                               //     true) {
@@ -396,6 +441,18 @@ class _ProductPageState extends State<ProductPage> {
                                 ],
                               ),
                               if (showDetails == true) ...[
+                                SizedBox(height: 30),
+                                NeumorphicButton(
+                                  child: Text('Add to Cart'),
+                                  onPressed: () => basketController.addProduct(
+                                      productController.products[index], index),
+                                ),
+                              ],
+
+                              if (showReviews == true) ...[
+                                SizedBox(height: 10),
+                                Text("Reviews", style: TextStyle(fontSize: 20)),
+                                SizedBox(height: 30),
                                 NeumorphicButton(
                                   child: Text('Add to Cart'),
                                   onPressed: () => basketController.addProduct(
@@ -571,7 +628,7 @@ class _ProductPageState extends State<ProductPage> {
                                 //         )
                                 //       ])
                                 // ],
-                              ]
+                              ],
                             ]),
                       ))))
         ]));

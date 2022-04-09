@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:health_app_fyp/configurations/app_router.dart';
+
 
 import 'screens/authentication/login_screen.dart';
 import 'screens/home/home_page.dart';

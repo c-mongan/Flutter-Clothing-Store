@@ -26,11 +26,12 @@ class BasketProducts extends StatelessWidget {
           child: Column(children: [
             if (isProducts(controller) == true) ...[
               const SizedBox(height: 100),
-              const Text(
-                "      Your basket is empty",
+              Center(
+                  child: Text(
+                "           Your basket is empty",
                 style: TextStyle(fontSize: 20),
                 textAlign: TextAlign.center,
-              )
+              )),
             ] else ...[
               ListView.builder(
                   scrollDirection: Axis.vertical,
@@ -90,14 +91,14 @@ class BasketProductCard extends StatelessWidget {
             onPressed: () {
               controller.removeProduct(product);
             },
-            icon: Icon(Icons.remove_circle),
+            icon: const Icon(Icons.remove_circle),
           ),
           Text('$quantity'),
           IconButton(
             onPressed: () {
-              controller.addProduct(product,index);
+              controller.addProduct(product, index);
             },
-            icon: Icon(Icons.add_circle),
+            icon: const Icon(Icons.add_circle),
           ),
         ],
       ),

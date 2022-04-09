@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:health_app_fyp/screens/authentication/login_screen.dart';
-import 'package:health_app_fyp/screens/authentication/register_screen.dart';
-
 import '../home/home_page.dart';
 
 class AdminLoginScreen extends StatefulWidget {
@@ -186,7 +184,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                           // const Text("Admin "),
                           GestureDetector(
                             onTap: () {
-                              Get.to(LoginScreen());
+                              Get.to(const LoginScreen());
                             },
                             child: const Text("Customer Login",
                                 style: TextStyle(
