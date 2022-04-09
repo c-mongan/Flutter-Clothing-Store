@@ -22,7 +22,7 @@ class CheckoutProducts extends StatelessWidget {
   Widget build(BuildContext context) {
     //Obx allows us to see the changes in the basket (Product dictionary _products)
     return Obx(() => SizedBox(
-          height: 300,
+          height: 200,
           child: Column(children: [
             if (isProducts(controller) == true) ...[
               const SizedBox(height: 100),

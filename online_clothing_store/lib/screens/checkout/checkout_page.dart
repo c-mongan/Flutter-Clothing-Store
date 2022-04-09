@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:health_app_fyp/model/user_data.dart';
 import 'package:health_app_fyp/screens/payment/payment_page.dart';
+import 'package:health_app_fyp/screens/product/product_page.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -159,28 +160,50 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     _selectedDeliveryIndex],
                                 order: _order,
                               ),
-                              OutlinedButton(
-                                onPressed: () {
-                                  if (_selectedDeliveryIndex ==
-                                          _deliveryOptionsList.length - 1 ||
-                                      _selectedDeliveryIndex ==
-                                          _deliveryOptionsList.length - 2) {
-                                    Get.to(AddressPage(), arguments: [
-                                      _deliveryOptionsList[
-                                          _selectedDeliveryIndex],
-                                      _order
-                                    ]);
-                                  } else {
-                                    Get.to(PaymentPage(), arguments: [
-                                      _deliveryOptionsList[
-                                          _selectedDeliveryIndex],
-                                      _order
-                                    ]);
-                                  }
-                                  //   //Get.to(Second(), arguments: ["First data", "Second data"]);
-                                },
-                                child: const Text('Continue'),
-                              )
+                              SizedBox(height: 20),
+                              NeumorphicButton(
+                                  child: const Text('Continue'),
+                                  onPressed: () {
+                                    if (_selectedDeliveryIndex ==
+                                            _deliveryOptionsList.length - 1 ||
+                                        _selectedDeliveryIndex ==
+                                            _deliveryOptionsList.length - 2) {
+                                      Get.to(AddressPage(), arguments: [
+                                        _deliveryOptionsList[
+                                            _selectedDeliveryIndex],
+                                        _order
+                                      ]);
+                                    } else {
+                                      Get.to(PaymentPage(), arguments: [
+                                        _deliveryOptionsList[
+                                            _selectedDeliveryIndex],
+                                        _order
+                                      ]);
+                                    }
+
+                                    // OutlinedButton(
+                                    //   onPressed: () {
+                                    //     if (_selectedDeliveryIndex ==
+                                    //             _deliveryOptionsList.length - 1 ||
+                                    //         _selectedDeliveryIndex ==
+                                    //             _deliveryOptionsList.length - 2) {
+                                    //       Get.to(AddressPage(), arguments: [
+                                    //         _deliveryOptionsList[
+                                    //             _selectedDeliveryIndex],
+                                    //         _order
+                                    //       ]);
+                                    //     } else {
+                                    //       Get.to(PaymentPage(), arguments: [
+                                    //         _deliveryOptionsList[
+                                    //             _selectedDeliveryIndex],
+                                    //         _order
+                                    //       ]);
+                                    //     }
+                                    //     //   //Get.to(Second(), arguments: ["First data", "Second data"]);
+                                    //   },
+                                    // child: const Text('Continue'),
+                                  }),
+                              SizedBox(height: 20)
                             ],
                           ),
                         ),

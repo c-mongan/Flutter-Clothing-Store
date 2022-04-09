@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:health_app_fyp/screens/checkout/checkout_page.dart';
+import 'package:health_app_fyp/screens/product/product_page.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../controllers/basket_controller.dart';
@@ -89,151 +90,150 @@ class _AddressPageState extends State<AddressPage> {
   }
 
   void callThisMethod(bool isVisible) {
-  debugPrint('_HomeScreenState.callThisMethod: isVisible: $isVisible');
-}
+    debugPrint('_HomeScreenState.callThisMethod: isVisible: $isVisible');
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return VisibilityDetector(
         key: Key("key"),
         onVisibilityChanged: (VisibilityInfo info) {
           bool isVisible = info.visibleFraction != 0;
           asyncMethod(isVisible);
         },
-    child:  Scaffold(
-        appBar: CustomisedAppBar(title: 'Checkout'),
-        bottomNavigationBar: CustomisedNavigationBar(),
-        // body: Padding(
-        //     padding: const EdgeInsets.all(20.0),
-        //     child: Column(
-        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //         crossAxisAlignment: CrossAxisAlignment.start,
-        //         children: [
-        body: SingleChildScrollView(
-            child: Column(
-          children: <Widget>[
-            // Text(
-            //   'CUSTOMER INFORMATION',
-            //   style: TextStyle(
-            //       fontSize: 20,
-            //       fontWeight: FontWeight.bold,
-            //       color: Colors.black),
-            // ),
-            // EmailInputFb2(
-            //   inputController: TextEditingController(),
-            //   text: "Email",
-            // ),
-            // const SizedBox(height: 20),
-            // EmailInputFb2(inputController: TextEditingController(), text: '',),
-            SizedBox(height: 20),
-            Text(
-              'CUSTOMER INFORMATION',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-            ),
-            TextBox(
-              inputController: firstNameEditingController,
-              text: "${loggedInUser.firstName}",
-            ),
+        child: Scaffold(
+            appBar: CustomisedAppBar(title: 'Address'),
+            bottomNavigationBar: CustomisedNavigationBar(),
+            // body: Padding(
+            //     padding: const EdgeInsets.all(20.0),
+            //     child: Column(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            body: SingleChildScrollView(
+                child: Column(
+              children: <Widget>[
+                // Text(
+                //   'CUSTOMER INFORMATION',
+                //   style: TextStyle(
+                //       fontSize: 20,
+                //       fontWeight: FontWeight.bold,
+                //       color: Colors.black),
+                // ),
+                // EmailInputFb2(
+                //   inputController: TextEditingController(),
+                //   text: "Email",
+                // ),
+                // const SizedBox(height: 20),
+                // EmailInputFb2(inputController: TextEditingController(), text: '',),
+                SizedBox(height: 20),
+                Text(
+                  'CUSTOMER INFORMATION',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                TextBox(
+                  inputController: firstNameEditingController,
+                  text: "${loggedInUser.firstName}",
+                ),
 
-            TextBox(
-              inputController: secondNameEditingController,
-              text: "${loggedInUser.secondName}",
-            ),
-            TextBox(
-              inputController: emailEditingController,
-              text: "${loggedInUser.email}",
-            ),
+                TextBox(
+                  inputController: secondNameEditingController,
+                  text: "${loggedInUser.secondName}",
+                ),
+                TextBox(
+                  inputController: emailEditingController,
+                  text: "${loggedInUser.email}",
+                ),
 
-            SizedBox(height: 20),
+                SizedBox(height: 20),
 
-            SizedBox(height: 20),
-            Text(
-              'DELIVERY INFORMATION',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-            ),
-            TextBox(
-              inputController: addressEditingController,
-              text: "${loggedInUser.address}",
-            ),
-            TextBox(
-              inputController: cityEditingController,
-              text: "${loggedInUser.city}",
-            ),
-            TextBox(
-              inputController: zipCodeEditingController,
-              text: "${loggedInUser.zipCode}",
-            ),
-            TextBox(
-              inputController: countryEditingController,
-              text: "${loggedInUser.country}",
-            ),
-            SizedBox(height: 20),
+                SizedBox(height: 20),
+                Text(
+                  'DELIVERY INFORMATION',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                TextBox(
+                  inputController: addressEditingController,
+                  text: "${loggedInUser.address}",
+                ),
+                TextBox(
+                  inputController: cityEditingController,
+                  text: "${loggedInUser.city}",
+                ),
+                TextBox(
+                  inputController: zipCodeEditingController,
+                  text: "${loggedInUser.zipCode}",
+                ),
+                TextBox(
+                  inputController: countryEditingController,
+                  text: "${loggedInUser.country}",
+                ),
+                SizedBox(height: 20),
 
-            OutlinedButton(
-              onPressed: () {
-                Get.to(PaymentPage(), arguments: [
-                  data[0],
-                  data[1],
-                ]);
-              },
-              child: const Text('Select Payment Method'),
-            ),
+                NeumorphicButton(
+                  child: const Text('Select Payment Method'),
+                  onPressed: () {
+                    Get.to(PaymentPage(), arguments: [
+                      data[0],
+                      data[1],
+                    ]);
+                  },
+                ),
 
-            SizedBox(height: 20),
-            // Container(
-            //     width: MediaQuery.of(context).size.width,
-            //     height: 60,
-            //     alignment: Alignment.bottomCenter,
-            //     decoration: BoxDecoration(color: Colors.black),
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //       children: [
-            //         Center(
-            //             //         child: Text(
-            //             //           'SELECT A PAYMENT METHOD',
-            //             //           style: ,
-            //             //         ),
-            //             //       ),
-            //             //       IconButton(
-            //             //         onPressed: () {},
-            //             //         icon: Icon(
-            //             //           Icons.arrow_forward,
-            //             //           color: Colors.white,
-            //             //         ),
-            //             //       )
-            //             //     ],
-            //             //   ),
-            //             // ),
-            //             // SizedBox(height: 20),
-            //             ),
-            //         // Text(
-            //         //   'ORDER SUMMARY',
-            //         //   style: TextStyle(
-            //         //       fontSize: 20,
-            //         //       fontWeight: FontWeight.bold,
-            //         //       color: Colors.black),
-            //         // ),
-            //         // if ((isProducts(data))) ...[
-            //         //   const SizedBox(height: 200),
-            //         //   const Text(
-            //         //     "             Your basket is empty",
-            //         //     style: TextStyle(fontSize: 20),
-            //         //     textAlign: TextAlign.center,
-            //         //   ),
-            //         // ] else if (isProducts(data) == false) ...[
-            OrderDetails(
-              deliveryCostStrategy: data[0],
-              order: data[1],
-            ),
-          ],
-        ))));
+                SizedBox(height: 20),
+                // Container(
+                //     width: MediaQuery.of(context).size.width,
+                //     height: 60,
+                //     alignment: Alignment.bottomCenter,
+                //     decoration: BoxDecoration(color: Colors.black),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //       children: [
+                //         Center(
+                //             //         child: Text(
+                //             //           'SELECT A PAYMENT METHOD',
+                //             //           style: ,
+                //             //         ),
+                //             //       ),
+                //             //       IconButton(
+                //             //         onPressed: () {},
+                //             //         icon: Icon(
+                //             //           Icons.arrow_forward,
+                //             //           color: Colors.white,
+                //             //         ),
+                //             //       )
+                //             //     ],
+                //             //   ),
+                //             // ),
+                //             // SizedBox(height: 20),
+                //             ),
+                //         // Text(
+                //         //   'ORDER SUMMARY',
+                //         //   style: TextStyle(
+                //         //       fontSize: 20,
+                //         //       fontWeight: FontWeight.bold,
+                //         //       color: Colors.black),
+                //         // ),
+                //         // if ((isProducts(data))) ...[
+                //         //   const SizedBox(height: 200),
+                //         //   const Text(
+                //         //     "             Your basket is empty",
+                //         //     style: TextStyle(fontSize: 20),
+                //         //     textAlign: TextAlign.center,
+                //         //   ),
+                //         // ] else if (isProducts(data) == false) ...[
+                OrderDetails(
+                  deliveryCostStrategy: data[0],
+                  order: data[1],
+                ),
+              ],
+            ))));
     // ));
     // // ),]
 

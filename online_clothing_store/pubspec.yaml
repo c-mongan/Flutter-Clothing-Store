@@ -78,6 +78,7 @@ dependencies:
   flutter_svg: ^1.0.0
   pay: ^1.0.7 
   faker: ^2.0.0
+  flutter_credit_card: ^3.0.1
   
   
  
