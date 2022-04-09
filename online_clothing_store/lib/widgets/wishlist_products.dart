@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:health_app_fyp/screens/screens.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -83,7 +84,7 @@ class WishlistProducts extends StatelessWidget {
             //     color: Colors.white, size: 40),
             Expanded(
                 child: Container(
-                    height: 400.0,
+                    height: 200.0,
                     child: StreamBuilder<QuerySnapshot>(
                       stream: tdeeStream,
                       builder: (BuildContext context,
@@ -106,6 +107,7 @@ class WishlistProducts extends StatelessWidget {
                             Map<String, dynamic> data =
                                 document.data()! as Map<String, dynamic>;
                             return ListTile(
+                                leading: Image.network(data['imageUrl']),
                                 title: Text(data['name']),
                                 isThreeLine: true,
                                 subtitle: Text(data['description']),
@@ -114,6 +116,7 @@ class WishlistProducts extends StatelessWidget {
                         );
                       },
                     ))),
+
             // Button(
             //     edges: const EdgeInsets.all(0.0),
             //     color: Colors.blue,
@@ -138,6 +141,55 @@ class WishlistProducts extends StatelessWidget {
               //     child:
 
               )),
+      floatingActionButton: getFloatingActionButton(),
     );
+  }
+}
+
+bool dialVisible = true;
+Widget getFloatingActionButton() {
+  return SpeedDial(
+    animatedIcon: AnimatedIcons.menu_close,
+    animatedIconTheme: const IconThemeData(size: 22.0),
+    visible: dialVisible,
+    curve: Curves.bounceIn,
+    children: [
+      SpeedDialChild(
+        child: const Icon(Icons.minimize_outlined, color: Colors.white),
+        backgroundColor: Colors.red,
+        onTap: () async {
+          removeLastWishlistItem();
+        },
+        label: 'Delete Last Entry',
+        labelStyle: const TextStyle(fontWeight: FontWeight.w500),
+        labelBackgroundColor: Colors.red,
+      ),
+    ],
+  );
+}
+
+Future<void> removeLastWishlistItem() async {
+  QuerySnapshot querySnap = await FirebaseFirestore.instance
+      .collection('wishlist')
+      .orderBy("dateTime")
+      .limitToLast(1)
+      .where('userID', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+      .get();
+
+  if (querySnap.docs.isNotEmpty) {
+    QueryDocumentSnapshot doc = querySnap.docs[
+        0]; // Assumption: the query returns only one document, THE doc you are looking for.
+    DocumentReference docRef = doc.reference;
+    await docRef.delete();
+  } else {
+    print("No documents found");
+    Fluttertoast.showToast(
+        msg: "No documents found",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }

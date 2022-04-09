@@ -187,8 +187,10 @@ class _WishlistPageState extends State<WishlistPage> {
                 //   // ]
                 // ]
                 SizedBox(
-                  height: 1000,
+                  height: 500,
                   child: WishlistProducts(),
+                  
+
                 ),
               ]),
             )));
