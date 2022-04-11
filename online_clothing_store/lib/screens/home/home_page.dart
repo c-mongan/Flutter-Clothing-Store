@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-
+import '../../model/models.dart';
 import '../../controllers/basket_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../widgets/carosel_slider.dart';
@@ -10,52 +10,23 @@ import '../../widgets/customised_appbar.dart';
 import '../../widgets/customised_navbar.dart';
 import '../../widgets/inventory_products.dart';
 import '../authentication/login_screen.dart';
+import '../customised_products/customised_products.dart';
+import '../product/product_page.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
-//Route name
-  static const String routeName = '/';
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
-  //Route Method
-  static Route route() {
-    return MaterialPageRoute(
-        settings: const RouteSettings(name: routeName),
-        builder: (_) => HomePage());
-  }
-
-//   @override
-//   _HomePageState createState() => _HomePageState();
-// }
-
-// class _HomePageState extends State<HomePage> {
-//   User? user = FirebaseAuth.instance.currentUser;
-//   UserModel loggedInUser = UserModel();
-
-  // @override
-  // void initState() {
-
-  //   FirebaseFirestore.instance
-  //       .collection("users")
-  //       .doc(user!.uid)
-  //       .get()
-  //       .then((value) {
-  //     loggedInUser = UserModel.fromMap(value.data());
-  //       super.initState();
-
-  //     setState(() {});
-
-  //   });
-
-  // void shoes(BuildContext context) {
-  //   Navigator.pushNamed(context, '/shoes');
-  //}
-  // }
-
+class _HomePageState extends State<HomePage> {
+  @override
   final cartController = Get.put(BasketController());
   final productController = Get.put(ProductController());
   final BasketController controller = Get.find();
   late int index = index;
+  final searchController = TextEditingController();
 
   isProducts(controller) {
     if (controller.products.length == 0) {
@@ -65,7 +36,19 @@ class HomePage extends StatelessWidget {
     }
   }
 
-  @override
+  // void searchProducts(String query) {
+  //   List suggestionList = productController.products.where((product) {
+  //     final productTitle = product.name.toLowerCase();
+  //     final input = query.toLowerCase();
+
+  //     return productTitle.contains(input);
+  //   }).toList();
+
+  //   setState(() => suggestionList = productController.products);
+  // }
+
+  final String hintText = "Search";
+
   Widget build(BuildContext context) => Scaffold(
       appBar: CustomisedAppBar(title: 'Products'),
       bottomNavigationBar: const CustomisedNavigationBar(),
@@ -94,7 +77,7 @@ class HomePage extends StatelessWidget {
                 color: Colors.grey,
                 thickness: 3,
               ),
-              const SizedBox(
+              SizedBox(
                 child: CustomCarouselFB2(),
                 height: 250,
               ),
@@ -116,10 +99,64 @@ class HomePage extends StatelessWidget {
                 color: Colors.grey,
                 thickness: 3,
               ),
-              SizedBox(
-                height: 300,
-                child: InventoryProducts(),
+
+              // SearchInputFb1(
+              //     searchController: TextEditingController(),
+              //     hintText: "Search Items"),]
+
+              Container(
+                height: 100,
+                decoration: BoxDecoration(boxShadow: [
+                  BoxShadow(
+                      offset: const Offset(12, 26),
+                      blurRadius: 50,
+                      spreadRadius: 0,
+                      color: Colors.grey.withOpacity(.1)),
+                ]),
+                child: TextField(
+                  controller: searchController,
+                  textAlign: TextAlign.center,
+                  onChanged: (value) => productController.searchProducts(value)
+                  // searchProducts(value);
+                  ,
+                  style: const TextStyle(fontSize: 14),
+                  decoration: InputDecoration(
+                    // prefixIcon: Icon(Icons.email),
+                    prefixIcon: const Icon(Icons.search,
+                        size: 20, color: Color(0xffFF5A60)),
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: hintText,
+                    hintStyle: TextStyle(color: Colors.black.withOpacity(.75)),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 0.0, horizontal: 20.0),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white, width: 1.0),
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                    ),
+                  ),
+                ),
               ),
+              SizedBox(
+                  height: 300,
+                  // child: InventoryProducts(),
+
+                  child: Obx(
+                    () => Flexible(
+                      child: ListView.builder(
+                          itemCount: productController.products.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return InventoryProductCard(index: index);
+                          }),
+                    ),
+                  )),
 
               // CustomCarouselFB2(),
 
@@ -238,5 +275,71 @@ class HomePage extends StatelessWidget {
           MaterialPageRoute(builder: (context) => const LoginScreen()));
       Fluttertoast.showToast(msg: "Logout Successful! ");
     }
+  }
+}
+
+class InventoryProductCard extends StatelessWidget {
+  final basketController = Get.put(BasketController());
+  final ProductController productController = Get.find();
+  final int index;
+
+  InventoryProductCard({
+    Key? key,
+    required this.index,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 10,
+        ),
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: (() {
+            if (productController.products[index].category == 'custom') {
+              Get.to(() => (CustomisedProductPage(
+                  product: productController.products[index])));
+            } else {
+              Get.to(() =>
+                  (ProductPage(product: productController.products[index])));
+            }
+          }),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CircleAvatar(
+                radius: 40,
+                backgroundImage: NetworkImage(
+                  productController.products[index].imageUrl,
+                ),
+              ),
+              SizedBox(width: 20),
+              Expanded(
+                child: Text(
+                  productController.products[index].name,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Text('€ ${productController.products[index].price}'),
+              ),
+              IconButton(
+                onPressed: () {
+                  //Adds product to cart
+                  basketController.addProduct(
+                      productController.products[index], index);
+                },
+                icon: const Icon(
+                  Icons.add_circle,
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

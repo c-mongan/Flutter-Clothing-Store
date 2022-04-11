@@ -5,7 +5,6 @@ import '../model/product.dart';
 
 class DatabaseService {
   static final DatabaseService databaseService = DatabaseService._internal();
-  //late String uid;
   String uid = FirebaseAuth.instance.currentUser!.uid;
 
   factory DatabaseService({required String uid}) {
@@ -22,6 +21,49 @@ class DatabaseService {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
     });
   }
+
+
+ Stream<List<Product>> getAllProductsByTitleAsc() {
+    return _firebaseFirestore.collection('product').orderBy('name').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
+    });
+  }
+
+
+  Stream<List<Product>> getAllProductsByTitleDesc() {
+    return _firebaseFirestore.collection('product').orderBy('name',descending: true).snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
+    });
+  }
+
+   Stream<List<Product>> getAllProductsByManufacturerDesc() {
+    return _firebaseFirestore.collection('product').orderBy('manufacturer',descending: true).snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
+    });
+  }
+
+  
+   Stream<List<Product>> getAllProductsByManufacturerAsc() {
+    return _firebaseFirestore.collection('product').orderBy('manufacturer').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
+    });
+  }
+
+   Stream<List<Product>> getAllProductsByPriceAsc() {
+    return _firebaseFirestore.collection('product').orderBy('price').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
+    });
+  }
+
+    Stream<List<Product>> getAllProductsByPriceDesc() {
+    return _firebaseFirestore.collection('product').orderBy('price' , descending: true).snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
+    });
+  }
+
+
+
+
 
   Stream<List<Product>> getAllWishlist() {
     return _firebaseFirestore
@@ -43,7 +85,7 @@ class DatabaseService {
     });
   }
 
-
+//For Custom Products Category
   Stream<List<Product>> getAllCustom() {
     return _firebaseFirestore
         .collection('product')

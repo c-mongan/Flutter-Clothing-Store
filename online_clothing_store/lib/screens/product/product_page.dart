@@ -11,11 +11,9 @@ import '../../constants/layout_constants.dart';
 import '../../constants/style.dart';
 import '../../controllers/basket_controller.dart';
 import '../../controllers/product_controller.dart';
-import '../../designpatterns/command/command/command_history_column.dart';
-import '../../designpatterns/command/command_history.dart';
 import '../../designpatterns/command/index.dart';
 import '../../widgets/customised_navbar.dart';
-import '../../widgets/platform_button.dart';
+
 
 // ignore: must_be_immutable
 class ProductPage extends StatefulWidget {

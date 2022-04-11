@@ -8,7 +8,7 @@ import '../screens/inventory/producttype/custom_item.dart';
 import '../screens/inventory/producttype/shoes.dart';
 
 class CustomCarouselFB2 extends StatefulWidget {
-  const CustomCarouselFB2({Key? key}) : super(key: key);
+   CustomCarouselFB2({Key? key}) : super(key: key);
 
   @override
   _CustomCarouselFB2State createState() => _CustomCarouselFB2State();
