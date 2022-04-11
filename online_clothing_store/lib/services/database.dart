@@ -43,6 +43,17 @@ class DatabaseService {
     });
   }
 
+
+  Stream<List<Product>> getAllCustom() {
+    return _firebaseFirestore
+        .collection('product')
+        .where('category', isEqualTo: 'custom')
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
+    });
+  }
+
   //collection reference
   final CollectionReference userDataCollection = FirebaseFirestore.instance
       .collection('UserData'); //Firestore will create this collection for us

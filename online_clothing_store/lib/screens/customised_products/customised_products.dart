@@ -11,27 +11,30 @@ import '../../constants/layout_constants.dart';
 import '../../constants/style.dart';
 import '../../controllers/basket_controller.dart';
 import '../../controllers/product_controller.dart';
-import '../../designpatterns/command/command/command_history_column.dart';
 import '../../designpatterns/command/command_history.dart';
 import '../../designpatterns/command/index.dart';
+import '../../designpatterns/decorator/decorator/decorator.dart';
+import '../../designpatterns/decorator/widgets/custom_product_selection.dart';
+import '../../designpatterns/decorator/widgets/product_information.dart';
+import '../../designpatterns/decorator/widgets/product_selection.dart';
 import '../../widgets/customised_navbar.dart';
 import '../../widgets/platform_button.dart';
 
 // ignore: must_be_immutable
-class ProductPage extends StatefulWidget {
+class CustomisedProductPage extends StatefulWidget {
   // static const String routeName = '/product';
 
   final Product product;
-  ProductPage({
+  CustomisedProductPage({
     Key? key,
     required this.product,
   }) : super(key: key);
 
   @override
-  State<ProductPage> createState() => _ProductPageState();
+  State<CustomisedProductPage> createState() => _CustomisedProductPageState();
 }
 
-class _ProductPageState extends State<ProductPage> {
+class _CustomisedProductPageState extends State<CustomisedProductPage> {
   final basketController = Get.put(BasketController());
 
   String uid = FirebaseAuth.instance.currentUser!.uid;
@@ -47,36 +50,53 @@ class _ProductPageState extends State<ProductPage> {
 
   final Item _item = Item.initial();
 
-  bool showCustomisation = false;
-  bool showDetails = true;
+  bool showCustomisation = true;
+  bool showDetails = false;
   bool showReviews = false;
 
   late String color;
   late String initialColor;
 
-  // _showCustomisation(showCustomisation) {
-  //   if (showCustomisation == false) {
-  //     setState(() {
-  //       showCustomisation = false;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       showCustomisation = true;
-  //     });
-  //   }
-  // }
+  final ProductMenu productMenu = ProductMenu();
 
-  // _showDetails(showDetails) {
-  //   if (showDetails == false) {
-  //     setState(() {
-  //       showDetails = false;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       showDetails = true;
-  //     });
-  //   }
-  // }
+  late final Map<int, ProductExtrasData> _productExtrasDataMap;
+  late CustomProduct _product;
+  int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _productExtrasDataMap = productMenu.getProductExtrasDataMap();
+    _product = productMenu.getProduct(0, _productExtrasDataMap);
+  }
+
+  void _onSelectedIndexChanged(int? index) {
+    _setSelectedIndex(index!);
+    _setSelectedProduct(index);
+  }
+
+  void _setSelectedIndex(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  void _onCustomProductChipSelected(int index, bool? selected) {
+    _setChipSelected(index, selected!);
+    _setSelectedProduct(_selectedIndex);
+  }
+
+  void _setChipSelected(int index, bool selected) {
+    setState(() {
+      _productExtrasDataMap[index]!.setSelected(isSelected: selected);
+    });
+  }
+
+  void _setSelectedProduct(int index) {
+    setState(() {
+      _product = productMenu.getProduct(index, _productExtrasDataMap);
+    });
+  }
 
   Color displayColor(String color) {
     switch (color) {
@@ -111,13 +131,18 @@ class _ProductPageState extends State<ProductPage> {
     }
   }
 
+  void updatePrice() {
+    productController.custom[index].price = _product.getPrice();
+  }
+
   void _changeColor() {
     // print(_item.color.toString() + " first ");
     final command = ChangeColorCommand(_item);
     _executeCommand(command);
     print(_commandHistory.commandHistoryList);
 
-  
+    //  selectColor(_item);
+    //  print(_item.color.toString() + " second ");
   }
 
   void _executeCommand(Command command) {
@@ -239,7 +264,7 @@ class _ProductPageState extends State<ProductPage> {
     }
   }
 
-  late int index = productController.products.indexOf(widget.product);
+  late int index = productController.custom.indexOf(widget.product);
 
   @override
   Widget build(BuildContext context) {
@@ -290,7 +315,10 @@ class _ProductPageState extends State<ProductPage> {
                                   ),
                                 ),
                               ),
-                              ProductNameAndPrice(product: widget.product),
+                              ProductNameAndPrice(
+                                product: widget.product,
+                                customProduct: _product,
+                              ),
                               // SizedBox(
                               //   height: 5,
                               // ),
@@ -312,24 +340,24 @@ class _ProductPageState extends State<ProductPage> {
                                     onPressed: () {
                                       //FIRE BASE ADD TO FAVOURITES
 
-                                      FirebaseFirestore.instance
-                                          .collection('wishlist')
-                                          .add({
-                                        'userID': uid,
-                                        'color1': widget.product.color,
-                                        'color2': widget.product.color2,
-                                        'category': widget.product.category,
-                                        'size': widget.product.size,
-                                        'productID': widget.product.uid,
-                                        "dateTime": DateTime.now(),
-                                        'description':
-                                            widget.product.description,
-                                        'price': widget.product.price,
-                                        'manufacturer':
-                                            widget.product.manufacturer,
-                                        'name': widget.product.name,
-                                        'imageUrl': widget.product.imageUrl,
-                                      });
+                                      // FirebaseFirestore.instance
+                                      //     .collection('wishlist')
+                                      //     .add({
+                                      //   'userID': uid,
+                                      //   'color1': widget.product.color,
+                                      //   'color2': widget.product.color2,
+                                      //   'category': widget.product.category,
+                                      //   'size': widget.product.size,
+                                      //   'productID': widget.product.uid,
+                                      //   "dateTime": DateTime.now(),
+                                      //   'description':
+                                      //       widget.product.description,
+                                      //   'price': widget.product.price,
+                                      //   'manufacturer':
+                                      //       widget.product.manufacturer,
+                                      //   'name': widget.product.name,
+                                      //   'imageUrl': widget.product.imageUrl,
+                                      // });
 
                                       Fluttertoast.showToast(
                                           msg: "Added to favourites",
@@ -440,11 +468,10 @@ class _ProductPageState extends State<ProductPage> {
                                 ],
                               ),
                               if (showDetails == true) ...[
-                                SizedBox(height: 30),
                                 NeumorphicButton(
                                   child: Text('Add to Cart'),
                                   onPressed: () => basketController.addProduct(
-                                      productController.products[index], index),
+                                      productController.custom[index], index),
                                 ),
                               ],
 
@@ -455,10 +482,49 @@ class _ProductPageState extends State<ProductPage> {
                                 NeumorphicButton(
                                   child: Text('Add to Cart'),
                                   onPressed: () => basketController.addProduct(
-                                      productController.products[index], index),
+                                      productController.custom[index], index),
                                 ),
                               ],
                               if (showCustomisation == true) ...[
+                                SizedBox(height: 30),
+                                ScrollConfiguration(
+                                  behavior: const ScrollBehavior(),
+                                  child: SingleChildScrollView(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: LayoutConstants.paddingL,
+                                    ),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            Text(
+                                              'Select your product:',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        ProductSelection(
+                                          selectedIndex: _selectedIndex,
+                                          onChanged: _onSelectedIndexChanged,
+                                        ),
+                                        if (_selectedIndex == 2)
+                                          CustomProductSelection(
+                                            productExtrasDataMap:
+                                                _productExtrasDataMap,
+                                            onSelected:
+                                                _onCustomProductChipSelected,
+                                          ),
+                                        Divider(color: Colors.grey, height: 3),
+                                        ProductInformation(
+                                          product: _product,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                                 Divider(color: Colors.grey, height: 3),
                                 SizedBox(height: 25),
                                 SizedBox(
@@ -507,7 +573,12 @@ class _ProductPageState extends State<ProductPage> {
                                       onTap: () {
                                         setState(() {
                                           _changeSize();
-                                        
+                                          // secondIsSelected = false;
+                                          // thirdIsSelected = false;
+                                          // firstIsSelected = !firstIsSelected;
+                                          // fourthIsSelected = falsse;
+                                          // _item.height = "Small";
+                                          // // selectSize(_item);
                                         });
                                       },
                                       child: Button(
@@ -572,15 +643,18 @@ class _ProductPageState extends State<ProductPage> {
                                 SizedBox(
                                   height: 35,
                                 ),
+
                                 Row(
                                   children: <Widget>[
                                     NeumorphicButton(
-                                      child: Text('Add to Cart'),
-                                      onPressed: () =>
+                                        child: Text('Add to Cart'),
+                                        onPressed: () {
+                                          updatePrice();
+
                                           basketController.addProduct(
-                                              productController.products[index],
-                                              index),
-                                    ),
+                                              productController.custom[index],
+                                              index);
+                                        }),
                                     SizedBox(
                                       width: 150,
                                     ),
@@ -728,7 +802,9 @@ class RectButton extends StatelessWidget {
 
 class ProductNameAndPrice extends StatelessWidget {
   final Product product;
-  const ProductNameAndPrice({Key? key, required this.product})
+  final CustomProduct customProduct;
+  const ProductNameAndPrice(
+      {Key? key, required this.product, required this.customProduct})
       : super(key: key);
 
   @override
@@ -744,7 +820,7 @@ class ProductNameAndPrice extends StatelessWidget {
               color: Colors.grey, fontWeight: FontWeight.w600, fontSize: 30),
         ),
         Text(
-          " €" + product.price.toString(),
+          " €" + customProduct.getPrice().toStringAsFixed(2),
           style: AppStyle.h1Light.copyWith(
               color: Colors.grey, fontWeight: FontWeight.w600, fontSize: 20),
         ),

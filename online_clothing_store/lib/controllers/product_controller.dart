@@ -10,6 +10,7 @@ class ProductController extends GetxController {
   final products = <Product>[].obs;
   final footwear = <Product>[].obs;
   final wishlist = <Product>[].obs;
+   final custom = <Product>[].obs;
   // final orderitems= <OrderItem>[].obs;
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -21,6 +22,7 @@ class ProductController extends GetxController {
     products.bindStream(DatabaseService(uid: user!.uid).getAllProducts());
     footwear.bindStream(DatabaseService(uid: user!.uid).getAllFootwear());
     wishlist.bindStream(DatabaseService(uid: user!.uid).getAllWishlist());
+      custom.bindStream(DatabaseService(uid: user!.uid).getAllCustom());
     // orderitems.bindStream(FirestoreDB().getAllOrders());
 
     super.onInit();

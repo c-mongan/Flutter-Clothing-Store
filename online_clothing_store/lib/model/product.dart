@@ -5,7 +5,7 @@ class Product {
 
   // Product's variables: name, price, imageUrl. All required.
   final String name;
-  final double price;
+   num price;
   final String imageUrl;
   final String uid;
   final String category;

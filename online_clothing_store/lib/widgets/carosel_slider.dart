@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:health_app_fyp/designpatterns/decorator/widgets/decorator_class.dart';
 import 'package:health_app_fyp/screens/screens.dart';
 
+import '../screens/inventory/producttype/custom_item.dart';
 import '../screens/inventory/producttype/shoes.dart';
 
 class CustomCarouselFB2 extends StatefulWidget {
@@ -20,11 +22,14 @@ List<Widget> cards = [
       subtitle: "+30 books",
       onPressed: () {}),
   InnerNeumorphicCardFb1(
-      text: "Explore",
+      text: "Customised Products",
       imageUrl:
           "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Accept_terms_re_lj38%201.png?alt=media&token=476b97fd-ba66-4f62-94a7-bce4be794f36",
       subtitle: "+30 books",
-      onPressed: () {}),
+      onPressed: () {
+        // Get.to(CustomisedProducts());
+        Get.to(CustomItemPage());
+      }),
   InnerNeumorphicCardFb1(
       text: "Footwear",
       imageUrl:

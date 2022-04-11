@@ -17,7 +17,7 @@ class WishlistProducts extends StatelessWidget {
 
   WishlistProducts({Key? key}) : super(key: key);
 
-  final Stream<QuerySnapshot> tdeeStream = FirebaseFirestore.instance
+  final Stream<QuerySnapshot> wishlistStream = FirebaseFirestore.instance
       .collection('wishlist')
       .orderBy("dateTime")
       //.limitToLast(1)
@@ -86,7 +86,7 @@ class WishlistProducts extends StatelessWidget {
                 child: Container(
                     height: 200.0,
                     child: StreamBuilder<QuerySnapshot>(
-                      stream: tdeeStream,
+                      stream: wishlistStream,
                       builder: (BuildContext context,
                           AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.hasError) {
