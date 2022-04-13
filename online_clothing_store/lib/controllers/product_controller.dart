@@ -51,8 +51,8 @@ class ProductController extends GetxController {
 //Create get all footwear stream
 //Create get all custom stream in Database Class
 
-    //Stream of custom products from the database
-    custom.bindStream(DatabaseService(uid: user!.uid).getAllCustom());
+    // //Stream of custom products from the database
+    // custom.bindStream(DatabaseService(uid: user!.uid).getAllCustom());
     // orderitems.bindStream(FirestoreDB().getAllOrders());
 
     super.onInit();
@@ -158,34 +158,7 @@ class ProductController extends GetxController {
       }));
     } else
 //Add all categories types here to search for them
-    if (
-        // (searchText == 'a' ||
-        //     searchText == 'b' ||
-        //     searchText == 'c' ||
-        //     searchText == 'd' ||
-        //     searchText == 'e' ||
-        //     searchText == 'f' ||
-        //     searchText == 'g' ||
-        //     searchText == 'h' ||
-        //     searchText == 'i' ||
-        //     searchText == 'j' ||
-        //     searchText == 'k' ||
-        //     searchText == 'l' ||
-        //     searchText == 'm' ||
-        //     searchText == 'n' ||
-        //     searchText == 'o' ||
-        //     searchText == 'p' ||
-        //     searchText == 'q' ||
-        //     searchText == 'r' ||
-        //     searchText == 's' ||
-        //     searchText == 't' ||
-        //     searchText == 'u' ||
-        //     searchText == 'v' ||
-        //     searchText == 'w' ||
-        //     searchText == 'x' ||
-        //     searchText == 'y' ||
-        //     searchText == 'z')
-        categories.any(check)) {
+    if (categories.any(check)) {
       products.bindStream(getStream(filterCriterea).map((list) {
         print("matched categories");
         //Concatonates all matching categories and names into one list and removes duplicates

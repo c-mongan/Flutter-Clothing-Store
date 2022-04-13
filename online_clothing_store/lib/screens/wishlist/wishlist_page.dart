@@ -1,35 +1,3 @@
-// import 'package:carousel_slider/carousel_slider.dart';
-// import 'package:flutter/material.dart';
-// import 'package:health_app_fyp/widgets/wishlist_products.dart';
-// import '../../widgets/customised_appbar.dart';
-// import '../../widgets/customised_navbar.dart';
-
-// class WishlistPage extends StatelessWidget {
-//   static const String routeName = '/wish';
-//  final cartController = Get.put(BasketController());
-//   final productController = Get.put(ProductController());
-//   final BasketController controller = Get.find();
-//   late int index = index;
-
-//   static Route route() {
-//     return MaterialPageRoute(
-//       settings: const RouteSettings(name: routeName),
-//       builder: (context) => WishlistPage(),
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: CustomisedAppBar(title: "Wishlist"),
-//       bottomNavigationBar: CustomisedNavigationBar(),
-//       body: SizedBox(
-//         child: WishlistProducts(),
-//         height: 400,
-//       ),
-//     );
-//   }
-// }
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

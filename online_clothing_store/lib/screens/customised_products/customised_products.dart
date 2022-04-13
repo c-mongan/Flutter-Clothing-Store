@@ -280,6 +280,10 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
               height: size.height - 430,
               width: size.width,
               decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    Colors.black,
+                    Colors.grey,
+                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                   borderRadius: BorderRadius.circular(16),
                   image: DecorationImage(
                     fit: BoxFit.cover,
@@ -293,7 +297,11 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                   height: size.height / 2.2,
                   width: size.width,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    gradient: LinearGradient(colors: [
+                      Colors.black,
+                      Colors.grey,
+                    ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                    //  color: Colors.white,
                     //AppColor.secondary,
                     borderRadius: BorderRadius.circular(34),
                   ),
@@ -817,12 +825,12 @@ class ProductNameAndPrice extends StatelessWidget {
           product.name,
           // style: AppStyle.h1Light,
           style: AppStyle.h1Light.copyWith(
-              color: Colors.grey, fontWeight: FontWeight.w600, fontSize: 30),
+              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 30),
         ),
         Text(
           " €" + customProduct.getPrice().toStringAsFixed(2),
           style: AppStyle.h1Light.copyWith(
-              color: Colors.grey, fontWeight: FontWeight.w600, fontSize: 20),
+              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 20),
         ),
       ],
     );

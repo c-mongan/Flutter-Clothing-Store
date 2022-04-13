@@ -105,7 +105,7 @@ class DatabaseService {
   }
 
 //For Custom Products Category
-  Stream<List<Product>> getAllCustom() {
+  Stream<List<Product>> getAllByCategory() {
     return _firebaseFirestore
         .collection('product')
         .where('category', isEqualTo: 'custom')
