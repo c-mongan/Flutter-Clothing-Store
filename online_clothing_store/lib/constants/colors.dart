@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 abstract class AppColor {
   static const LinearGradient gradient = LinearGradient(
     colors: [
-      Colors.white,
-      Color(0xFFCBAAFF),
+      Colors.black,
+      Colors.grey,
     ],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,

@@ -110,109 +110,125 @@ class _CheckoutPageState extends State<CheckoutPage> {
         child: Scaffold(
             appBar: const CustomisedAppBar(title: "Checkout"),
             bottomNavigationBar: CustomisedNavigationBar(),
-            body: ScrollConfiguration(
-              behavior: const ScrollBehavior(),
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: LayoutConstants.paddingL,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    SizedBox(height: 20),
-                    Text(
-                      'Your basket  ${loggedInUser.firstName}',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
+            body: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                  Colors.black,
+                  Colors.grey,
+                ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+                child: SafeArea(
+                    child:
+                        //    SingleChildScrollView(
+                        // body:
+                        ScrollConfiguration(
+                  behavior: const ScrollBehavior(),
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: LayoutConstants.paddingL,
                     ),
-                    CheckoutProducts(),
-                    const SizedBox(height: LayoutConstants.spaceM),
-                    Stack(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        AnimatedOpacity(
-                          duration: const Duration(milliseconds: 500),
-                          opacity: _order.items.isEmpty ? 1.0 : 0.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                'Your order is empty',
-                                style: Theme.of(context).textTheme.headline6,
+                        SizedBox(height: 20),
+                        // Text(
+                        //   'Your basket  ${loggedInUser.firstName}',
+                        //   style: TextStyle(
+                        //       fontSize: 20,
+                        //       fontWeight: FontWeight.bold,
+                        //       color: Colors.black),
+                        // ),
+                        CheckoutProducts(),
+                        const SizedBox(height: LayoutConstants.spaceM),
+                        Stack(
+                          children: <Widget>[
+                            AnimatedOpacity(
+                              duration: const Duration(milliseconds: 500),
+                              opacity: _order.items.isEmpty ? 1.0 : 0.0,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'Your order is empty',
+                                    style:
+                                        Theme.of(context).textTheme.headline6,
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                        AnimatedOpacity(
-                          duration: const Duration(milliseconds: 500),
-                          opacity: _order.items.isEmpty ? 0.0 : 1.0,
-                          child: Column(
-                            children: <Widget>[
-                              const SizedBox(height: LayoutConstants.spaceM),
-                              DeliveryMethods(
-                                selectedIndex: _selectedDeliveryIndex,
-                                deliveryOptions: _deliveryOptionsList,
-                                onChanged: _setSelectedStrategyIndex,
-                              ),
-                              OrderDetails(
-                                deliveryCostStrategy: _deliveryOptionsList[
-                                    _selectedDeliveryIndex],
-                                order: _order,
-                              ),
-                              SizedBox(height: 20),
-                              NeumorphicButton(
-                                  child: const Text('Continue'),
-                                  onPressed: () {
-                                    if (_selectedDeliveryIndex ==
-                                            _deliveryOptionsList.length - 1 ||
-                                        _selectedDeliveryIndex ==
-                                            _deliveryOptionsList.length - 2) {
-                                      Get.to(AddressPage(), arguments: [
-                                        _deliveryOptionsList[
-                                            _selectedDeliveryIndex],
-                                        _order
-                                      ]);
-                                    } else {
-                                      Get.to(PaymentPage(), arguments: [
-                                        _deliveryOptionsList[
-                                            _selectedDeliveryIndex],
-                                        _order
-                                      ]);
-                                    }
+                            ),
+                            AnimatedOpacity(
+                              duration: const Duration(milliseconds: 500),
+                              opacity: _order.items.isEmpty ? 0.0 : 1.0,
+                              child: Column(
+                                children: <Widget>[
+                                  const SizedBox(
+                                      height: LayoutConstants.spaceM),
+                                  DeliveryMethods(
+                                    selectedIndex: _selectedDeliveryIndex,
+                                    deliveryOptions: _deliveryOptionsList,
+                                    onChanged: _setSelectedStrategyIndex,
+                                  ),
+                                  OrderDetails(
+                                    deliveryCostStrategy: _deliveryOptionsList[
+                                        _selectedDeliveryIndex],
+                                    order: _order,
+                                  ),
+                                  SizedBox(height: 20),
+                                  NeumorphicButton(
+                                      child: const Text('Continue'),
+                                      onPressed: () {
+                                        if (_selectedDeliveryIndex ==
+                                                _deliveryOptionsList.length -
+                                                    1 ||
+                                            _selectedDeliveryIndex ==
+                                                _deliveryOptionsList.length -
+                                                    2) {
+                                          Get.to(AddressPage(), arguments: [
+                                            _deliveryOptionsList[
+                                                _selectedDeliveryIndex],
+                                            _order
+                                          ]);
+                                        } else {
+                                          Get.to(PaymentPage(), arguments: [
+                                            _deliveryOptionsList[
+                                                _selectedDeliveryIndex],
+                                            _order
+                                          ]);
+                                        }
 
-                                    // OutlinedButton(
-                                    //   onPressed: () {
-                                    //     if (_selectedDeliveryIndex ==
-                                    //             _deliveryOptionsList.length - 1 ||
-                                    //         _selectedDeliveryIndex ==
-                                    //             _deliveryOptionsList.length - 2) {
-                                    //       Get.to(AddressPage(), arguments: [
-                                    //         _deliveryOptionsList[
-                                    //             _selectedDeliveryIndex],
-                                    //         _order
-                                    //       ]);
-                                    //     } else {
-                                    //       Get.to(PaymentPage(), arguments: [
-                                    //         _deliveryOptionsList[
-                                    //             _selectedDeliveryIndex],
-                                    //         _order
-                                    //       ]);
-                                    //     }
-                                    //     //   //Get.to(Second(), arguments: ["First data", "Second data"]);
-                                    //   },
-                                    // child: const Text('Continue'),
-                                  }),
-                              SizedBox(height: 20)
-                            ],
-                          ),
+                                        // OutlinedButton(
+                                        //   onPressed: () {
+                                        //     if (_selectedDeliveryIndex ==
+                                        //             _deliveryOptionsList.length - 1 ||
+                                        //         _selectedDeliveryIndex ==
+                                        //             _deliveryOptionsList.length - 2) {
+                                        //       Get.to(AddressPage(), arguments: [
+                                        //         _deliveryOptionsList[
+                                        //             _selectedDeliveryIndex],
+                                        //         _order
+                                        //       ]);
+                                        //     } else {
+                                        //       Get.to(PaymentPage(), arguments: [
+                                        //         _deliveryOptionsList[
+                                        //             _selectedDeliveryIndex],
+                                        //         _order
+                                        //       ]);
+                                        //     }
+                                        //     //   //Get.to(Second(), arguments: ["First data", "Second data"]);
+                                        //   },
+                                        // child: const Text('Continue'),
+                                      }),
+                                  SizedBox(height: 20)
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-            )));
+                  ),
+                )))));
   }
 
   void callThisMethod(bool isVisible) {
@@ -246,6 +262,7 @@ class OrderDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.grey,
       child: Padding(
         padding: const EdgeInsets.all(LayoutConstants.paddingM),
         child: Column(
@@ -253,7 +270,10 @@ class OrderDetails extends StatelessWidget {
           children: <Widget>[
             Text(
               'Order Details',
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             const Divider(),
             OrderInformationRow(

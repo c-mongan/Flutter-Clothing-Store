@@ -22,48 +22,67 @@ class DatabaseService {
     });
   }
 
+//STREAMS HERE TO SORT SEARCH RESULTS BY TITLE , PRICE AND MANUFACTURER ASCENDING AND DESCENDING
 
- Stream<List<Product>> getAllProductsByTitleAsc() {
-    return _firebaseFirestore.collection('product').orderBy('name').snapshots().map((snapshot) {
+  Stream<List<Product>> getAllProductsByTitleAsc() {
+    return _firebaseFirestore
+        .collection('product')
+        .orderBy('name')
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
     });
   }
-
 
   Stream<List<Product>> getAllProductsByTitleDesc() {
-    return _firebaseFirestore.collection('product').orderBy('name',descending: true).snapshots().map((snapshot) {
+    return _firebaseFirestore
+        .collection('product')
+        .orderBy('name', descending: true)
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
     });
   }
 
-   Stream<List<Product>> getAllProductsByManufacturerDesc() {
-    return _firebaseFirestore.collection('product').orderBy('manufacturer',descending: true).snapshots().map((snapshot) {
+  Stream<List<Product>> getAllProductsByManufacturerDesc() {
+    return _firebaseFirestore
+        .collection('product')
+        .orderBy('manufacturer', descending: true)
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
     });
   }
 
-  
-   Stream<List<Product>> getAllProductsByManufacturerAsc() {
-    return _firebaseFirestore.collection('product').orderBy('manufacturer').snapshots().map((snapshot) {
+  Stream<List<Product>> getAllProductsByManufacturerAsc() {
+    return _firebaseFirestore
+        .collection('product')
+        .orderBy('manufacturer')
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
     });
   }
 
-   Stream<List<Product>> getAllProductsByPriceAsc() {
-    return _firebaseFirestore.collection('product').orderBy('price').snapshots().map((snapshot) {
+  Stream<List<Product>> getAllProductsByPriceAsc() {
+    return _firebaseFirestore
+        .collection('product')
+        .orderBy('price')
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
     });
   }
 
-    Stream<List<Product>> getAllProductsByPriceDesc() {
-    return _firebaseFirestore.collection('product').orderBy('price' , descending: true).snapshots().map((snapshot) {
+  Stream<List<Product>> getAllProductsByPriceDesc() {
+    return _firebaseFirestore
+        .collection('product')
+        .orderBy('price', descending: true)
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
     });
   }
-
-
-
-
 
   Stream<List<Product>> getAllWishlist() {
     return _firebaseFirestore

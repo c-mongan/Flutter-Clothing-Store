@@ -69,89 +69,101 @@ class _BasketPageState extends State<BasketPage> {
         child: Scaffold(
             appBar: const CustomisedAppBar(title: "Basket"),
             bottomNavigationBar: const CustomisedNavigationBar(),
-            body: SingleChildScrollView(
-              child: Column(children: [
-                if (isProducts(controller) == true) ...[
-                  const SizedBox(height: 200),
-                  SizedBox(
-                    height: 20,
-                    width: 40,
-                  ),
-                  const Text(
-                    "             Your basket is empty",
-                    style: TextStyle(fontSize: 20),
-                    textAlign: TextAlign.center,
-                  ),
-                  // SizedBox(
-                  //   height: 70,
-                  //   width: 300,
-                  // ),
-                  // GradientIconButtonFb7(
-                  //   gradient: const LinearGradient(
-                  //       colors: [Color(0xff4338CA), Color(0xff6D28D9)]),
-                  //   icon: const Icon(
-                  //     Icons.arrow_back,
-                  //     color: Colors.white,
-                  //   ),
-                  //   onPressed: () {
-                  //     Get.to(HomePage());
-                  //     //Get.to(CheckoutPage(controller));
-                  //   },
-                  // )
-                ] else if (isProducts(controller) == false) ...[
-                  SizedBox(height: 20),
-                  Text(
-                    'Your basket',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  BasketProducts(),
-                  BasketTotal(),
+            body: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                  Colors.black,
+                  Colors.grey,
+                ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+                child: SafeArea(
+                    child: SingleChildScrollView(
+                  child: Column(children: [
+                    if (isProducts(controller) == true) ...[
+                      const SizedBox(height: 200),
+                      SizedBox(
+                        height: 20,
+                        width: 40,
+                      ),
+                      const Text(
+                        "Empty",
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                      // SizedBox(
+                      //   height: 70,
+                      //   width: 300,
+                      // ),
+                      // GradientIconButtonFb7(
+                      //   gradient: const LinearGradient(
+                      //       colors: [Color(0xff4338CA), Color(0xff6D28D9)]),
+                      //   icon: const Icon(
+                      //     Icons.arrow_back,
+                      //     color: Colors.white,
+                      //   ),
+                      //   onPressed: () {
+                      //     Get.to(HomePage());
+                      //     //Get.to(CheckoutPage(controller));
+                      //   },
+                      // )
+                    ] else if (isProducts(controller) == false) ...[
+                      SizedBox(height: 20),
+                      // Text(
+                      //   'Your basket',
+                      //   style: TextStyle(
+                      //       fontSize: 20,
+                      //       fontWeight: FontWeight.bold,
+                      //       color: Colors.white),
+                      // ),
+                      BasketProducts(),
+                      BasketTotal(),
 
-                  NeumorphicButton(child: Text("Continue"), onPressed:  () {
-                      if (controller.products.length != 0) {
-                        Get.to(CheckoutPage(controller));
-                      } else if (controller.products.length == 0) {
-                        Get.to(HomePage());
-                      }
-                      //Get.to(CheckoutPage(controller));
-                    },)
+                      NeumorphicButton(
+                        child: Text("Continue"),
+                        onPressed: () {
+                          if (controller.products.length != 0) {
+                            Get.to(CheckoutPage(controller));
+                          } else if (controller.products.length == 0) {
+                            Get.to(HomePage());
+                          }
+                          //Get.to(CheckoutPage(controller));
+                        },
+                      )
 
-                  // GradientIconButtonFb7(
-                  //   gradient: const LinearGradient(
-                  //       colors: [Color(0xff4338CA), Color(0xff6D28D9)]),
-                  //   icon:  Icon(
-                      
-                  //     Icons.shopping_cart_checkout_sharp,
-                  //     color: Colors.white,
-                  //   ),
-                  //   onPressed: () {
-                  //     if (controller.products.length != 0) {
-                  //       Get.to(CheckoutPage(controller));
-                  //     } else if (controller.products.length == 0) {
-                  //       Get.to(HomePage());
-                  //     }
-                  //     //Get.to(CheckoutPage(controller));
-                  //   },
-                  // ),
-                  // if (isProducts(controller) == false) ...[
-                  //   GradientIconButtonFb7(
-                  //     gradient: const LinearGradient(
-                  //         colors: [Color(0xff4338CA), Color(0xff6D28D9)]),
-                  //     icon: const Icon(
-                  //       Icons.shopping_cart_checkout_sharp,
-                  //       color: Colors.white,
-                  //     ),
-                  //     onPressed: () {
-                  //       Get.to(CheckoutPage(controller));
-                  //     },
-                  //   )
-                  // ]
-                ]
-              ]),
-            )));
+                      // GradientIconButtonFb7(
+                      //   gradient: const LinearGradient(
+                      //       colors: [Color(0xff4338CA), Color(0xff6D28D9)]),
+                      //   icon:  Icon(
+
+                      //     Icons.shopping_cart_checkout_sharp,
+                      //     color: Colors.white,
+                      //   ),
+                      //   onPressed: () {
+                      //     if (controller.products.length != 0) {
+                      //       Get.to(CheckoutPage(controller));
+                      //     } else if (controller.products.length == 0) {
+                      //       Get.to(HomePage());
+                      //     }
+                      //     //Get.to(CheckoutPage(controller));
+                      //   },
+                      // ),
+                      // if (isProducts(controller) == false) ...[
+                      //   GradientIconButtonFb7(
+                      //     gradient: const LinearGradient(
+                      //         colors: [Color(0xff4338CA), Color(0xff6D28D9)]),
+                      //     icon: const Icon(
+                      //       Icons.shopping_cart_checkout_sharp,
+                      //       color: Colors.white,
+                      //     ),
+                      //     onPressed: () {
+                      //       Get.to(CheckoutPage(controller));
+                      //     },
+                      //   )
+                      // ]
+                    ]
+                  ]),
+                )))));
   }
 }
 

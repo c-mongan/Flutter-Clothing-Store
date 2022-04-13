@@ -17,6 +17,7 @@ class DeliveryMethods extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.grey,
       child: Padding(
         padding: const EdgeInsets.all(LayoutConstants.paddingM),
         child: Column(
@@ -24,16 +25,20 @@ class DeliveryMethods extends StatelessWidget {
           children: <Widget>[
             Text(
               'Select delivery method:',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1!
+                  .copyWith(color: Colors.white),
             ),
             for (var i = 0; i < deliveryOptions.length; i++)
               RadioListTile<int>(
-                title: Text(deliveryOptions[i].label),
+                title: Text(deliveryOptions[i].label,
+                    style: TextStyle(color: Colors.white)),
                 value: i,
                 groupValue: selectedIndex,
                 onChanged: onChanged,
                 dense: true,
-                activeColor: Colors.black,
+                activeColor: Colors.white,
               ),
           ],
         ),

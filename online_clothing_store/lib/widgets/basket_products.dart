@@ -85,20 +85,33 @@ class BasketProductCard extends StatelessWidget {
             width: 20,
           ),
           Expanded(
-            child: Text(product.name + "    €" + product.price.toString()),
+            child: Text(
+              product.name + "    €" + product.price.toString(),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.white),
+            ),
           ),
           IconButton(
             onPressed: () {
               controller.removeProduct(product);
             },
-            icon: const Icon(Icons.remove_circle),
+            icon: const Icon(
+              Icons.remove_circle,
+              color: Colors.grey,
+            ),
           ),
-          Text('$quantity'),
+          Text(
+            '$quantity',
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+          ),
           IconButton(
             onPressed: () {
               controller.addProduct(product, index);
             },
-            icon: const Icon(Icons.add_circle),
+            icon: const Icon(Icons.add_circle, color: Colors.grey),
           ),
         ],
       ),

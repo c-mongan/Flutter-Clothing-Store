@@ -8,7 +8,7 @@ import '../../../widgets/custom_products.dart';
 import '../../../widgets/shoes_products.dart';
 import '../../../widgets/customised_appbar.dart';
 import '../../../widgets/customised_navbar.dart';
-import '../../../widgets/inventory_products.dart';
+
 import '../../basket/basket_page.dart';
 
 //class HomePage extends StatefulWidget {

@@ -16,10 +16,10 @@ class CustomisedAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true, // This is all you need to centre titles
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       elevation: 0,
       title: Container(
-        color: Colors.grey,
+        color: Colors.black,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Text(
           title,
@@ -36,7 +36,7 @@ class CustomisedAppBar extends StatelessWidget with PreferredSizeWidget {
         ),
       ),
 
-      iconTheme: const IconThemeData(color: Colors.grey),
+      iconTheme: const IconThemeData(color: Colors.white),
       actions: [
         IconButton(
           onPressed: () {

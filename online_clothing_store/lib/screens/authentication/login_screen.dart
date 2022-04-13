@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final loginButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Color.fromARGB(255, 212, 11, 62), //Color of button
+      color: Colors.black, //Color of button
       child: MaterialButton(
           padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context)
@@ -112,114 +112,168 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
-            child: SingleChildScrollView(
-          child: Container(
+        // body: Center(
+        //     child: Container(
+        //         decoration: BoxDecoration(
+        //             gradient: LinearGradient(
+        //           begin: Alignment.topRight,
+        //           end: Alignment.bottomLeft,
+        //           colors: [
+        //             Colors.blue,
+        //             Colors.red,
+        //           ],
+        //         )),
+        //         // body: Center(
+        //         child: SingleChildScrollView(
+        //             // child: Container(
+        //             //     width: MediaQuery.of(context).size.width,
+        //             //     height: MediaQuery.of(context).size.height,
+        //             //     decoration: BoxDecoration(
+        //             //         gradient: LinearGradient(
+        //             //             // colors: [Colors.red, Colors.white, Colors.red],
+        //             //             colors: [
+        //             //           Colors.red,
+        //             //           Colors.blue,
+        //             //           // Colors.red,
+        //             //           //Colors.blue,
+
+        //             //           // Colors.orange,
+        //             //         ],
+        //             //             begin: Alignment.topCenter,
+        //             //             end: Alignment.bottomCenter)),
+        //             child: Container(
+        //                 color: Colors.white,
+        //                 child: Padding(
+        //                   padding: const EdgeInsets.all(36.0),
+
+        body: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    // colors: [Colors.red, Colors.white, Colors.red],
-                    colors: [
-                  Colors.red,
-                  Colors.blue,
-                  // Colors.red,
-                  //Colors.blue,
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(colors: [
+              Colors.black,
+              Colors.grey,
+            ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+            child: SingleChildScrollView(
+                // <-- wrap this around
+                child: Column(children: <Widget>[
+              Center(
+                  child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Form(
+                              key: _formKey,
+                              // child:
 
-                  // Colors.orange,
-                ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-            child: Container(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(36.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "Online E-Store",
-                        style: const TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.lightBlue,
-                        ),
-                        // color: Color.fromARGB(255, 74, 134, 204)),
-                      ),
-                      SizedBox(
-                        height: 200,
-                        // child: Image.asset(
-                        //   "assets/healthy1.png",
-                        //   fit: BoxFit.contain,
-                        // )
-                      ),
-                      Text(
-                        "Login",
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.lightBlue),
-                      ),
-                      const SizedBox(height: 45),
-                      emailField,
-                      const SizedBox(height: 25),
-                      passwordField,
-                      const SizedBox(height: 35),
-                      loginButton,
-                      const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const Text("Don't have an account? "),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RegistrationScreen())); //This sends the user to sign up if they click it
-                            },
-                            child: const Text("Sign Up",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 212, 11, 62),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15)),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          // const Text("Admin "),
-                          GestureDetector(
-                            onTap: () {
-                              Get.to(AdminLoginScreen());
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) =>
-                              //             const RegistrationScreen())); //This sends the user to sign up if they click it
-                            },
-                            child: const Text("Admin",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 212, 11, 62),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15)),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        )));
+                              child: SafeArea(
+                                child: SingleChildScrollView(
+                                  child: Column(children: <Widget>[
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        SizedBox(
+                                          height: 50.0,
+
+                                          //Image goes here
+
+                                          // child: Image.asset(
+                                          //   "assets/images/logo.png",
+                                          //   fit: BoxFit.contain,
+                                          // ),
+                                        ),
+                                        Text(
+                                          "CM Menswear",
+                                          style: const TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                          // color: Color.fromARGB(255, 74, 134, 204)),
+                                        ),
+                                        SizedBox(
+                                          height: 200,
+                                          // child: Image.asset(
+                                          //   "assets/healthy1.png",
+                                          //   fit: BoxFit.contain,
+                                          // )
+                                        ),
+                                        Text(
+                                          "Login",
+                                          style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                        const SizedBox(height: 45),
+                                        emailField,
+                                        const SizedBox(height: 25),
+                                        passwordField,
+                                        const SizedBox(height: 35),
+                                        loginButton,
+                                        const SizedBox(height: 15),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            const Text(
+                                                "Don't have an account? "),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const RegistrationScreen())); //This sends the user to sign up if they click it
+                                              },
+                                              child: const Text("Sign Up",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15)),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 40,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            // const Text("Admin "),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(AdminLoginScreen());
+                                                // Navigator.push(
+                                                //     context,
+                                                //     MaterialPageRoute(
+                                                //         builder: (context) =>
+                                                //             const RegistrationScreen())); //This sends the user to sign up if they click it
+                                              },
+                                              child: const Text("Admin",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15)),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ]),
+                                ),
+                              ),
+                            ),
+                          ])))
+            ]))));
   }
 
 //Login Method

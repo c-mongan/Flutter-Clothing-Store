@@ -21,12 +21,12 @@ class OrderInformationRow extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .subtitle1!
-                .copyWith(fontFamily: fontFamily)),
+                .copyWith(fontFamily: fontFamily, color: Colors.white)),
         Text('\€${value.toStringAsFixed(2)}',
             style: Theme.of(context)
                 .textTheme
                 .subtitle1!
-                .copyWith(fontFamily: fontFamily)),
+                .copyWith(fontFamily: fontFamily, color: Colors.white)),
       ],
     );
   }

@@ -8,7 +8,7 @@ import '../screens/inventory/producttype/custom_item.dart';
 import '../screens/inventory/producttype/shoes.dart';
 
 class CustomCarouselFB2 extends StatefulWidget {
-   CustomCarouselFB2({Key? key}) : super(key: key);
+  CustomCarouselFB2({Key? key}) : super(key: key);
 
   @override
   _CustomCarouselFB2State createState() => _CustomCarouselFB2State();
@@ -22,10 +22,10 @@ List<Widget> cards = [
       subtitle: "+30 books",
       onPressed: () {}),
   InnerNeumorphicCardFb1(
-      text: "Customised Products",
+      text: "Custom Products",
       imageUrl:
           "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Accept_terms_re_lj38%201.png?alt=media&token=476b97fd-ba66-4f62-94a7-bce4be794f36",
-      subtitle: "+30 books",
+      subtitle: "",
       onPressed: () {
         // Get.to(CustomisedProducts());
         Get.to(CustomItemPage());
@@ -134,7 +134,7 @@ class _CustomCarouselFB2State extends State<CustomCarouselFB2> {
 //             Text(text,
 //                 textAlign: TextAlign.center,
 //                 style: const TextStyle(
-//                   color: Colors.black,
+//                   color: Colors.white,
 //                   fontWeight: FontWeight.bold,
 //                   fontSize: 18,
 //                 )),
@@ -202,9 +202,9 @@ class _NeumorphicCardState extends State<NeumorphicCard> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  _isPressed ? color : color.mix(Colors.black, .1),
-                  _isPressed ? color.mix(Colors.black, .05) : color,
-                  _isPressed ? color.mix(Colors.black, .05) : color,
+                  _isPressed ? color : color.mix(Colors.white, .1),
+                  _isPressed ? color.mix(Colors.white, .05) : color,
+                  _isPressed ? color.mix(Colors.white, .05) : color,
                   color.mix(Colors.white, _isPressed ? .2 : .5),
                 ],
                 stops: const [
@@ -224,7 +224,7 @@ class _NeumorphicCardState extends State<NeumorphicCard> {
                     BoxShadow(
                       blurRadius: widget.bevel,
                       offset: widget.blurOffset,
-                      color: color.mix(Colors.black, .3),
+                      color: color.mix(Colors.white, .3),
                     )
                   ],
           ),
@@ -258,7 +258,7 @@ class InnerNeumorphicCardFb1 extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         width: 150,
-        height: 150,
+        height: 175,
         padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
@@ -267,7 +267,7 @@ class InnerNeumorphicCardFb1 extends StatelessWidget {
             Text(text,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 )),

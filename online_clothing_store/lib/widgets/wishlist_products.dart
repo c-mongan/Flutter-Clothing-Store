@@ -66,81 +66,99 @@ class WishlistProducts extends StatelessWidget {
         //     },
         //     child:
         Scaffold(
-      resizeToAvoidBottomInset: false,
-      // appBar: AppBar(
-      //   title: const Text("Mood Tracker"),
-      //   elevation: 0,
-      //   backgroundColor: Colors.black,
-      // ),
-      // bottomNavigationBar: CustomisedNavigationBar(),
       body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Column(children: [
-            const SizedBox(
-              width: 5,
-            ),
-            // const Icon(Icons.insert_emoticon,
-            //     color: Colors.white, size: 40),
-            Expanded(
-                child: Container(
-                    height: 200.0,
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: wishlistStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          return const Text('Something went wrong');
-                        }
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(colors: [
+          Colors.black,
+          Colors.grey,
+        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+        // child: SafeArea(
+        // resizeToAvoidBottomInset: false,
+        // appBar: AppBar(
+        //   title: const Text("Mood Tracker"),
+        //   elevation: 0,
+        //   backgroundColor: Colors.black,
+        // ),
+        // bottomNavigationBar: CustomisedNavigationBar(),
+        child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Column(children: [
+              const SizedBox(
+                width: 5,
+              ),
+              // const Icon(Icons.insert_emoticon,
+              //     color: Colors.white, size: 40),
+              Expanded(
+                  child: Container(
+                      height: 225.0,
+                      child: StreamBuilder<QuerySnapshot>(
+                        stream: wishlistStream,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasError) {
+                            return const Text('Something went wrong');
+                          }
 
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Text("Loading");
-                        }
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Text("Loading");
+                          }
 
-                        return ListView(
-                          //itemExtent: 75,
-                          shrinkWrap: true,
-                          physics: const ClampingScrollPhysics(),
-                          children: snapshot.data!.docs
-                              .map((DocumentSnapshot document) {
-                            Map<String, dynamic> data =
-                                document.data()! as Map<String, dynamic>;
-                            return ListTile(
+                          return ListView(
+                            //itemExtent: 75,
+                            shrinkWrap: true,
+                            physics: const ClampingScrollPhysics(),
+                            children: snapshot.data!.docs
+                                .map((DocumentSnapshot document) {
+                              Map<String, dynamic> data =
+                                  document.data()! as Map<String, dynamic>;
+                              return ListTile(
                                 leading: Image.network(data['imageUrl']),
-                                title: Text(data['name']),
+                                title: Text(
+                                  data['name'],
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 isThreeLine: true,
-                                subtitle: Text(data['description']),
-                                trailing: const Icon(Icons.line_weight));
-                          }).toList(),
-                        );
-                      },
-                    ))),
+                                subtitle: Text(
+                                  data['description'],
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                trailing: const Icon(Icons.line_weight),
+                                iconColor: Colors.white,
+                              );
+                            }).toList(),
+                          );
+                        },
+                      ))),
 
-            // Button(
-            //     edges: const EdgeInsets.all(0.0),
-            //     color: Colors.blue,
-            //     text: const Text(
-            //       'Home',
-            //       style: textStyle2,
-            //       // TextStyle(fontWeight: FontWeight.bold),
-            //     ),
-            //     onTap: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => const HomePage(),
-            //         ),
-            //       );
-            //     }
+              // Button(
+              //     edges: const EdgeInsets.all(0.0),
+              //     color: Colors.blue,
+              //     text: const Text(
+              //       'Home',
+              //       style: textStyle2,
+              //       // TextStyle(fontWeight: FontWeight.bold),
+              //     ),
+              //     onTap: () {
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (context) => const HomePage(),
+              //         ),
+              //       );
+              //     }
 
-            //     )
-          ]
-              // Flexible(
-              //     flex: 1,
-              //     child:
+              //     )
+            ]
+                // Flexible(
+                //     flex: 1,
+                //     child:
 
-              )),
+                )),
+      ),
       floatingActionButton: getFloatingActionButton(),
     );
   }
@@ -149,6 +167,7 @@ class WishlistProducts extends StatelessWidget {
 bool dialVisible = true;
 Widget getFloatingActionButton() {
   return SpeedDial(
+    backgroundColor: Colors.black,
     animatedIcon: AnimatedIcons.menu_close,
     animatedIconTheme: const IconThemeData(size: 22.0),
     visible: dialVisible,

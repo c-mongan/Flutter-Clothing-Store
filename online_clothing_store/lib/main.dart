@@ -1,9 +1,10 @@
+import 'dart:async';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 
 import 'screens/authentication/login_screen.dart';
 import 'screens/home/home_page.dart';
@@ -47,9 +48,66 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
       ),
 
-      home: LoginScreen(),
+      //home: LoginScreen(),
+      home: SplashScreen(),
 
       // home: HomePage(),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    displaySplash();
+  }
+
+  displaySplash() {
+    Timer(Duration(seconds: 2), () async {
+      if (await FirebaseAuth.instance.currentUser != null) {
+        Get.to(const HomePage());
+      } else {
+        Get.to(const LoginScreen());
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: Container(
+        decoration: new BoxDecoration(
+          gradient: new LinearGradient(
+            colors: [Colors.black, Colors.grey],
+            begin: const FractionalOffset(0.0, 0.0),
+            end: const FractionalOffset(1.0, 0.0),
+            stops: [0.0, 1.0],
+            tileMode: TileMode.clamp,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Image.asset("images/welcome.png"),
+              SizedBox(
+                height: 20.0,
+              ),
+              Text(
+                "Ireland's leading menswear store",
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

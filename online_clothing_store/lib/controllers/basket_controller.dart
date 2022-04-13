@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:get/get.dart';
 
 import '../model/product.dart';
@@ -26,6 +26,7 @@ class BasketController extends GetxController {
     );
   }
 
+//Removes product from cart
   void removeProduct(Product product) {
     if (_products.containsKey(product) && _products[product] == 1) {
       _products.removeWhere((key, value) => key == product);
@@ -34,23 +35,21 @@ class BasketController extends GetxController {
     }
   }
 
+//Getter for products
   get products => _products;
 
+//Getter for total price of item
   get productSubtotal => _products.entries
       .map((product) => product.key.price * product.value)
       .toList();
 
+//getter for total price of all items
   get total => _products.entries
       .map((product) => product.key.price * product.value)
       .toList()
       .reduce((value, element) => value + element)
       .toStringAsFixed(2);
 
-  // bool isProducts(_products) {
-  //   if (_products.isEmpty) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
+ 
 }
-// }
+

@@ -84,7 +84,10 @@ class BasketProductCard extends StatelessWidget {
             width: 20,
           ),
           Expanded(
-            child: Text(product.name + "    €" + product.price.toString()),
+            child: Text(
+              product.name + "    €" + product.price.toString(),
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
           ),
         ],
       ),

@@ -159,209 +159,232 @@ class _PaymentPageState extends State<PaymentPage> {
         child: Scaffold(
             appBar: const CustomisedAppBar(title: "Payment"),
             bottomNavigationBar: const CustomisedNavigationBar(),
-            body: SingleChildScrollView(
-              child: SizedBox(
-                height: 1000,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Center(
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      // children: [
-                      // Container(
-                      //   child: Text(data[0].toString()), // first element set here
-                      // ),
-                      // Text(data[1].toString()), // second element set here
+            body: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                  Colors.black,
+                  Colors.grey,
+                ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+                // child: SafeArea(
+                child:
+                    //    SingleChildScrollView(
 
-                      for (var i = 0; i < paymentOptions.length; i++)
-                        RadioListTile<int>(
-                          title: Text(paymentOptions[i]),
-                          value: i,
-                          groupValue: index,
-                          //  onChanged: _setSelectedStrategyIndex,
-                          onChanged: (int? value) {
-                            setState(() {
-                              index = i;
-                            });
-                          },
-                          dense: true,
-                          activeColor: Colors.black,
-                        ),
-
-                      if (index == 0) ...[
-                        Center(
-                          child: SizedBox(
-                              height: 100,
-                              child: new Image.network(
-                                  'https://1000logos.net/wp-content/uploads/2021/04/Paypal-logo.png')),
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Center(
-                          child: NeumorphicButton(
-                            child: const Text('Pay Now'),
-                            onPressed: () {
-                              Get.to(OrderConfirmation());
-                            },
+                    SingleChildScrollView(
+                  child: SizedBox(
+                    height: 1250,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Center(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          // children: [
+                          // Container(
+                          //   child: Text(data[0].toString()), // first element set here
+                          // ),
+                          // Text(data[1].toString()), // second element set here
+                          SizedBox(
+                            height: 100,
                           ),
-                        )
-                      ],
-                      if (index == 2) ...[
-                        Center(
-                          child: SizedBox(
-                              height: 100,
-                              child: new Image.network(
-                                  "https://bitcoin.org/img/icons/opengraph.png?1648897668")),
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Center(
-                          child: NeumorphicButton(
-                            child: const Text('Pay Now'),
-                            onPressed: () {
-                              Get.to(OrderConfirmation());
-                            },
-                          ),
-                        ),
-                      ],
-                      if (index == 1) ...[
-                        SizedBox(
-                          height: 20,
-                        ),
-                        ListTileTheme(
-                          child: ListTile(
-                            leading: Icon(Icons.credit_card),
-                            title: Text(
-                              'Saved Card',
-                              textScaleFactor: 1,
+                          for (var i = 0; i < paymentOptions.length; i++)
+                            RadioListTile<int>(
+                              title: Text(
+                                paymentOptions[i],
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              value: i,
+                              groupValue: index,
+                              //  onChanged: _setSelectedStrategyIndex,
+                              onChanged: (int? value) {
+                                setState(() {
+                                  index = i;
+                                });
+                              },
+                              dense: true,
+                              activeColor: Colors.white,
                             ),
-                            trailing: Icon(Icons.chevron_right),
-                            selected: false,
-                            onTap: () =>
-                                setState(() => isVisible = isVisible = false),
-                          ),
-                          textColor: Color(0xFF4338CA),
-                          iconColor: Color(0xFF4338CA),
-                        ),
-                        SizedBox(
-                          height: 1,
-                        ),
 
-                        // ListTileTheme(
-                        //   child: ListTile(
-                        //     leading: Icon(Icons.credit_card),
-                        //     title: Text(
-                        //       'New Card',
-                        //       textScaleFactor: 1,
-                        //     ),
-                        //     trailing: Icon(Icons.chevron_right),
-                        //     selected: false,
-                        //     onTap: () {
-                        //       setState(() {
-                        //         _showCard(savedCard);
-                        //         savedCard = false;
-                        //       });
-
-                        //       //_showCard(savedCard);
-                        //     },
-                        //   ),
-                        //   textColor: Color(0xFF4338CA),
-                        //   iconColor: Color(0xFF4338CA),
-                        // ),
-                        // if (savedCard = false) ...[
-                        CreditCardWidget(
-                          // glassmorphismConfig:
-                          // useGlassMorphism ? Glassmorphism.defaultConfig() : null,
-                          cardNumber: cardNumber,
-                          expiryDate: expiryDate,
-                          cardHolderName: cardHolderName,
-                          cvvCode: cvvCode,
-                          showBackView: isCvvFocused,
-                          obscureCardNumber: true,
-                          obscureCardCvv: true,
-                          isHolderNameVisible: true,
-                          cardBgColor: Colors.black,
-                          backgroundImage:
-                              useBackgroundImage ? 'assets/card_bg.png' : null,
-                          isSwipeGestureEnabled: true,
-                          onCreditCardWidgetChange:
-                              (CreditCardBrand creditCardBrand) {},
-                          customCardTypeIcons: <CustomCardTypeIcon>[
-                            CustomCardTypeIcon(
-                              cardType: CardType.mastercard,
-                              cardImage: Image.asset(
-                                'assets/mastercard.png',
-                                height: 48,
-                                width: 48,
+                          if (index == 0) ...[
+                            Center(
+                              child: SizedBox(
+                                  height: 100,
+                                  child: new Image.network(
+                                      'https://1000logos.net/wp-content/uploads/2021/04/Paypal-logo.png')),
+                            ),
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Center(
+                              child: NeumorphicButton(
+                                child: const Text('Pay Now'),
+                                onPressed: () {
+                                  Get.to(OrderConfirmation());
+                                },
+                              ),
+                            )
+                          ],
+                          if (index == 2) ...[
+                            Center(
+                              child: SizedBox(
+                                  height: 100,
+                                  child: new Image.network(
+                                      "https://bitcoin.org/img/icons/opengraph.png?1648897668")),
+                            ),
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Center(
+                              child: NeumorphicButton(
+                                child: const Text('Pay Now'),
+                                onPressed: () {
+                                  Get.to(OrderConfirmation());
+                                },
                               ),
                             ),
                           ],
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        ListTileTheme(
-                          child: ListTile(
-                            leading: Icon(Icons.credit_card),
-                            title: Text(
-                              'New Card',
-                              textScaleFactor: 1,
+                          if (index == 1) ...[
+                            SizedBox(
+                              height: 20,
                             ),
-                            trailing: Icon(Icons.chevron_right),
-                            selected: false,
-                            onTap: () => setState(() => isVisible = !isVisible),
-                          ),
-                          textColor: Color(0xFF4338CA),
-                          iconColor: Color(0xFF4338CA),
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
+                            ListTileTheme(
+                              child: ListTile(
+                                leading: Icon(Icons.credit_card),
+                                title: Text(
+                                  'Saved Card',
+                                  textScaleFactor: 1,
+                                ),
+                                trailing: Icon(Icons.chevron_right),
+                                selected: false,
+                                onTap: () => setState(
+                                    () => isVisible = isVisible = false),
+                              ),
+                              textColor: Colors.white,
+                              iconColor: Colors.white,
+                            ),
+                            SizedBox(
+                              height: 1,
+                            ),
 
-                        if (isVisible) ShowCardForm(),
+                            // ListTileTheme(
+                            //   child: ListTile(
+                            //     leading: Icon(Icons.credit_card),
+                            //     title: Text(
+                            //       'New Card',
+                            //       textScaleFactor: 1,
+                            //     ),
+                            //     trailing: Icon(Icons.chevron_right),
+                            //     selected: false,
+                            //     onTap: () {
+                            //       setState(() {
+                            //         _showCard(savedCard);
+                            //         savedCard = false;
+                            //       });
 
-                        //Visibility(child: ShowCardForm(), visible: false),
-                        // SizedBox(
-                        //   height: 50,
-                        // ),
-                        Center(
-                          child: NeumorphicButton(
-                            child: const Text(
-                              'Pay Now',
-                              style: TextStyle(
-                                color: Colors.black,
-                                // fontFamily: 'halter',
-                                fontSize: 14,
-                                package: 'flutter_credit_card',
+                            //       //_showCard(savedCard);
+                            //     },
+                            //   ),
+                            //   textColor: Color(0xFF4338CA),
+                            //   iconColor: Color(0xFF4338CA),
+                            // ),
+                            // if (savedCard = false) ...[
+                            CreditCardWidget(
+                              // glassmorphismConfig:
+                              // useGlassMorphism ? Glassmorphism.defaultConfig() : null,
+                              cardNumber: cardNumber,
+                              expiryDate: expiryDate,
+                              cardHolderName: cardHolderName,
+                              cvvCode: cvvCode,
+                              showBackView: isCvvFocused,
+                              obscureCardNumber: true,
+                              obscureCardCvv: true,
+                              isHolderNameVisible: true,
+                              cardBgColor: Colors.black,
+                              backgroundImage: useBackgroundImage
+                                  ? 'assets/card_bg.png'
+                                  : null,
+                              isSwipeGestureEnabled: true,
+                              onCreditCardWidgetChange:
+                                  (CreditCardBrand creditCardBrand) {},
+                              customCardTypeIcons: <CustomCardTypeIcon>[
+                                CustomCardTypeIcon(
+                                  cardType: CardType.mastercard,
+                                  cardImage: Image.asset(
+                                    'assets/mastercard.png',
+                                    height: 48,
+                                    width: 48,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            ListTileTheme(
+                              child: ListTile(
+                                leading: Icon(Icons.credit_card),
+                                title: Text(
+                                  'New Card',
+                                  textScaleFactor: 1,
+                                ),
+                                trailing: Icon(Icons.chevron_right),
+                                selected: false,
+                                onTap: () =>
+                                    setState(() => isVisible = !isVisible),
+                              ),
+                              textColor: Colors.white,
+                              iconColor: Colors.white,
+                            ),
+                            SizedBox(
+                              height: 50,
+                            ),
+
+                            if (isVisible) ShowCardForm(),
+
+                            //Visibility(child: ShowCardForm(), visible: false),
+                            // SizedBox(
+                            //   height: 50,
+                            // ),
+
+                            SizedBox(
+                              height: 20,
+                            ),
+                            const SizedBox(height: LayoutConstants.spaceM),
+
+                            OrderDetails(
+                              deliveryCostStrategy: data[0],
+                              order: data[1],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Center(
+                              child: NeumorphicButton(
+                                child: const Text(
+                                  'Pay Now',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    // fontFamily: 'halter',
+                                    fontSize: 14,
+                                    package: 'flutter_credit_card',
+                                  ),
+                                ),
+                                onPressed: () {
+                                  if (formKey.currentState!.validate()) {
+                                    print('valid!');
+                                    Get.to(OrderConfirmation());
+                                  } else {
+                                    print('invalid!');
+                                  }
+                                },
                               ),
                             ),
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                print('valid!');
-                                Get.to(OrderConfirmation());
-                              } else {
-                                print('invalid!');
-                              }
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        const SizedBox(height: LayoutConstants.spaceM),
-
-                        OrderDetails(
-                          deliveryCostStrategy: data[0],
-                          order: data[1],
-                        ),
-                      ],
-                      // ]
-                    ]),
-              ),
-            )));
+                          ],
+                          // ]
+                        ]),
+                  ),
+                ))));
   }
 
   Expanded ShowCardForm() {

@@ -338,26 +338,26 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                     backgroundColor: Colors.white,
                                     elevation: 0,
                                     onPressed: () {
-                                      //FIRE BASE ADD TO FAVOURITES
+                                      // FIRE BASE ADD TO FAVOURITES
 
-                                      // FirebaseFirestore.instance
-                                      //     .collection('wishlist')
-                                      //     .add({
-                                      //   'userID': uid,
-                                      //   'color1': widget.product.color,
-                                      //   'color2': widget.product.color2,
-                                      //   'category': widget.product.category,
-                                      //   'size': widget.product.size,
-                                      //   'productID': widget.product.uid,
-                                      //   "dateTime": DateTime.now(),
-                                      //   'description':
-                                      //       widget.product.description,
-                                      //   'price': widget.product.price,
-                                      //   'manufacturer':
-                                      //       widget.product.manufacturer,
-                                      //   'name': widget.product.name,
-                                      //   'imageUrl': widget.product.imageUrl,
-                                      // });
+                                      FirebaseFirestore.instance
+                                          .collection('wishlist')
+                                          .add({
+                                        'userID': uid,
+                                        'color1': widget.product.color,
+                                        'color2': widget.product.color2,
+                                        'category': widget.product.category,
+                                        'size': widget.product.size,
+                                        'productID': widget.product.uid,
+                                        "dateTime": DateTime.now(),
+                                        'description':
+                                            widget.product.description,
+                                        'price': widget.product.price,
+                                        'manufacturer':
+                                            widget.product.manufacturer,
+                                        'name': widget.product.name,
+                                        'imageUrl': widget.product.imageUrl,
+                                      });
 
                                       Fluttertoast.showToast(
                                           msg: "Added to favourites",
