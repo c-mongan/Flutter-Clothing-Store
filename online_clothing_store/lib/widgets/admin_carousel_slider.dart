@@ -4,23 +4,26 @@ import 'package:get/get.dart';
 import 'package:health_app_fyp/designpatterns/decorator/widgets/decorator_class.dart';
 import 'package:health_app_fyp/screens/screens.dart';
 
+import '../screens/admin/admin_add_product.dart';
 import '../screens/inventory/producttype/custom_item.dart';
 import '../screens/inventory/producttype/shoes.dart';
 
-class ProductsCarousel extends StatefulWidget {
-  ProductsCarousel({Key? key}) : super(key: key);
+class AdminCarousel extends StatefulWidget {
+  AdminCarousel({Key? key}) : super(key: key);
 
   @override
-  _ProductsCarouselState createState() => _ProductsCarouselState();
+  _AdminCarouselState createState() => _AdminCarouselState();
 }
 
 List<Widget> cards = [
   InnerNeumorphicCardFb1(
-      text: "Explore",
+      text: "Add product",
       imageUrl:
           "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Designer_re_5v95%201.png?alt=media&token=5d053bd8-d0ea-4635-abb6-52d87539b7ec",
       subtitle: "+30 books",
-      onPressed: () {}),
+      onPressed: () {
+        Get.to(AdminAddProduct());
+      }),
   InnerNeumorphicCardFb1(
       text: "Custom Products",
       imageUrl:
@@ -31,7 +34,31 @@ List<Widget> cards = [
         Get.to(CustomItemPage());
       }),
   InnerNeumorphicCardFb1(
-      text: "Footwear",
+      text: "Remove Product",
+      imageUrl:
+          "https://p7.hiclipart.com/preview/967/334/474/nike-free-shoe-nike-air-max-running-jogging-shoes.jpg",
+      // "https://img.freepik.com/free-photo/floating-shoe-gray-background-street-style-fashion_77190-6739.jpg",
+      //"https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Working_late_re_0c3y%201.png?alt=media&token=7b880917-2390-4043-88e5-5d58a9d70555",
+      // "https://media.gq.com/photos/60edfcd6bd0e74508541a513/master/w_2000,h_1333,c_limit/Nike-Pegasus-Trail-3-shoe.jpg",
+      // "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Working_late_re_0c3y%201.png?alt=media&token=7b880917-2390-4043-88e5-5d58a9d70555",
+      subtitle: "Browse all footwear",
+      onPressed: () {
+        Get.to(ShoesPage());
+      }),
+  InnerNeumorphicCardFb1(
+      text: "Update Product",
+      imageUrl:
+          "https://p7.hiclipart.com/preview/967/334/474/nike-free-shoe-nike-air-max-running-jogging-shoes.jpg",
+      // "https://img.freepik.com/free-photo/floating-shoe-gray-background-street-style-fashion_77190-6739.jpg",
+      //"https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Working_late_re_0c3y%201.png?alt=media&token=7b880917-2390-4043-88e5-5d58a9d70555",
+      // "https://media.gq.com/photos/60edfcd6bd0e74508541a513/master/w_2000,h_1333,c_limit/Nike-Pegasus-Trail-3-shoe.jpg",
+      // "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Working_late_re_0c3y%201.png?alt=media&token=7b880917-2390-4043-88e5-5d58a9d70555",
+      subtitle: "Browse all footwear",
+      onPressed: () {
+        Get.to(ShoesPage());
+      }),
+  InnerNeumorphicCardFb1(
+      text: "View Customers",
       imageUrl:
           "https://p7.hiclipart.com/preview/967/334/474/nike-free-shoe-nike-air-max-running-jogging-shoes.jpg",
       // "https://img.freepik.com/free-photo/floating-shoe-gray-background-street-style-fashion_77190-6739.jpg",
@@ -44,7 +71,7 @@ List<Widget> cards = [
       }),
 ];
 
-class _ProductsCarouselState extends State<ProductsCarousel> {
+class _AdminCarouselState extends State<AdminCarousel> {
   // - - - - - - - - - - - - Instructions - - - - - - - - - - - - - -
   // 1.Replace cards list with whatever widgets you'd like.
   // 2.Change the widgetMargin attribute, to ensure good spacing on all screensize.
@@ -291,4 +318,3 @@ class InnerNeumorphicCardFb1 extends StatelessWidget {
     );
   }
 }
-

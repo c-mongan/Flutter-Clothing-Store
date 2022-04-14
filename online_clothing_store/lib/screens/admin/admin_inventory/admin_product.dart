@@ -5,30 +5,32 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import 'package:health_app_fyp/model/product.dart';
+import 'package:health_app_fyp/screens/admin/admin_inventory/signincrypto.dart';
 import 'package:health_app_fyp/widgets/customised_appbar.dart';
-import '../../constants/colors.dart';
-import '../../constants/layout_constants.dart';
-import '../../constants/style.dart';
-import '../../controllers/basket_controller.dart';
-import '../../controllers/product_controller.dart';
-import '../../designpatterns/command/index.dart';
-import '../../widgets/customised_navbar.dart';
+
+import '../../../constants/colors.dart';
+import '../../../constants/layout_constants.dart';
+import '../../../constants/style.dart';
+import '../../../controllers/basket_controller.dart';
+import '../../../controllers/product_controller.dart';
+import '../../../designpatterns/command/command_history.dart';
+import '../../../widgets/customised_navbar.dart';
 
 // ignore: must_be_immutable
-class ProductPage extends StatefulWidget {
+class AdminProductPage extends StatefulWidget {
   // static const String routeName = '/product';
 
   final Product product;
-  ProductPage({
+  AdminProductPage({
     Key? key,
     required this.product,
   }) : super(key: key);
 
   @override
-  State<ProductPage> createState() => _ProductPageState();
+  State<AdminProductPage> createState() => _AdminProductPageState();
 }
 
-class _ProductPageState extends State<ProductPage> {
+class _AdminProductPageState extends State<AdminProductPage> {
   final basketController = Get.put(BasketController());
 
   String uid = FirebaseAuth.instance.currentUser!.uid;
@@ -42,38 +44,12 @@ class _ProductPageState extends State<ProductPage> {
   bool fifthIsSelected = false;
   bool isSubmitted = false;
 
-  final Item _item = Item.initial();
-
   bool showCustomisation = false;
   bool showDetails = true;
   bool showReviews = false;
 
   late String color;
   late String initialColor;
-
-  // _showCustomisation(showCustomisation) {
-  //   if (showCustomisation == false) {
-  //     setState(() {
-  //       showCustomisation = false;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       showCustomisation = true;
-  //     });
-  //   }
-  // }
-
-  // _showDetails(showDetails) {
-  //   if (showDetails == false) {
-  //     setState(() {
-  //       showDetails = false;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       showDetails = true;
-  //     });
-  //   }
-  // }
 
   Color displayColor(String color) {
     switch (color) {
@@ -105,132 +81,6 @@ class _ProductPageState extends State<ProductPage> {
 
       default:
         return Colors.transparent;
-    }
-  }
-
-  void _changeColor() {
-    // print(_item.color.toString() + " first ");
-    final command = ChangeColorCommand(_item);
-    _executeCommand(command);
-    print(_commandHistory.commandHistoryList);
-  }
-
-  void _executeCommand(Command command) {
-    setState(() {
-      command.execute();
-      _commandHistory.add(command);
-      print(_commandHistory.commandHistoryList);
-    });
-  }
-
-  void _changeSize() {
-    final command = ChangeSizeCommand(_item);
-    _executeCommand(command);
-    selectSize(_item);
-    print(_commandHistory.commandHistoryList);
-  }
-
-  void _undo() {
-    setState(() {
-      int i = _commandHistory.commandHistoryList.length;
-
-      if (_commandHistory.commandHistoryList.isEmpty) {
-        print("Empty");
-        print(_commandHistory.commandHistoryList);
-      } else if (_commandHistory.commandHistoryList[i - 1] == "Change color" &&
-          i != -1) {
-        // _item.color = initialColor;
-        //  undoSelectColor(_item);
-
-        _commandHistory.undo();
-
-        print(_commandHistory.commandHistoryList);
-      } else if (_commandHistory.commandHistoryList[i - 1] == "Change Size" &&
-          i != -1) {
-        undoSelectSize(_item);
-
-        _commandHistory.undo();
-        print(_commandHistory.commandHistoryList);
-        // print(_item.size);
-      }
-      // for (int i = 0; i < _commandHistory.commandHistoryList.length; i++) {
-      //   if (_commandHistory.commandHistoryList[i] == "Change Size") {
-      //     undoSelectSize(_item);
-      //     _commandHistory.undo();
-      //   }
-      // }
-      // _commandHistory.undo();
-    });
-  }
-
-  void undoSelectSize(_item) {
-    switch (_item.size) {
-      case "Medium":
-        //firstIsSelected = true;
-        secondIsSelected = false;
-        thirdIsSelected = false;
-        firstIsSelected = !firstIsSelected;
-        fourthIsSelected = false;
-        break;
-      case "Large":
-        //  secondIsSelected = true;
-        firstIsSelected = false;
-        thirdIsSelected = false;
-        secondIsSelected = !secondIsSelected;
-        fourthIsSelected = false;
-        break;
-      case "Extra Large":
-        // thirdIsSelected = true;
-        firstIsSelected = false;
-        secondIsSelected = false;
-        thirdIsSelected = !thirdIsSelected;
-        fourthIsSelected = false;
-        break;
-      case "Small":
-        fourthIsSelected = true;
-        firstIsSelected = false;
-        secondIsSelected = false;
-        thirdIsSelected = false;
-        //fourthIsSelected = !fourthIsSelected;
-
-        break;
-      // case "Extra Extra Large":
-      //   fifthIsSelected = true;
-      //   break;
-    }
-  }
-
-  void selectSize(_item) {
-    switch (_item.size) {
-      case "Small":
-        //firstIsSelected = true;
-        secondIsSelected = false;
-        thirdIsSelected = false;
-        firstIsSelected = !firstIsSelected;
-        fourthIsSelected = false;
-        break;
-      case "Medium":
-        //  secondIsSelected = true;
-        firstIsSelected = false;
-        thirdIsSelected = false;
-        secondIsSelected = !secondIsSelected;
-        fourthIsSelected = false;
-        break;
-      case "Large":
-        // thirdIsSelected = true;
-        firstIsSelected = false;
-        secondIsSelected = false;
-        thirdIsSelected = !thirdIsSelected;
-        fourthIsSelected = false;
-        break;
-      case "Extra Large":
-        // fourthIsSelected = true;
-        firstIsSelected = false;
-        secondIsSelected = false;
-        thirdIsSelected = false;
-        fourthIsSelected = !fourthIsSelected;
-
-        break;
     }
   }
 
@@ -315,45 +165,6 @@ class _ProductPageState extends State<ProductPage> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  FloatingActionButton(
-                                    backgroundColor: Colors.black,
-                                    elevation: 0,
-                                    onPressed: () {
-                                      //FIRE BASE ADD TO FAVOURITES
-
-                                      FirebaseFirestore.instance
-                                          .collection('wishlist')
-                                          .add({
-                                        'userID': uid,
-                                        'color1': widget.product.color,
-                                        'color2': widget.product.color2,
-                                        'category': widget.product.category,
-                                        // 'size': widget.product.size,
-                                        // 'productID': widget.product.uid,
-                                        "dateTime": DateTime.now(),
-                                        'description':
-                                            widget.product.description,
-                                        'price': widget.product.price,
-                                        'manufacturer':
-                                            widget.product.manufacturer,
-                                        'name': widget.product.name,
-                                        'imageUrl': widget.product.imageUrl,
-                                      });
-
-                                      Fluttertoast.showToast(
-                                          msg: "Added to favourites",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.TOP,
-                                          timeInSecForIosWeb: 1,
-                                          backgroundColor: Colors.black,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
-                                    },
-                                    child: const Icon(
-                                      Icons.favorite_border,
-                                      color: Colors.white,
-                                    ),
-                                  )
                                 ],
                               ),
                               SizedBox(height: 25),
@@ -415,49 +226,27 @@ class _ProductPageState extends State<ProductPage> {
                                           )),
                                       SizedBox(width: 8),
                                       // TabTitle(label: 'Review', selected: false),
-                                      TextButton(
-                                          style: TextButton.styleFrom(
-                                            textStyle: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.white),
-                                          ),
-                                          onPressed: () {
-                                            if (showCustomisation == false) {
-                                              setState(() {
-                                                showCustomisation = true;
-                                                showDetails = false;
-                                                showReviews = false;
-                                              });
-                                              // } else if (showCustomisation ==
-                                              //     true) {
-                                              //   setState(
-                                              //     () {
-                                              //       showCustomisation = false;
-                                              //       showDetails = true;
-                                              //     },
-                                              //   );
-                                            }
-                                          },
-                                          child: Text(
-                                            'Customise',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ))
                                     ],
                                   ),
                                 ],
                               ),
                               if (showDetails == true) ...[
+                                PriceInput(),
+                                StockInput(),
+                                // ConfirmStockInput(),
                                 SizedBox(height: 30),
-                                NeumorphicButton(
-                                  child: Text(
-                                    'Add to Cart',
-                                    style: TextStyle(color: Colors.white),
+                                Center(
+                                  child: NeumorphicButton(
+                                    child: Text(
+                                      'Add to Cart',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () =>
+                                        basketController.addProduct(
+                                            productController.products[index],
+                                            index),
                                   ),
-                                  onPressed: () => basketController.addProduct(
-                                      productController.products[index], index),
-                                ),
+                                )
                               ],
 
                               if (showReviews == true) ...[
@@ -525,184 +314,6 @@ class _ProductPageState extends State<ProductPage> {
                                   onPressed: () => basketController.addProduct(
                                       productController.products[index], index),
                                 ),
-                              ],
-                              if (showCustomisation == true) ...[
-                                Divider(color: Colors.white, height: 3),
-                                SizedBox(height: 25),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                // Divider(color: Colors.white, height: 3),
-                                // Text("Change Color"),
-                                Divider(color: Colors.white, height: 3),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          _changeColor();
-                                        });
-                                      },
-                                      child: Button(
-                                        selector: true,
-                                        color: getColor(_item),
-                                        submitted: isSubmitted,
-                                        text: "",
-                                      ),
-                                    ),
-                                    SizedBox(width: 35),
-                                    NeumorphicButton(
-                                        child: Text(
-                                          'Change Color',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        onPressed: _changeColor),
-                                    SizedBox(width: 3),
-                                  ],
-                                ),
-
-                                Divider(color: Colors.white, height: 3),
-                                SizedBox(
-                                  height: 35,
-                                ),
-                                // Divider(color: Colors.white, height: 3),
-                                // Text("Change Size"),
-                                Divider(color: Colors.white, height: 3),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          _changeSize();
-                                        });
-                                      },
-                                      child: Button(
-                                        selector: firstIsSelected,
-                                        color: Colors.black,
-                                        submitted: isSubmitted,
-                                        text: "S",
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          _changeSize();
-                                          // firstIsSelected = false;
-                                          // thirdIsSelected = false;
-                                          // secondIsSelected = !secondIsSelected;
-                                          // fourthIsSelected = false;
-                                          // _item.height = "Medium";
-                                        });
-                                      },
-                                      child: Button(
-                                        selector: secondIsSelected,
-                                        color: Colors.black,
-                                        submitted: isSubmitted,
-                                        text: "M",
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          _changeSize();
-                                        });
-                                      },
-                                      child: Button(
-                                        selector: thirdIsSelected,
-                                        color: Colors.black,
-                                        submitted: isSubmitted,
-                                        text: "L",
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          _changeSize();
-                                        });
-                                      },
-                                      child: Button(
-                                        selector: fourthIsSelected,
-                                        color: Colors.black,
-                                        submitted: isSubmitted,
-                                        text: "XL",
-                                      ),
-                                    ),
-                                    SizedBox(width: 55),
-                                    NeumorphicButton(
-                                        child: Text(
-                                          'Change Size',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        onPressed: _changeSize),
-                                  ],
-                                ),
-
-                                Divider(color: Colors.white, height: 3),
-                                SizedBox(
-                                  height: 35,
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    NeumorphicButton(
-                                      child: Text(
-                                        'Add to Cart',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      onPressed: () =>
-                                          basketController.addProduct(
-                                              productController.products[index],
-                                              index),
-                                    ),
-                                    SizedBox(
-                                      width: 150,
-                                    ),
-                                    NeumorphicButton(
-                                      child: Text(
-                                        'Undo',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      onPressed: _undo,
-                                    ),
-                                  ],
-                                ),
-                                // ] else if (showCustomisation = false) ...[
-                                //   Divider(color: Colors.white, height: 3),
-                                //   SizedBox(height: 25),
-                                //   SizedBox(
-                                //     height: 5,
-                                //   ),
-                                //   // Divider(color: Colors.white, height: 3),
-                                //   // Text("Change Color"),
-                                //   Divider(color: Colors.white, height: 3),
-                                //   Row(
-                                //       mainAxisSize: MainAxisSize.max,
-                                //       mainAxisAlignment:
-                                //           MainAxisAlignment.spaceBetween,
-                                //       children: [
-                                //         //   // Divider(color: Colors.white, height: 3),
-                                //         //   // SizedBox(
-                                //         //   //   height: 35,
-                                //         //   // ),
-                                //         Row(
-                                //           children: <Widget>[
-                                //             NeumorphicButton(
-                                //               child: const Text('Add to Cart'),
-                                //               onPressed: () =>
-                                //                   basketController.addProduct(
-                                //                       productController
-                                //                           .products[index],
-                                //                       index),
-                                //             ),
-                                //           ],
-                                //         )
-                                //       ])
-                                // ],
                               ],
                             ]),
                       ))))
@@ -963,5 +574,184 @@ class _NeumorphicButtonState extends State<NeumorphicButton> {
 extension ColorUtils on Color {
   Color mix(Color another, double amount) {
     return Color.lerp(this, another, amount)!;
+  }
+}
+
+class PriceInput extends StatelessWidget {
+  const PriceInput({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Price",
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                color: Colors.white.withOpacity(.9)),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Container(
+            height: 50,
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                  offset: const Offset(12, 26),
+                  blurRadius: 50,
+                  spreadRadius: 0,
+                  color: Colors.grey.withOpacity(.1)),
+            ]),
+            child: TextField(
+              onChanged: (value) {
+                //Do something wi
+              },
+              style: const TextStyle(fontSize: 14, color: Colors.white),
+              decoration: InputDecoration(
+                // prefixIcon: Icon(Icons.Price),
+                filled: true,
+                fillColor: const Color(0xff161C22),
+                hintText: 'Update Price',
+                hintStyle: TextStyle(color: Colors.grey.withOpacity(.75)),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                ),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class StockInput extends StatelessWidget {
+  const StockInput({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Stock",
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                color: Colors.white.withOpacity(.9)),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Container(
+            height: 50,
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                  offset: const Offset(12, 26),
+                  blurRadius: 50,
+                  spreadRadius: 0,
+                  color: Colors.grey.withOpacity(.1)),
+            ]),
+            child: TextField(
+              obscureText: true,
+              onChanged: (value) {
+                //Do something wi
+              },
+              style: const TextStyle(fontSize: 14, color: Colors.white),
+              decoration: InputDecoration(
+                // prefixIcon: Icon(Icons.Price),
+                filled: true,
+                fillColor: const Color(0xff161C22),
+                hintText: 'Update stock',
+                hintStyle: TextStyle(color: Colors.grey.withOpacity(.75)),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                ),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ConfirmStockInput extends StatelessWidget {
+  const ConfirmStockInput({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Confirm Stock",
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                color: Colors.white.withOpacity(.9)),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Container(
+            height: 50,
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                  offset: const Offset(12, 26),
+                  blurRadius: 50,
+                  spreadRadius: 0,
+                  color: Colors.grey.withOpacity(.1)),
+            ]),
+            child: TextField(
+              obscureText: true,
+              onChanged: (value) {
+                //Do something wi
+              },
+              style: const TextStyle(fontSize: 14, color: Colors.white),
+              decoration: InputDecoration(
+                // prefixIcon: Icon(Icons.Price),
+                filled: true,
+                fillColor: const Color(0xff161C22),
+                hintText: 'Enter your stock',
+                hintStyle: TextStyle(color: Colors.grey.withOpacity(.75)),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                ),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 0.0),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

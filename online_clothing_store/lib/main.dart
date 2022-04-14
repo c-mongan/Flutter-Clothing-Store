@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:health_app_fyp/screens/admin/admin_inventory/admin_home.dart';
 
 import 'screens/authentication/login_screen.dart';
 import 'screens/home/home_page.dart';
@@ -74,7 +75,11 @@ class _SplashScreenState extends State<SplashScreen> {
       if (await FirebaseAuth.instance.currentUser != null) {
         Get.to(const HomePage());
       } else {
-        Get.to(const LoginScreen());
+        if (FirebaseAuth.instance.currentUser!.email == "admin123@gmail.com") {
+          Get.to(const AdminHomePage());
+        } else {
+          Get.to(const LoginScreen());
+        }
       }
     });
   }

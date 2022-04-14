@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:health_app_fyp/screens/authentication/login_screen.dart';
 import '../home/home_page.dart';
+import 'admin_inventory/admin_home.dart';
 
 class AdminLoginScreen extends StatefulWidget {
   const AdminLoginScreen({Key? key}) : super(key: key);
@@ -230,7 +231,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                   Fluttertoast.showToast(msg: "Login Successful! "),
                   //Login Success message
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => HomePage())),
+                      MaterialPageRoute(builder: (context) => const AdminHomePage())),
                   //Navigates the user to Home Screen
                 });
       } on FirebaseAuthException catch (error) {

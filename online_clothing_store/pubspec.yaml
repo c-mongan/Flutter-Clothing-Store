@@ -79,6 +79,7 @@ dependencies:
   pay: ^1.0.7 
   faker: ^2.0.0
   flutter_credit_card: ^3.0.1
+  flutter_form_builder: ^7.1.1
   
   
  

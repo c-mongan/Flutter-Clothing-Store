@@ -2,26 +2,25 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import 'package:health_app_fyp/screens/checkout/checkout_page.dart';
-import 'package:openfoodfacts/model/parameter/SortBy.dart';
-import '../../controllers/basket_controller.dart';
-import '../../controllers/product_controller.dart';
-import '../../widgets/carosel_slider.dart';
-import '../../widgets/customised_appbar.dart';
-import '../../widgets/customised_navbar.dart';
-import '../authentication/login_screen.dart';
-import '../customised_products/customised_products.dart';
-import '../product/product_page.dart';
+import 'package:health_app_fyp/widgets/admin_carousel_slider.dart';
+import '../../../controllers/basket_controller.dart';
+import '../../../controllers/product_controller.dart';
+import '../../../widgets/carosel_slider.dart';
+import '../../../widgets/customised_appbar.dart';
+import '../../../widgets/customised_navbar.dart';
+import '../../authentication/login_screen.dart';
+import '../../customised_products/customised_products.dart';
+import '../../product/product_page.dart';
+import 'admin_product.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class AdminHomePage extends StatefulWidget {
+  const AdminHomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<AdminHomePage> createState() => _AdminHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _AdminHomePageState extends State<AdminHomePage> {
   final cartController = Get.put(BasketController());
   final productController = Get.put(ProductController());
   final BasketController controller = Get.find();
@@ -64,7 +63,7 @@ class _HomePageState extends State<HomePage> {
   String sortBy = "";
 
   Widget build(BuildContext context) => Scaffold(
-      appBar: CustomisedAppBar(title: 'Products'),
+      appBar: const CustomisedAppBar(title: 'Admin Home'),
       backgroundColor: Colors.black,
       bottomNavigationBar: const CustomisedNavigationBar(),
       body: Container(
@@ -79,12 +78,12 @@ class _HomePageState extends State<HomePage> {
               child: SingleChildScrollView(
                   child: Column(
             children: <Widget>[
-              Divider(
+              const Divider(
                 color: Colors.grey,
                 thickness: 3,
               ),
               SizedBox(
-                child: ProductsCarousel(),
+                child: AdminCarousel(),
                 height: 250,
               ),
               Divider(
@@ -238,14 +237,14 @@ class InventoryProductCard extends StatelessWidget {
           behavior: HitTestBehavior.translucent,
           onTap: (() {
             //If the item is in the custom items category, then navigate to the customised products page
-            if (productController.products[index].category == 'custom') {
-              Get.to(() => (CustomisedProductPage(
-                  product: productController.products[index])));
-            } else {
-              //If the item is not in the custom items category, then navigate to the product page
-              Get.to(() =>
-                  (ProductPage(product: productController.products[index])));
-            }
+            // if (productController.products[index].category == 'custom') {
+            //   Get.to(() => (CustomisedProductPage(
+            //       product: productController.products[index])));
+            // } else {
+            //If the item is not in the custom items category, then navigate to the product page
+            Get.to(() =>
+                (AdminProductPage(product: productController.products[index])));
+            // }
           }),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

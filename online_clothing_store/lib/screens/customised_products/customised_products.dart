@@ -355,8 +355,8 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                         'color1': widget.product.color,
                                         'color2': widget.product.color2,
                                         'category': widget.product.category,
-                                        'size': widget.product.size,
-                                        'productID': widget.product.uid,
+                                       
+                                        // 'productID': widget.product.uid,
                                         "dateTime": DateTime.now(),
                                         'description':
                                             widget.product.description,
