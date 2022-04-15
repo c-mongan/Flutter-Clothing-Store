@@ -20,7 +20,7 @@ class CheckoutProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Obx allows us to see the changes in the basket (Product dictionary _products)
+ 
     return Obx(() => SizedBox(
           height: 200,
           child: Column(children: [

@@ -19,8 +19,7 @@ class WishlistPage extends StatefulWidget {
 
   @override
   _WishlistPageState createState() => _WishlistPageState();
-  // static _AddressPageState? of(BuildContext context) =>
-  //     context.findAncestorStateOfType<_AddressPageState>();
+ 
 }
 
 class _WishlistPageState extends State<WishlistPage> {

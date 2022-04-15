@@ -37,10 +37,7 @@ List<Widget> cards = [
       text: "Remove Product",
       imageUrl:
           "https://p7.hiclipart.com/preview/967/334/474/nike-free-shoe-nike-air-max-running-jogging-shoes.jpg",
-      // "https://img.freepik.com/free-photo/floating-shoe-gray-background-street-style-fashion_77190-6739.jpg",
-      //"https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Working_late_re_0c3y%201.png?alt=media&token=7b880917-2390-4043-88e5-5d58a9d70555",
-      // "https://media.gq.com/photos/60edfcd6bd0e74508541a513/master/w_2000,h_1333,c_limit/Nike-Pegasus-Trail-3-shoe.jpg",
-      // "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Working_late_re_0c3y%201.png?alt=media&token=7b880917-2390-4043-88e5-5d58a9d70555",
+      
       subtitle: "Browse all footwear",
       onPressed: () {
         Get.to(ShoesPage());
@@ -49,10 +46,7 @@ List<Widget> cards = [
       text: "Update Product",
       imageUrl:
           "https://p7.hiclipart.com/preview/967/334/474/nike-free-shoe-nike-air-max-running-jogging-shoes.jpg",
-      // "https://img.freepik.com/free-photo/floating-shoe-gray-background-street-style-fashion_77190-6739.jpg",
-      //"https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Working_late_re_0c3y%201.png?alt=media&token=7b880917-2390-4043-88e5-5d58a9d70555",
-      // "https://media.gq.com/photos/60edfcd6bd0e74508541a513/master/w_2000,h_1333,c_limit/Nike-Pegasus-Trail-3-shoe.jpg",
-      // "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Working_late_re_0c3y%201.png?alt=media&token=7b880917-2390-4043-88e5-5d58a9d70555",
+     
       subtitle: "Browse all footwear",
       onPressed: () {
         Get.to(ShoesPage());
@@ -61,10 +55,7 @@ List<Widget> cards = [
       text: "View Customers",
       imageUrl:
           "https://p7.hiclipart.com/preview/967/334/474/nike-free-shoe-nike-air-max-running-jogging-shoes.jpg",
-      // "https://img.freepik.com/free-photo/floating-shoe-gray-background-street-style-fashion_77190-6739.jpg",
-      //"https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Working_late_re_0c3y%201.png?alt=media&token=7b880917-2390-4043-88e5-5d58a9d70555",
-      // "https://media.gq.com/photos/60edfcd6bd0e74508541a513/master/w_2000,h_1333,c_limit/Nike-Pegasus-Trail-3-shoe.jpg",
-      // "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Working_late_re_0c3y%201.png?alt=media&token=7b880917-2390-4043-88e5-5d58a9d70555",
+      
       subtitle: "Browse all footwear",
       onPressed: () {
         Get.to(ShoesPage());
@@ -75,8 +66,6 @@ class _AdminCarouselState extends State<AdminCarousel> {
   // - - - - - - - - - - - - Instructions - - - - - - - - - - - - - -
   // 1.Replace cards list with whatever widgets you'd like.
   // 2.Change the widgetMargin attribute, to ensure good spacing on all screensize.
-  // 3.If you have a problem with this widget, please contact us at flutterbricks90@gmail.com
-  // Learn to build this widget at https://www.youtube.com/watch?v=dSMw1Nb0QVg!
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   final double carouselItemMargin = 16;
@@ -121,70 +110,6 @@ class _AdminCarouselState extends State<AdminCarousel> {
   }
 }
 
-// class CardFb1 extends StatelessWidget {
-//   final String text;
-//   final String imageUrl;
-//   final String subtitle;
-//   final Function() onPressed;
-
-//   const CardFb1(
-//       {required this.text,
-//       required this.imageUrl,
-//       required this.subtitle,
-//       required this.onPressed,
-//       Key? key})
-//       : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       onTap: onPressed,
-//       child: Container(
-//         width: 250,
-//         height: 250,
-//         padding: const EdgeInsets.all(30.0),
-//         decoration: BoxDecoration(
-//           color: Colors.white,
-//           borderRadius: BorderRadius.circular(12.5),
-//           boxShadow: [
-//             BoxShadow(
-//                 offset: const Offset(10, 20),
-//                 blurRadius: 10,
-//                 spreadRadius: 0,
-//                 color: Colors.grey.withOpacity(.05)),
-//           ],
-//         ),
-//         child: Column(
-//           children: [
-//             Image.network(imageUrl, height: 90, fit: BoxFit.cover),
-//             const Spacer(),
-//             Text(text,
-//                 textAlign: TextAlign.center,
-//                 style: const TextStyle(
-//                   color: Colors.white,
-//                   fontWeight: FontWeight.bold,
-//                   fontSize: 18,
-//                 )),
-//             const SizedBox(
-//               height: 5,
-//             ),
-//             Text(
-//               subtitle,
-//               textAlign: TextAlign.center,
-//               style: const TextStyle(
-//                   color: Colors.grey,
-//                   fontWeight: FontWeight.normal,
-//                   fontSize: 12),
-//             ),
-//             const SizedBox(
-//               height: 10,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class NeumorphicCard extends StatefulWidget {
   final String text;

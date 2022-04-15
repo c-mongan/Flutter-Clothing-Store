@@ -20,19 +20,10 @@ class AddressPage extends StatefulWidget {
 
   @override
   _AddressPageState createState() => _AddressPageState();
-  // static _AddressPageState? of(BuildContext context) =>
-  //     context.findAncestorStateOfType<_AddressPageState>();
+ 
 }
 
 var data = Get.arguments;
-
-// isProducts(data) {
-//   if (data.length != 2) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// }
 
 final firstNameEditingController = TextEditingController();
 
@@ -187,62 +178,14 @@ class _AddressPageState extends State<AddressPage> {
                 ),
 
                 SizedBox(height: 20),
-                // Container(
-                //     width: MediaQuery.of(context).size.width,
-                //     height: 60,
-                //     alignment: Alignment.bottomCenter,
-                //     decoration: BoxDecoration(color: Colors.black),
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //       children: [
-                //         Center(
-                //             //         child: Text(
-                //             //           'SELECT A PAYMENT METHOD',
-                //             //           style: ,
-                //             //         ),
-                //             //       ),
-                //             //       IconButton(
-                //             //         onPressed: () {},
-                //             //         icon: Icon(
-                //             //           Icons.arrow_forward,
-                //             //           color: Colors.white,
-                //             //         ),
-                //             //       )
-                //             //     ],
-                //             //   ),
-                //             // ),
-                //             // SizedBox(height: 20),
-                //             ),
-                //         // Text(
-                //         //   'ORDER SUMMARY',
-                //         //   style: TextStyle(
-                //         //       fontSize: 20,
-                //         //       fontWeight: FontWeight.bold,
-                //         //       color: Colors.black),
-                //         // ),
-                //         // if ((isProducts(data))) ...[
-                //         //   const SizedBox(height: 200),
-                //         //   const Text(
-                //         //     "             Your basket is empty",
-                //         //     style: TextStyle(fontSize: 20),
-                //         //     textAlign: TextAlign.center,
-                //         //   ),
-                //         // ] else if (isProducts(data) == false) ...[
+                
                 OrderDetails(
                   deliveryCostStrategy: data[0],
                   order: data[1],
                 ),
               ],
             ))));
-    // ));
-    // // ),]
-
-    //     )));
-    // ;
-    //      ; ]) // <-- wrap this around
-    //         ),
-    //   );
-    // }
+  
   }
 }
 
@@ -285,17 +228,17 @@ class TextBox extends StatelessWidget {
           child: TextField(
             controller: inputController,
             onChanged: (value) {
-              //Do something wi
+           
             },
             keyboardType: TextInputType.emailAddress,
             style: const TextStyle(fontSize: 14, color: Colors.black),
             decoration: InputDecoration(
               label: Text(text),
               labelStyle: const TextStyle(color: primaryColor),
-              // prefixIcon: Icon(Icons.email),
+             
               filled: true,
               fillColor: accentColor,
-              // hintText: 'support@flutterbricks.com',
+               
               hintStyle: TextStyle(color: Colors.grey.withOpacity(.75)),
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),

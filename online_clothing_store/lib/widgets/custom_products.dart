@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../controllers/basket_controller.dart';
 import '../controllers/product_controller.dart';
 import '../screens/customised_products/customised_products.dart';
-import '../screens/product/product_page.dart';
+
 
 class CustomProducts extends StatelessWidget {
   final productController = Get.put(ProductController());

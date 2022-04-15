@@ -100,8 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
           //When the button is pressed , use the controllers to set the text
           onPressed: () {
             signIn(emailController.text, passwordController.text);
-            //Navigator.pushReplacement(context,
-            // MaterialPageRoute(builder: (context) => const HomeScreen()));
+          
           },
           child: const Text(
             "Login",
@@ -112,40 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     return Scaffold(
-        // body: Center(
-        //     child: Container(
-        //         decoration: BoxDecoration(
-        //             gradient: LinearGradient(
-        //           begin: Alignment.topRight,
-        //           end: Alignment.bottomLeft,
-        //           colors: [
-        //             Colors.blue,
-        //             Colors.red,
-        //           ],
-        //         )),
-        //         // body: Center(
-        //         child: SingleChildScrollView(
-        //             // child: Container(
-        //             //     width: MediaQuery.of(context).size.width,
-        //             //     height: MediaQuery.of(context).size.height,
-        //             //     decoration: BoxDecoration(
-        //             //         gradient: LinearGradient(
-        //             //             // colors: [Colors.red, Colors.white, Colors.red],
-        //             //             colors: [
-        //             //           Colors.red,
-        //             //           Colors.blue,
-        //             //           // Colors.red,
-        //             //           //Colors.blue,
-
-        //             //           // Colors.orange,
-        //             //         ],
-        //             //             begin: Alignment.topCenter,
-        //             //             end: Alignment.bottomCenter)),
-        //             child: Container(
-        //                 color: Colors.white,
-        //                 child: Padding(
-        //                   padding: const EdgeInsets.all(36.0),
-
+       
         body: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -155,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Colors.grey,
             ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
             child: SingleChildScrollView(
-                // <-- wrap this around
+           
                 child: Column(children: <Widget>[
               Center(
                   child: Padding(
@@ -166,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: <Widget>[
                             Form(
                               key: _formKey,
-                              // child:
+                           
 
                               child: SafeArea(
                                 child: SingleChildScrollView(
@@ -180,12 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         SizedBox(
                                           height: 50.0,
 
-                                          //Image goes here
-
-                                          // child: Image.asset(
-                                          //   "assets/images/logo.png",
-                                          //   fit: BoxFit.contain,
-                                          // ),
+                                         
                                         ),
                                         Text(
                                           "CM Menswear",
@@ -194,14 +155,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white,
                                           ),
-                                          // color: Color.fromARGB(255, 74, 134, 204)),
+                                        
                                         ),
                                         SizedBox(
                                           height: 200,
-                                          // child: Image.asset(
-                                          //   "assets/healthy1.png",
-                                          //   fit: BoxFit.contain,
-                                          // )
+                                         
                                         ),
                                         Text(
                                           "Login",
@@ -247,15 +205,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: <Widget>[
-                                            // const Text("Admin "),
+                                          
                                             GestureDetector(
                                               onTap: () {
                                                 Get.to(AdminLoginScreen());
-                                                // Navigator.push(
-                                                //     context,
-                                                //     MaterialPageRoute(
-                                                //         builder: (context) =>
-                                                //             const RegistrationScreen())); //This sends the user to sign up if they click it
+                                              
                                               },
                                               child: const Text("Admin",
                                                   style: TextStyle(
@@ -316,8 +270,8 @@ class _LoginScreenState extends State<LoginScreen> {
             errorMessage = "An unexpected Error has occurred.";
         }
         Fluttertoast.showToast(msg: errorMessage!);
-        // ignore: avoid_print
-        print(error.code);
+    
+       
       }
     }
   }

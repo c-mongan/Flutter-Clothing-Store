@@ -24,14 +24,11 @@ class CustomisedAppBar extends StatelessWidget with PreferredSizeWidget {
         child: Text(
           title,
           style:
-              // Theme.of(context)
-              //     .textTheme
-              //     .headline3!
-              //     .copyWith(color: Colors.white)
+            
               const TextStyle(
                   color: Colors.white,
                   fontSize: 24,
-                  //  fontFamily: 'Avenir',
+                 
                   fontWeight: FontWeight.bold),
         ),
       ),
@@ -40,7 +37,7 @@ class CustomisedAppBar extends StatelessWidget with PreferredSizeWidget {
       actions: [
         IconButton(
           onPressed: () {
-            // Navigator.pushNamed(context, '/wish');
+          
             Get.to(WishlistPage());
           },
           icon: const Icon(Icons.favorite_outline_sharp),

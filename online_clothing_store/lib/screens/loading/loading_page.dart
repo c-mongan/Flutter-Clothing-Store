@@ -2,15 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class LoadingPage extends StatelessWidget {
-  static const String routeName = '/splash';
 
-  static Route route() {
-    return MaterialPageRoute(
-      settings: RouteSettings(name: routeName),
-      builder: (context) => LoadingPage(),
-    );
-  }
 
+  
   @override
   Widget build(BuildContext context) {
     Timer(Duration(seconds: 2), () => Navigator.pushNamed(context, '/'));

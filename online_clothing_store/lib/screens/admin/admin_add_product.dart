@@ -83,7 +83,7 @@ class AdminAddProduct extends StatelessWidget {
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                              // prefixIcon: Icon(Icons.Price),
+                           
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Name',
@@ -138,11 +138,11 @@ class AdminAddProduct extends StatelessWidget {
                             obscureText: true,
                             onChanged: (value) {
                               value = priceController.text;
-                              //Do something wi
+                            
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                              // prefixIcon: Icon(Icons.Price),
+                            
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Price',
@@ -197,11 +197,11 @@ class AdminAddProduct extends StatelessWidget {
                             obscureText: true,
                             onChanged: (value) {
                               value = descriptionController.text;
-                              //Do something wi
+                        
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                              // prefixIcon: Icon(Icons.email),
+                           
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Description',
@@ -258,7 +258,7 @@ class AdminAddProduct extends StatelessWidget {
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                              // prefixIcon: Icon(Icons.Price),
+                        
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Category',
@@ -315,7 +315,7 @@ class AdminAddProduct extends StatelessWidget {
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                              // prefixIcon: Icon(Icons.Price),
+                             
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Manufacturer',
@@ -372,7 +372,7 @@ class AdminAddProduct extends StatelessWidget {
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                              // prefixIcon: Icon(Icons.Price),
+                            
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Primary Color',
@@ -429,7 +429,7 @@ class AdminAddProduct extends StatelessWidget {
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                              // prefixIcon: Icon(Icons.Price),
+                            
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Alternative Color',
@@ -486,7 +486,7 @@ class AdminAddProduct extends StatelessWidget {
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                              // prefixIcon: Icon(Icons.Price),
+                          
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Quantity',
@@ -543,7 +543,7 @@ class AdminAddProduct extends StatelessWidget {
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                              // prefixIcon: Icon(Icons.Price),
+                           
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Image URL',
@@ -588,16 +588,7 @@ class AdminAddProduct extends StatelessWidget {
                         child: Text("Add Product",
                             style: TextStyle(color: Colors.white)),
                         onPressed: () {
-                          // TextEditingController nameController = TextEditingController();
-                          // TextEditingController priceController = TextEditingController();
-                          // TextEditingController descriptionController = TextEditingController();
-                          // TextEditingController categoryController = TextEditingController();
-                          // TextEditingController manufacturerController = TextEditingController();
-                          // TextEditingController colorController = TextEditingController();
-                          // TextEditingController color2Controller = TextEditingController();
-                          // TextEditingController stockController = TextEditingController();
-                          //  TextEditingController imgController = TextEditingController();
-
+//Auto generates ID for the product
                           String autoID = FirebaseFirestore.instance
                               .collection("product")
                               .doc()
@@ -661,7 +652,7 @@ class ImageUrlInput extends StatelessWidget {
               },
               style: TextStyle(fontSize: 14, color: Colors.white),
               decoration: InputDecoration(
-                // prefixIcon: Icon(Icons.Price),
+             
                 filled: true,
                 fillColor: Color(0xff161C22),
                 hintText: 'Enter Product Image URL',
@@ -685,150 +676,7 @@ class ImageUrlInput extends StatelessWidget {
   }
 }
 
-// class AltColorInput extends StatelessWidget {
-//   AltColorInput({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: EdgeInsets.all(15.0),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             "Alternative Color",
-//             style: TextStyle(
-//                 fontSize: 14,
-//                 fontWeight: FontWeight.normal,
-//                 color: Colors.white.withOpacity(.9)),
-//           ),
-//           SizedBox(
-//             height: 8,
-//           ),
-//           Container(
-//             height: 50,
-//             decoration: BoxDecoration(boxShadow: [
-//               BoxShadow(
-//                   offset: Offset(12, 26),
-//                   blurRadius: 50,
-//                   spreadRadius: 0,
-//                   color: Colors.grey.withOpacity(.1)),
-//             ]),
-//             child: TextField(
-//               onChanged: (value) {
-//                 String color2 = value;
-//               },
-//               style: TextStyle(fontSize: 14, color: Colors.white),
-//               decoration: InputDecoration(
-//                 // prefixIcon: Icon(Icons.Price),
-//                 filled: true,
-//                 fillColor: Color(0xff161C22),
-//                 hintText: 'Enter Product Alternative Color',
-//                 hintStyle: TextStyle(color: Colors.grey.withOpacity(.75)),
-//                 contentPadding:
-//                     EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-//                 border: OutlineInputBorder(
-//                   borderSide: BorderSide(color: Colors.white, width: 0.0),
-//                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
-//                 ),
-//                 focusedBorder: OutlineInputBorder(
-//                   borderSide: BorderSide(color: Colors.white, width: 0.0),
-//                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// class ColorInput extends StatelessWidget {
-//   ColorInput({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ;
-//   }
-// }
-
-// class ManufacturerInput extends StatelessWidget {
-//   ManufacturerInput({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-// }
-
-// class CategoryInput extends StatelessWidget {
-//   CategoryInput({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-// }
-
-// class QuantityInput extends StatelessWidget {
-//   QuantityInput({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: EdgeInsets.all(15.0),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             " Quantity",
-//             style: TextStyle(
-//                 fontSize: 14,
-//                 fontWeight: FontWeight.normal,
-//                 color: Colors.white.withOpacity(.9)),
-//           ),
-//           SizedBox(
-//             height: 8,
-//           ),
-//           Container(
-//             height: 50,
-//             decoration: BoxDecoration(boxShadow: [
-//               BoxShadow(
-//                   offset: Offset(12, 26),
-//                   blurRadius: 50,
-//                   spreadRadius: 0,
-//                   color: Colors.grey.withOpacity(.1)),
-//             ]),
-//             child: TextField(
-//               onChanged: (value) {
-//                 String quantity = value;
-//               },
-//               style: TextStyle(fontSize: 14, color: Colors.white),
-//               decoration: InputDecoration(
-//                 // prefixIcon: Icon(Icons.Price),
-//                 filled: true,
-//                 fillColor: Color(0xff161C22),
-//                 hintText: 'Enter Product Quantity',
-//                 hintStyle: TextStyle(color: Colors.grey.withOpacity(.75)),
-//                 contentPadding:
-//                     EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-//                 border: OutlineInputBorder(
-//                   borderSide: BorderSide(color: Colors.white, width: 0.0),
-//                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
-//                 ),
-//                 focusedBorder: OutlineInputBorder(
-//                   borderSide: BorderSide(color: Colors.white, width: 0.0),
-//                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+ 
 
 class Heading extends StatelessWidget {
   final String text;
@@ -846,93 +694,3 @@ class Heading extends StatelessWidget {
     );
   }
 }
-
-// class ProductNameInput extends StatelessWidget {
-//  ProductNameInput({Key? key,  }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding:  EdgeInsets.all(15.0),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             "Name",
-//             style: TextStyle(
-//                 fontSize: 14,
-//                 fontWeight: FontWeight.normal,
-//                 color: Colors.white.withOpacity(.9)),
-//           ),
-//           SizedBox(
-//             height: 8,
-//           ),
-//           Container(
-//             height: 50,
-//             decoration: BoxDecoration(boxShadow: [
-//               BoxShadow(
-//                   offset:  Offset(12, 26),
-//                   blurRadius: 50,
-//                   spreadRadius: 0,
-//                   color: Colors.grey.withOpacity(.1)),
-//             ]),
-//             child: TextField(
-//               controller:
-
-//               onChanged: (value) {
-
-//               },
-//               style:  TextStyle(fontSize: 14, color: Colors.white),
-//               decoration: InputDecoration(
-//                 // prefixIcon: Icon(Icons.Price),
-//                 filled: true,
-//                 fillColor:  Color(0xff161C22),
-//                 hintText: 'Enter Product Name',
-//                 hintStyle: TextStyle(color: Colors.grey.withOpacity(.75)),
-//                 contentPadding:
-//                      EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-//                 border:  OutlineInputBorder(
-//                   borderSide: BorderSide(color: Colors.white, width: 0.0),
-//                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
-//                 ),
-//                 focusedBorder:  OutlineInputBorder(
-//                   borderSide: BorderSide(color: Colors.white, width: 0.0),
-//                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// class PriceInput extends StatelessWidget {
-//    PriceInput({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-// }
-
-// class DescriptionInput extends StatelessWidget {
-//    DescriptionInput({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-// }
-
-// class AddItemButton extends StatelessWidget {
-//   AddItemButton({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-// }

@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import 'package:health_app_fyp/model/product.dart';
-import 'package:health_app_fyp/screens/admin/admin_inventory/signincrypto.dart';
+
 import 'package:health_app_fyp/widgets/customised_appbar.dart';
 
 import '../../../constants/colors.dart';
@@ -16,9 +16,9 @@ import '../../../controllers/product_controller.dart';
 import '../../../designpatterns/command/command_history.dart';
 import '../../../widgets/customised_navbar.dart';
 
-// ignore: must_be_immutable
+
 class AdminProductPage extends StatefulWidget {
-  // static const String routeName = '/product';
+
 
   final Product product;
   AdminProductPage({
@@ -128,7 +128,7 @@ class _AdminProductPageState extends State<AdminProductPage> {
                     ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
 
                     color: Colors.black,
-                    //AppColor.secondary,
+                   
                     borderRadius: BorderRadius.circular(34),
                   ),
                   child: Padding(
@@ -150,9 +150,7 @@ class _AdminProductPageState extends State<AdminProductPage> {
                                 ),
                               ),
                               ProductNameAndPrice(product: widget.product),
-                              // SizedBox(
-                              //   height: 5,
-                              // ),
+                            
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -176,9 +174,7 @@ class _AdminProductPageState extends State<AdminProductPage> {
                                   const Spacing(),
                                   Row(
                                     children: [
-                                      // TabTitle(label: 'Details', selected: true
-
-                                      // ),
+                                      
                                       TextButton(
                                           style: TextButton.styleFrom(
                                             textStyle: TextStyle(
@@ -225,7 +221,7 @@ class _AdminProductPageState extends State<AdminProductPage> {
                                             ),
                                           )),
                                       SizedBox(width: 8),
-                                      // TabTitle(label: 'Review', selected: false),
+                                  
                                     ],
                                   ),
                                 ],
@@ -233,12 +229,12 @@ class _AdminProductPageState extends State<AdminProductPage> {
                               if (showDetails == true) ...[
                                 PriceInput(),
                                 StockInput(),
-                                // ConfirmStockInput(),
+                              
                                 SizedBox(height: 30),
                                 Center(
                                   child: NeumorphicButton(
                                     child: Text(
-                                      'Add to Cart',
+                                      'Add Product',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onPressed: () =>
@@ -274,7 +270,7 @@ class _AdminProductPageState extends State<AdminProductPage> {
                                         }
 
                                         return ListView(
-                                          //itemExtent: 75,
+                                         
                                           shrinkWrap: true,
                                           physics:
                                               const ClampingScrollPhysics(),
@@ -431,7 +427,8 @@ class ProductNameAndPrice extends StatelessWidget {
       children: [
         Text(
           product.name,
-          // style: AppStyle.h1Light,
+         
+         
           style: AppStyle.h1Light.copyWith(
               color: Colors.white, fontWeight: FontWeight.w600, fontSize: 30),
         ),
@@ -608,11 +605,11 @@ class PriceInput extends StatelessWidget {
             ]),
             child: TextField(
               onChanged: (value) {
-                //Do something wi
+               
               },
               style: const TextStyle(fontSize: 14, color: Colors.white),
               decoration: InputDecoration(
-                // prefixIcon: Icon(Icons.Price),
+              
                 filled: true,
                 fillColor: const Color(0xff161C22),
                 hintText: 'Update Price',
@@ -668,11 +665,11 @@ class StockInput extends StatelessWidget {
             child: TextField(
               obscureText: true,
               onChanged: (value) {
-                //Do something wi
+            
               },
               style: const TextStyle(fontSize: 14, color: Colors.white),
               decoration: InputDecoration(
-                // prefixIcon: Icon(Icons.Price),
+               
                 filled: true,
                 fillColor: const Color(0xff161C22),
                 hintText: 'Update stock',
@@ -728,11 +725,11 @@ class ConfirmStockInput extends StatelessWidget {
             child: TextField(
               obscureText: true,
               onChanged: (value) {
-                //Do something wi
+               
               },
               style: const TextStyle(fontSize: 14, color: Colors.white),
               decoration: InputDecoration(
-                // prefixIcon: Icon(Icons.Price),
+              
                 filled: true,
                 fillColor: const Color(0xff161C22),
                 hintText: 'Enter your stock',

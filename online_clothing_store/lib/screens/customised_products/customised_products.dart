@@ -20,9 +20,9 @@ import '../../designpatterns/decorator/widgets/product_selection.dart';
 import '../../widgets/customised_navbar.dart';
 import '../../widgets/platform_button.dart';
 
-// ignore: must_be_immutable
+
 class CustomisedProductPage extends StatefulWidget {
-  // static const String routeName = '/product';
+
 
   final Product product;
   CustomisedProductPage({
@@ -120,7 +120,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
 
   Color getColor(_item) {
     switch (_item.color) {
-      //add more color as your wish
+     
       case "1":
         return displayColor(widget.product.color);
       case "2":
@@ -136,13 +136,12 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
   }
 
   void _changeColor() {
-    // print(_item.color.toString() + " first ");
+    
     final command = ChangeColorCommand(_item);
     _executeCommand(command);
     print(_commandHistory.commandHistoryList);
 
-    //  selectColor(_item);
-    //  print(_item.color.toString() + " second ");
+  
   }
 
   void _executeCommand(Command command) {
@@ -169,8 +168,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
         print(_commandHistory.commandHistoryList);
       } else if (_commandHistory.commandHistoryList[i - 1] == "Change color" &&
           i != -1) {
-        // _item.color = initialColor;
-        //  undoSelectColor(_item);
+       
 
         _commandHistory.undo();
 
@@ -183,34 +181,28 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
         print(_commandHistory.commandHistoryList);
         // print(_item.size);
       }
-      // for (int i = 0; i < _commandHistory.commandHistoryList.length; i++) {
-      //   if (_commandHistory.commandHistoryList[i] == "Change Size") {
-      //     undoSelectSize(_item);
-      //     _commandHistory.undo();
-      //   }
-      // }
-      // _commandHistory.undo();
+    
     });
   }
 
   void undoSelectSize(_item) {
     switch (_item.size) {
       case "Medium":
-        //firstIsSelected = true;
+
         secondIsSelected = false;
         thirdIsSelected = false;
         firstIsSelected = !firstIsSelected;
         fourthIsSelected = false;
         break;
       case "Large":
-        //  secondIsSelected = true;
+    
         firstIsSelected = false;
         thirdIsSelected = false;
         secondIsSelected = !secondIsSelected;
         fourthIsSelected = false;
         break;
       case "Extra Large":
-        // thirdIsSelected = true;
+      
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = !thirdIsSelected;
@@ -221,40 +213,38 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = false;
-        //fourthIsSelected = !fourthIsSelected;
+    
 
         break;
-      // case "Extra Extra Large":
-      //   fifthIsSelected = true;
-      //   break;
+     
     }
   }
 
   void selectSize(_item) {
     switch (_item.size) {
       case "Small":
-        //firstIsSelected = true;
+        
         secondIsSelected = false;
         thirdIsSelected = false;
         firstIsSelected = !firstIsSelected;
         fourthIsSelected = false;
         break;
       case "Medium":
-        //  secondIsSelected = true;
+
         firstIsSelected = false;
         thirdIsSelected = false;
         secondIsSelected = !secondIsSelected;
         fourthIsSelected = false;
         break;
       case "Large":
-        // thirdIsSelected = true;
+     
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = !thirdIsSelected;
         fourthIsSelected = false;
         break;
       case "Extra Large":
-        // fourthIsSelected = true;
+       
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = false;
@@ -301,8 +291,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                       Colors.black,
                       Colors.grey,
                     ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-                    //  color: Colors.white,
-                    //AppColor.secondary,
+                   
                     borderRadius: BorderRadius.circular(34),
                   ),
                   child: Padding(
@@ -327,9 +316,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                 product: widget.product,
                                 customProduct: _product,
                               ),
-                              // SizedBox(
-                              //   height: 5,
-                              // ),
+                             
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -392,9 +379,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                   const Spacing(),
                                   Row(
                                     children: [
-                                      // TabTitle(label: 'Details', selected: true
-
-                                      // ),
+                                     
                                       TextButton(
                                           style: TextButton.styleFrom(
                                             textStyle: TextStyle(
@@ -441,7 +426,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                             ),
                                           )),
                                       SizedBox(width: 8),
-                                      // TabTitle(label: 'Review', selected: false),
+                             
                                       TextButton(
                                           style: TextButton.styleFrom(
                                             textStyle: TextStyle(
@@ -455,14 +440,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                                 showDetails = false;
                                                 showReviews = false;
                                               });
-                                              // } else if (showCustomisation ==
-                                              //     true) {
-                                              //   setState(
-                                              //     () {
-                                              //       showCustomisation = false;
-                                              //       showDetails = true;
-                                              //     },
-                                              //   );
+                                   
                                             }
                                           },
                                           child: Text(
@@ -538,8 +516,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                 SizedBox(
                                   height: 5,
                                 ),
-                                // Divider(color: Colors.grey, height: 3),
-                                // Text("Change Color"),
+                              
                                 Divider(color: Colors.grey, height: 3),
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -581,12 +558,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                       onTap: () {
                                         setState(() {
                                           _changeSize();
-                                          // secondIsSelected = false;
-                                          // thirdIsSelected = false;
-                                          // firstIsSelected = !firstIsSelected;
-                                          // fourthIsSelected = falsse;
-                                          // _item.height = "Small";
-                                          // // selectSize(_item);
+                                         
                                         });
                                       },
                                       child: Button(
@@ -600,11 +572,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                       onTap: () {
                                         setState(() {
                                           _changeSize();
-                                          // firstIsSelected = false;
-                                          // thirdIsSelected = false;
-                                          // secondIsSelected = !secondIsSelected;
-                                          // fourthIsSelected = false;
-                                          // _item.height = "Medium";
+                                        
                                         });
                                       },
                                       child: Button(
@@ -672,38 +640,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                     ),
                                   ],
                                 ),
-                                // ] else if (showCustomisation = false) ...[
-                                //   Divider(color: Colors.grey, height: 3),
-                                //   SizedBox(height: 25),
-                                //   SizedBox(
-                                //     height: 5,
-                                //   ),
-                                //   // Divider(color: Colors.grey, height: 3),
-                                //   // Text("Change Color"),
-                                //   Divider(color: Colors.grey, height: 3),
-                                //   Row(
-                                //       mainAxisSize: MainAxisSize.max,
-                                //       mainAxisAlignment:
-                                //           MainAxisAlignment.spaceBetween,
-                                //       children: [
-                                //         //   // Divider(color: Colors.grey, height: 3),
-                                //         //   // SizedBox(
-                                //         //   //   height: 35,
-                                //         //   // ),
-                                //         Row(
-                                //           children: <Widget>[
-                                //             NeumorphicButton(
-                                //               child: const Text('Add to Cart'),
-                                //               onPressed: () =>
-                                //                   basketController.addProduct(
-                                //                       productController
-                                //                           .products[index],
-                                //                       index),
-                                //             ),
-                                //           ],
-                                //         )
-                                //       ])
-                                // ],
+                               
                               ],
                             ]),
                       ))))
@@ -823,7 +760,7 @@ class ProductNameAndPrice extends StatelessWidget {
       children: [
         Text(
           product.name,
-          // style: AppStyle.h1Light,
+          
           style: AppStyle.h1Light.copyWith(
               color: Colors.white, fontWeight: FontWeight.w600, fontSize: 30),
         ),

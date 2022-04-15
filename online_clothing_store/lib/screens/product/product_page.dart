@@ -203,28 +203,28 @@ class _ProductPageState extends State<ProductPage> {
   void selectSize(_item) {
     switch (_item.size) {
       case "Small":
-        //firstIsSelected = true;
+    
         secondIsSelected = false;
         thirdIsSelected = false;
         firstIsSelected = !firstIsSelected;
         fourthIsSelected = false;
         break;
       case "Medium":
-        //  secondIsSelected = true;
+     
         firstIsSelected = false;
         thirdIsSelected = false;
         secondIsSelected = !secondIsSelected;
         fourthIsSelected = false;
         break;
       case "Large":
-        // thirdIsSelected = true;
+  
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = !thirdIsSelected;
         fourthIsSelected = false;
         break;
       case "Extra Large":
-        // fourthIsSelected = true;
+     
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = false;
@@ -300,9 +300,7 @@ class _ProductPageState extends State<ProductPage> {
                                 ),
                               ),
                               ProductNameAndPrice(product: widget.product),
-                              // SizedBox(
-                              //   height: 5,
-                              // ),
+                             
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -365,9 +363,7 @@ class _ProductPageState extends State<ProductPage> {
                                   const Spacing(),
                                   Row(
                                     children: [
-                                      // TabTitle(label: 'Details', selected: true
-
-                                      // ),
+                                     
                                       TextButton(
                                           style: TextButton.styleFrom(
                                             textStyle: TextStyle(
@@ -428,14 +424,7 @@ class _ProductPageState extends State<ProductPage> {
                                                 showDetails = false;
                                                 showReviews = false;
                                               });
-                                              // } else if (showCustomisation ==
-                                              //     true) {
-                                              //   setState(
-                                              //     () {
-                                              //       showCustomisation = false;
-                                              //       showDetails = true;
-                                              //     },
-                                              //   );
+                                     
                                             }
                                           },
                                           child: Text(
@@ -485,7 +474,7 @@ class _ProductPageState extends State<ProductPage> {
                                         }
 
                                         return ListView(
-                                          //itemExtent: 75,
+                                        
                                           shrinkWrap: true,
                                           physics:
                                               const ClampingScrollPhysics(),
@@ -532,8 +521,8 @@ class _ProductPageState extends State<ProductPage> {
                                 SizedBox(
                                   height: 5,
                                 ),
-                                // Divider(color: Colors.white, height: 3),
-                                // Text("Change Color"),
+                              
+                            
                                 Divider(color: Colors.white, height: 3),
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -568,8 +557,7 @@ class _ProductPageState extends State<ProductPage> {
                                 SizedBox(
                                   height: 35,
                                 ),
-                                // Divider(color: Colors.white, height: 3),
-                                // Text("Change Size"),
+                               
                                 Divider(color: Colors.white, height: 3),
                                 SizedBox(
                                   height: 5,
@@ -593,11 +581,7 @@ class _ProductPageState extends State<ProductPage> {
                                       onTap: () {
                                         setState(() {
                                           _changeSize();
-                                          // firstIsSelected = false;
-                                          // thirdIsSelected = false;
-                                          // secondIsSelected = !secondIsSelected;
-                                          // fourthIsSelected = false;
-                                          // _item.height = "Medium";
+                                         
                                         });
                                       },
                                       child: Button(
@@ -671,38 +655,7 @@ class _ProductPageState extends State<ProductPage> {
                                     ),
                                   ],
                                 ),
-                                // ] else if (showCustomisation = false) ...[
-                                //   Divider(color: Colors.white, height: 3),
-                                //   SizedBox(height: 25),
-                                //   SizedBox(
-                                //     height: 5,
-                                //   ),
-                                //   // Divider(color: Colors.white, height: 3),
-                                //   // Text("Change Color"),
-                                //   Divider(color: Colors.white, height: 3),
-                                //   Row(
-                                //       mainAxisSize: MainAxisSize.max,
-                                //       mainAxisAlignment:
-                                //           MainAxisAlignment.spaceBetween,
-                                //       children: [
-                                //         //   // Divider(color: Colors.white, height: 3),
-                                //         //   // SizedBox(
-                                //         //   //   height: 35,
-                                //         //   // ),
-                                //         Row(
-                                //           children: <Widget>[
-                                //             NeumorphicButton(
-                                //               child: const Text('Add to Cart'),
-                                //               onPressed: () =>
-                                //                   basketController.addProduct(
-                                //                       productController
-                                //                           .products[index],
-                                //                       index),
-                                //             ),
-                                //           ],
-                                //         )
-                                //       ])
-                                // ],
+                               
                               ],
                             ]),
                       ))))

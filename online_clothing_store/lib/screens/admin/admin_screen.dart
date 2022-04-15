@@ -153,7 +153,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                           fontWeight: FontWeight.bold,
                           color: Colors.lightBlue,
                         ),
-                        // color: Color.fromARGB(255, 74, 134, 204)),
+                    
                       ),
                       SizedBox(
                         height: 200,
@@ -182,7 +182,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          // const Text("Admin "),
+                      
                           GestureDetector(
                             onTap: () {
                               Get.to(const LoginScreen());
@@ -209,14 +209,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
   void signIn(String email, String password) async {
     _isAdmin(email, password);
 
-//   if (admin) {
-//   //...
-// } else {
-//   await FirebaseAuth.instance.signOut();
-//   // or just show alert that user is not an admin
 
-// }
-// );
 
     if (_formKey.currentState!.validate() && !_isAdmin(email, password)) {
       print("NOT ADMIN");
@@ -259,7 +252,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
             errorMessage = "An unexpected Error has occurred.";
         }
         Fluttertoast.showToast(msg: errorMessage!);
-        // ignore: avoid_print
+
         print(error.code);
       }
     }

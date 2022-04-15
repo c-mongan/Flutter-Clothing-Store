@@ -167,10 +167,9 @@ class _PaymentPageState extends State<PaymentPage> {
                   Colors.black,
                   Colors.grey,
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-                // child: SafeArea(
+           
                 child:
-                    //    SingleChildScrollView(
-
+                   
                     SingleChildScrollView(
                   child: SizedBox(
                     height: 1250,
@@ -178,13 +177,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Center(
-                          // mainAxisAlignment: MainAxisAlignment.center,
-                          // children: [
-                          // Container(
-                          //   child: Text(data[0].toString()), // first element set here
-                          // ),
-                          // Text(data[1].toString()), // second element set here
+                         
                           SizedBox(
                             height: 100,
                           ),
@@ -196,7 +189,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               ),
                               value: i,
                               groupValue: index,
-                              //  onChanged: _setSelectedStrategyIndex,
+                      
                               onChanged: (int? value) {
                                 setState(() {
                                   index = i;
@@ -267,31 +260,9 @@ class _PaymentPageState extends State<PaymentPage> {
                               height: 1,
                             ),
 
-                            // ListTileTheme(
-                            //   child: ListTile(
-                            //     leading: Icon(Icons.credit_card),
-                            //     title: Text(
-                            //       'New Card',
-                            //       textScaleFactor: 1,
-                            //     ),
-                            //     trailing: Icon(Icons.chevron_right),
-                            //     selected: false,
-                            //     onTap: () {
-                            //       setState(() {
-                            //         _showCard(savedCard);
-                            //         savedCard = false;
-                            //       });
-
-                            //       //_showCard(savedCard);
-                            //     },
-                            //   ),
-                            //   textColor: Color(0xFF4338CA),
-                            //   iconColor: Color(0xFF4338CA),
-                            // ),
-                            // if (savedCard = false) ...[
+                           
                             CreditCardWidget(
-                              // glassmorphismConfig:
-                              // useGlassMorphism ? Glassmorphism.defaultConfig() : null,
+                             
                               cardNumber: cardNumber,
                               expiryDate: expiryDate,
                               cardHolderName: cardHolderName,
@@ -342,10 +313,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
                             if (isVisible) ShowCardForm(),
 
-                            //Visibility(child: ShowCardForm(), visible: false),
-                            // SizedBox(
-                            //   height: 50,
-                            // ),
+                           
 
                             SizedBox(
                               height: 20,
@@ -365,7 +333,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                   'Pay Now',
                                   style: TextStyle(
                                     color: Colors.black,
-                                    // fontFamily: 'halter',
+                                 
                                     fontSize: 14,
                                     package: 'flutter_credit_card',
                                   ),
@@ -381,7 +349,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               ),
                             ),
                           ],
-                          // ]
+                    
                         ]),
                   ),
                 ))));
@@ -446,47 +414,6 @@ class _PaymentPageState extends State<PaymentPage> {
               height: 20,
             ),
 
-            // ElevatedButton(
-            //   style: ElevatedButton.styleFrom(
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(8.0),
-            //     ),
-            //     primary: const Color(0xff1b447b),
-            //   ),
-            //   child: Container(
-            //     margin: const EdgeInsets.all(12),
-            //     child: const Text(
-            //       'Validate',
-            //       style: TextStyle(
-            //         color: Colors.white,
-            //         fontFamily: 'halter',
-            //         fontSize: 14,
-            //         package: 'flutter_credit_card',
-            //       ),
-            //     ),
-            //   ),
-            //   onPressed: () {
-            //     if (formKey.currentState!.validate()) {
-            //       print('valid!');
-            //     } else {
-            //       print('invalid!');
-            //     }
-            //   },
-            // ),
-
-            // ListTileButton(
-            //     text: "My Cards",
-            //     leadingIcon: Icon(Icons.monetization_on),
-            //     trailingIcon: Icon(Icons.chevron_right),
-            //     onTap: () {},
-            //     color: Color(Colors.black.value)),
-
-            // NeumorphicButton(
-            //   child: const Text('Pay Now'),
-            //   onPressed: () {
-            //     Get.to(OrderConfirmation());
-            //   },
-            // ),
           ],
         ),
       ),

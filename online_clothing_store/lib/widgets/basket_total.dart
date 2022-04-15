@@ -15,10 +15,7 @@ class BasketTotal extends StatelessWidget {
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             if (isProducts(controller) == true) ...[
               const SizedBox(height: 80),
-              // const Text(
-              //   "                     Your basket is empty",
-              //   style: TextStyle(fontSize: 20),
-              //   textAlign: TextAlign.center,
+             
             ] else ...[
               Text(
                 'Total',

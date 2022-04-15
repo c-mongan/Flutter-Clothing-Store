@@ -20,7 +20,6 @@ class WishlistProducts extends StatelessWidget {
   final Stream<QuerySnapshot> wishlistStream = FirebaseFirestore.instance
       .collection('wishlist')
       .orderBy("dateTime")
-      //.limitToLast(1)
       .where('userID', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
       .snapshots();
 
@@ -28,44 +27,11 @@ class WishlistProducts extends StatelessWidget {
 
   User? user = FirebaseAuth.instance.currentUser;
 
-  // void asyncMethod(bool isVisible) async {
-  //   checkDay();
-  //   // await getbmiScore();
-  //   // ....
-  // }
-
-  // void callThisMethod(bool isVisible) {
-  //   debugPrint('_HomeScreenState.callThisMethod: isVisible: $isVisible');
-  // }
-
-//DISPLAYS ALL SCANNED FOODS FROM TODAY
-  final Stream<QuerySnapshot> moodStream = FirebaseFirestore.instance
-      .collection('MoodTracking')
-      .orderBy("DateTime", descending: false)
-      // Uncomment to show all moods for today
-
-      // .where('DateTime',
-      //     isGreaterThanOrEqualTo: DateTime(DateTime.now().year,
-      //         DateTime.now().month, DateTime.now().day, 0, 0))
-      // .where('DateTime',
-      //     isLessThanOrEqualTo: DateTime(DateTime.now().year,
-      //         DateTime.now().month, DateTime.now().day, 23, 59, 59))
-      .where('userID', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-      .snapshots();
-
   DateTime dateTimeText = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    return
-        // VisibilityDetector(
-        //     key: Key("WishlistPage"),
-        //     onVisibilityChanged: (VisibilityInfo info) {
-        //       bool isVisible = info.visibleFraction != 0;
-        //       // asyncMethod(isVisible);
-        //     },
-        //     child:
-        Scaffold(
+    return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -74,14 +40,6 @@ class WishlistProducts extends StatelessWidget {
           Colors.black,
           Colors.grey,
         ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-        // child: SafeArea(
-        // resizeToAvoidBottomInset: false,
-        // appBar: AppBar(
-        //   title: const Text("Mood Tracker"),
-        //   elevation: 0,
-        //   backgroundColor: Colors.black,
-        // ),
-        // bottomNavigationBar: CustomisedNavigationBar(),
         child: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -89,8 +47,6 @@ class WishlistProducts extends StatelessWidget {
               const SizedBox(
                 width: 5,
               ),
-              // const Icon(Icons.insert_emoticon,
-              //     color: Colors.white, size: 40),
               Expanded(
                   child: Container(
                       height: 225.0,
@@ -108,7 +64,6 @@ class WishlistProducts extends StatelessWidget {
                           }
 
                           return ListView(
-                            //itemExtent: 75,
                             shrinkWrap: true,
                             physics: const ClampingScrollPhysics(),
                             children: snapshot.data!.docs
@@ -133,31 +88,7 @@ class WishlistProducts extends StatelessWidget {
                           );
                         },
                       ))),
-
-              // Button(
-              //     edges: const EdgeInsets.all(0.0),
-              //     color: Colors.blue,
-              //     text: const Text(
-              //       'Home',
-              //       style: textStyle2,
-              //       // TextStyle(fontWeight: FontWeight.bold),
-              //     ),
-              //     onTap: () {
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //           builder: (context) => const HomePage(),
-              //         ),
-              //       );
-              //     }
-
-              //     )
-            ]
-                // Flexible(
-                //     flex: 1,
-                //     child:
-
-                )),
+            ])),
       ),
       floatingActionButton: getFloatingActionButton(),
     );

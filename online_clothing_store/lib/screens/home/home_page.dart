@@ -2,9 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import 'package:health_app_fyp/screens/checkout/checkout_page.dart';
-import 'package:openfoodfacts/model/parameter/SortBy.dart';
 import '../../controllers/basket_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../widgets/carosel_slider.dart';
@@ -38,14 +35,12 @@ class _HomePageState extends State<HomePage> {
 
   String setFilterCriterea() {
     String filterCriterea = "";
-    //setFilterBy(_TabBarAndTabViewsState2._tabController2.index);
-    // setOrderBy(i);
+    
     String setBy =
         setOrderBy(_TabBarAndTabViewsState2._tabController2.index).toString();
     String filterBy =
         setFilterBy(_TabBarAndTabViewsState._tabController.index).toString();
-    // print(setBy + " RESULT");
-    // print(filterBy + ' RESULT 2');
+ 
 
     if (setBy != "" && filterBy != "") {
       filterCriterea = filterBy + " " + setBy;
@@ -118,7 +113,7 @@ class _HomePageState extends State<HomePage> {
 
                   //When text is entered call the search products method and pass in the text (value)
                   onChanged: (value) =>
-                      //searchProducts(value),
+                   
 
                       productController.searchProducts(
                           value, setFilterCriterea()),
@@ -154,17 +149,14 @@ class _HomePageState extends State<HomePage> {
                 height: 100,
                 child: TabBarAndTabViews(),
               ),
-              // Divider(
-              //   color: Colors.grey,
-              //   thickness: 3,
-              // ),
+             
               RaisedButton(
                   color: Colors.grey,
                   child: const Text('Sort Items',
                       style: TextStyle(color: Colors.white, fontSize: 15)),
                   onPressed: () {
                     setState(() {
-                      //  setFilterCriterea();
+                    
                       productController.searchProducts(
                           " ", setFilterCriterea());
                     });
@@ -276,17 +268,7 @@ class InventoryProductCard extends StatelessWidget {
                         color: Colors.white)),
               ),
 
-              //Removed Quick Add Button
-              // IconButton(
-              //   onPressed: () {
-              //     //Adds product to cart
-              //     basketController.addProduct(
-              //         productController.products[index], index);
-              //   },
-              //   icon: const Icon(
-              //     Icons.add_circle,
-              //   ),
-              // ),
+              
               Divider(
                 color: Colors.white,
                 thickness: 1,
@@ -337,7 +319,7 @@ List<TabPair> TabPairs = [
       text: 'Manufacturer',
     ),
     view: Center(
-      // replace with your own widget here
+    
       child: Text(
         'Sort by : Manufacturer',
         style: TextStyle(
@@ -386,8 +368,7 @@ class _TabBarAndTabViewsState extends State<TabBarAndTabViews>
         _selectedIndex = _tabController.index;
       });
       setFilterBy(_tabController.index);
-      // print("Selected Index: " + _tabController.index.toString());
-      //setFilterBy(_tabController.index);
+    
     });
   }
 
@@ -403,7 +384,7 @@ class _TabBarAndTabViewsState extends State<TabBarAndTabViews>
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          // give the tab bar a height [can change height to preferred height]
+    
           Container(
             height: 45,
             decoration: BoxDecoration(
@@ -416,7 +397,7 @@ class _TabBarAndTabViewsState extends State<TabBarAndTabViews>
               padding: EdgeInsets.all(6),
               child: TabBar(
                   controller: _tabController,
-                  // give the indicator a decoration (color and border radius)
+               
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(
                       25.0,
@@ -506,8 +487,7 @@ class _TabBarAndTabViewsState2 extends State<TabBarAndTabViews2>
         _selectedIndex2 = _tabController2.index;
       });
       setOrderBy(_tabController2.index);
-      // print("Selected Index: " + _tabController.index.toString());
-      //setFilterBy(_tabController.index);
+     
     });
   }
 
@@ -523,7 +503,7 @@ class _TabBarAndTabViewsState2 extends State<TabBarAndTabViews2>
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          // give the tab bar a height [can change height to preferred height]
+      
           Container(
             height: 45,
             decoration: BoxDecoration(
@@ -536,7 +516,7 @@ class _TabBarAndTabViewsState2 extends State<TabBarAndTabViews2>
               padding: EdgeInsets.all(6),
               child: TabBar(
                   controller: _tabController2,
-                  // give the indicator a decoration (color and border radius)
+           
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(
                       25.0,
@@ -563,11 +543,11 @@ String setOrderBy(int i) {
   String orderBy;
   if (i == 0) {
     orderBy = 'ascending';
-    // print(orderBy);
+  
     return orderBy;
   } else if (i == 1) {
     orderBy = 'descending';
-    // print(orderBy);
+
     return orderBy;
   }
   return orderBy = "error";
@@ -577,11 +557,11 @@ String setFilterBy(int i) {
   String filterBy;
   if (i == 0) {
     filterBy = 'title';
-    //print(filterBy);
+  
     return filterBy;
   } else if (i == 1) {
     filterBy = 'manufacturer';
-    // print(filterBy);
+  
     return filterBy;
   } else if (i == 2) {
     filterBy = 'price';

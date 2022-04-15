@@ -7,7 +7,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:health_app_fyp/widgets/basket_products.dart';
-// import '../../designpatterns/strategy/orderorder_info_row.dart';
+
 
 import '../../constants/layout_constants.dart';
 import '../../controllers/basket_controller.dart';
@@ -120,8 +120,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
                 child: SafeArea(
                     child:
-                        //    SingleChildScrollView(
-                        // body:
+                     
                         ScrollConfiguration(
                   behavior: const ScrollBehavior(),
                   child: SingleChildScrollView(
@@ -132,13 +131,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         SizedBox(height: 20),
-                        // Text(
-                        //   'Your basket  ${loggedInUser.firstName}',
-                        //   style: TextStyle(
-                        //       fontSize: 20,
-                        //       fontWeight: FontWeight.bold,
-                        //       color: Colors.black),
-                        // ),
+                       
                         CheckoutProducts(),
                         const SizedBox(height: LayoutConstants.spaceM),
                         Stack(
@@ -197,27 +190,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                           ]);
                                         }
 
-                                        // OutlinedButton(
-                                        //   onPressed: () {
-                                        //     if (_selectedDeliveryIndex ==
-                                        //             _deliveryOptionsList.length - 1 ||
-                                        //         _selectedDeliveryIndex ==
-                                        //             _deliveryOptionsList.length - 2) {
-                                        //       Get.to(AddressPage(), arguments: [
-                                        //         _deliveryOptionsList[
-                                        //             _selectedDeliveryIndex],
-                                        //         _order
-                                        //       ]);
-                                        //     } else {
-                                        //       Get.to(PaymentPage(), arguments: [
-                                        //         _deliveryOptionsList[
-                                        //             _selectedDeliveryIndex],
-                                        //         _order
-                                        //       ]);
-                                        //     }
-                                        //     //   //Get.to(Second(), arguments: ["First data", "Second data"]);
-                                        //   },
-                                        // child: const Text('Continue'),
+                                        
                                       }),
                                   SizedBox(height: 20)
                                 ],
@@ -240,13 +213,11 @@ class OrderDetails extends StatelessWidget {
   final Order order;
   final InterfaceDeliveryCostsStrategy deliveryCostStrategy;
 
-  //final StringCallback callback;
-
-  // ignore: use_key_in_widget_constructors
+  
   const OrderDetails({
     required this.order,
     required this.deliveryCostStrategy,
-    // required this.callback
+ 
   });
 
   double get deliveryCost => deliveryCostStrategy.calculate(order);
@@ -294,7 +265,7 @@ class OrderDetails extends StatelessWidget {
               value: total,
             ),
 
-            //callback(total.toStringAsFixed(2)),
+           
           ],
         ),
       ),

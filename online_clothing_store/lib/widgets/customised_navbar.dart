@@ -18,7 +18,7 @@ class CustomisedNavigationBar extends StatelessWidget {
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           IconButton(
             onPressed: () {
-              // Navigator.pushNamed(context, "/");
+           
               Get.to(HomePage());
             },
             icon: const Icon(
@@ -39,7 +39,7 @@ class CustomisedNavigationBar extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              //Navigator.pushNamed(context, "/user");
+            
             },
             icon: const Icon(
               Icons.person_outlined,
