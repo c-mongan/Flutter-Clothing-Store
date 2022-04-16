@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:health_app_fyp/screens/address/address.dart';
 import 'package:health_app_fyp/screens/admin/admin_inventory/admin_home.dart';
 import 'package:health_app_fyp/widgets/customised_appbar.dart';
 import 'package:health_app_fyp/widgets/customised_navbar.dart';
@@ -83,7 +84,6 @@ class AdminAddProduct extends StatelessWidget {
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                           
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Name',
@@ -138,11 +138,9 @@ class AdminAddProduct extends StatelessWidget {
                             obscureText: true,
                             onChanged: (value) {
                               value = priceController.text;
-                            
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                            
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Price',
@@ -197,11 +195,9 @@ class AdminAddProduct extends StatelessWidget {
                             obscureText: true,
                             onChanged: (value) {
                               value = descriptionController.text;
-                        
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                           
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Description',
@@ -258,7 +254,6 @@ class AdminAddProduct extends StatelessWidget {
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                        
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Category',
@@ -313,9 +308,9 @@ class AdminAddProduct extends StatelessWidget {
                             onChanged: (value) {
                               value = manufacturerController.text;
                             },
-                            style: TextStyle(fontSize: 14, color: Colors.white),
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                             
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Manufacturer',
@@ -372,7 +367,6 @@ class AdminAddProduct extends StatelessWidget {
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                            
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Primary Color',
@@ -429,7 +423,6 @@ class AdminAddProduct extends StatelessWidget {
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                            
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Alternative Color',
@@ -486,7 +479,6 @@ class AdminAddProduct extends StatelessWidget {
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                          
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Quantity',
@@ -543,7 +535,6 @@ class AdminAddProduct extends StatelessWidget {
                             },
                             style: TextStyle(fontSize: 14, color: Colors.white),
                             decoration: InputDecoration(
-                           
                               filled: true,
                               fillColor: Color(0xff161C22),
                               hintText: 'Enter Product Image URL',
@@ -593,22 +584,62 @@ class AdminAddProduct extends StatelessWidget {
                               .collection("product")
                               .doc()
                               .id;
-                          FirebaseFirestore.instance
-                              .collection('product')
-                              .doc(autoID)
-                              .set({
-                            'name': nameController.text,
-                            'price': double.tryParse(priceController.text),
-                            'description': descriptionController.text,
-                            'category': categoryController.text,
-                            'manufacturer': manufacturerController.text,
-                            'color': colorController.text,
-                            'color2': color2Controller.text,
-                            'stock': double.tryParse(stockController.text),
-                            'imageUrl': imgController.text,
-                            'itemId': autoID
-                          });
-                          Get.to(AdminHomePage());
+
+                          if (nameController.text.isNotEmpty &&
+                              priceController.text.isNum &&
+                              colorController.text.isNotEmpty &&
+                              color2Controller.text.isNotEmpty &&
+                              stockController.text.isNum &&
+                              imgController.text.isNotEmpty) {
+                            FirebaseFirestore.instance
+                                .collection("product")
+                                .doc(autoID)
+                                .set({
+                              "name": nameController.text,
+                              "price": priceController.text,
+                              "color1": colorController.text,
+                              "color2": color2Controller.text,
+                              "stock": stockController.text,
+                              "img": imgController.text,
+                              "id": autoID,
+                            });
+                            Get.to(AdminHomePage());
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Error"),
+                                    content: Text(
+                                        "Please fill all the fields & make sure the price and stock is a numeric value"),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text("OK"),
+                                        onPressed: () {
+                                          Get.to(AdminHomePage());
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+                          }
+
+                          // FirebaseFirestore.instance
+                          //     .collection('product')
+                          //     .doc(autoID)
+                          //     .set({
+                          //   'name': nameController.text,
+                          //   'price': double.tryParse(priceController.text),
+                          //   'description': descriptionController.text,
+                          //   'category': categoryController.text,
+                          //   'manufacturer': manufacturerController.text,
+                          //   'color': colorController.text,
+                          //   'color2': color2Controller.text,
+                          //   'stock': double.tryParse(stockController.text),
+                          //   'imageUrl': imgController.text,
+                          //   'itemId': autoID
+                          // });
+                          // Get.to(AdminHomePage());
                         },
                       ))
                 ]),
@@ -652,7 +683,6 @@ class ImageUrlInput extends StatelessWidget {
               },
               style: TextStyle(fontSize: 14, color: Colors.white),
               decoration: InputDecoration(
-             
                 filled: true,
                 fillColor: Color(0xff161C22),
                 hintText: 'Enter Product Image URL',
@@ -675,8 +705,6 @@ class ImageUrlInput extends StatelessWidget {
     );
   }
 }
-
- 
 
 class Heading extends StatelessWidget {
   final String text;
