@@ -183,6 +183,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
         labelStyle: const TextStyle(color: Colors.white, fontSize: 15),
         backgroundColor: Colors.red,
         onPressed: () {
+          controller.dispose();
+
           logout(context, controller);
         });
   }
@@ -492,7 +494,6 @@ class _TabBarAndTabViewsState2 extends State<TabBarAndTabViews2>
         _selectedIndex2 = _tabController2.index;
       });
       setOrderBy(_tabController2.index);
-   
     });
   }
 
@@ -548,7 +549,7 @@ String setOrderBy(int i) {
   String orderBy;
   if (i == 0) {
     orderBy = 'ascending';
-    
+
     return orderBy;
   } else if (i == 1) {
     orderBy = 'descending';
@@ -566,7 +567,7 @@ String setFilterBy(int i) {
     return filterBy;
   } else if (i == 1) {
     filterBy = 'manufacturer';
-   
+
     return filterBy;
   } else if (i == 2) {
     filterBy = 'price';

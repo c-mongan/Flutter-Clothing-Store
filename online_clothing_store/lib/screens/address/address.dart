@@ -15,13 +15,14 @@ import '../home/home_page.dart';
 import '../payment/payment_page.dart';
 
 class AddressPage extends StatefulWidget {
-  final cartController = Get.put(BasketController());
-  final BasketController controller = Get.find();
+  AddressPage(BasketController controller, {Key? key}) : super(key: key);
 
   @override
   _AddressPageState createState() => _AddressPageState();
- 
 }
+
+final cartController = Get.put(BasketController());
+final BasketController controller = Get.find();
 
 var data = Get.arguments;
 
@@ -33,19 +34,15 @@ final emailEditingController = TextEditingController();
 
 final addressEditingController = TextEditingController();
 
-// final addressEditingController = TextEditingController();
-
 final cityEditingController = TextEditingController();
-//EMAIL
+
 final zipCodeEditingController = TextEditingController();
-//PASSWORD
+
 final countryEditingController = TextEditingController();
-//CONFIRMPASSWORD
+
 final confirmPasswordEditingController = TextEditingController();
 
 class _AddressPageState extends State<AddressPage> {
-  // @override
-
   User? user = FirebaseAuth.instance.currentUser;
   UserInformation loggedInUser = UserInformation();
 
@@ -53,7 +50,6 @@ class _AddressPageState extends State<AddressPage> {
   void initState() {
     super.initState();
 
-    // if (mounted) {
     FirebaseFirestore.instance
         .collection("UserData")
         .doc(user!.uid)
@@ -63,7 +59,6 @@ class _AddressPageState extends State<AddressPage> {
     });
 
     setState(() {});
-    // }
   }
 
   void asyncMethod(bool isVisible) async {
@@ -95,28 +90,9 @@ class _AddressPageState extends State<AddressPage> {
         child: Scaffold(
             appBar: CustomisedAppBar(title: 'Address'),
             bottomNavigationBar: CustomisedNavigationBar(),
-            // body: Padding(
-            //     padding: const EdgeInsets.all(20.0),
-            //     child: Column(
-            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //         crossAxisAlignment: CrossAxisAlignment.start,
-            //         children: [
             body: SingleChildScrollView(
                 child: Column(
               children: <Widget>[
-                // Text(
-                //   'CUSTOMER INFORMATION',
-                //   style: TextStyle(
-                //       fontSize: 20,
-                //       fontWeight: FontWeight.bold,
-                //       color: Colors.black),
-                // ),
-                // EmailInputFb2(
-                //   inputController: TextEditingController(),
-                //   text: "Email",
-                // ),
-                // const SizedBox(height: 20),
-                // EmailInputFb2(inputController: TextEditingController(), text: '',),
                 SizedBox(height: 20),
                 Text(
                   'CUSTOMER INFORMATION',
@@ -129,7 +105,6 @@ class _AddressPageState extends State<AddressPage> {
                   inputController: firstNameEditingController,
                   text: "${loggedInUser.firstName}",
                 ),
-
                 TextBox(
                   inputController: secondNameEditingController,
                   text: "${loggedInUser.secondName}",
@@ -138,9 +113,7 @@ class _AddressPageState extends State<AddressPage> {
                   inputController: emailEditingController,
                   text: "${loggedInUser.email}",
                 ),
-
                 SizedBox(height: 20),
-
                 SizedBox(height: 20),
                 Text(
                   'DELIVERY INFORMATION',
@@ -166,26 +139,23 @@ class _AddressPageState extends State<AddressPage> {
                   text: "${loggedInUser.country}",
                 ),
                 SizedBox(height: 20),
-
                 NeumorphicButton(
-                  child: const Text('Select Payment Method'),
+                  child: const Text(
+                    'Select Payment Method',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   onPressed: () {
-                    Get.to(PaymentPage(), arguments: [
-                      data[0],
-                      data[1],
-                    ]);
+                    Get.to(PaymentPage(controller),
+                        arguments: [data[0], data[1], controller]);
                   },
                 ),
-
                 SizedBox(height: 20),
-                
                 OrderDetails(
                   deliveryCostStrategy: data[0],
                   order: data[1],
                 ),
               ],
             ))));
-  
   }
 }
 
@@ -213,9 +183,6 @@ class TextBox extends StatelessWidget {
               fontWeight: FontWeight.normal,
               color: Colors.white.withOpacity(.9)),
         ),
-        // const SizedBox(
-        //   height: 8,
-        // ),
         Container(
           height: 50,
           decoration: BoxDecoration(boxShadow: [
@@ -227,18 +194,14 @@ class TextBox extends StatelessWidget {
           ]),
           child: TextField(
             controller: inputController,
-            onChanged: (value) {
-           
-            },
+            onChanged: (value) {},
             keyboardType: TextInputType.emailAddress,
             style: const TextStyle(fontSize: 14, color: Colors.black),
             decoration: InputDecoration(
               label: Text(text),
               labelStyle: const TextStyle(color: primaryColor),
-             
               filled: true,
               fillColor: accentColor,
-               
               hintStyle: TextStyle(color: Colors.grey.withOpacity(.75)),
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),

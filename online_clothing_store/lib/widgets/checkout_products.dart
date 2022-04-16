@@ -20,9 +20,8 @@ class CheckoutProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
- 
     return Obx(() => SizedBox(
-          height: 200,
+          height: 400,
           child: Column(children: [
             if (isProducts(controller) == true) ...[
               const SizedBox(height: 100),

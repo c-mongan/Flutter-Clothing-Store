@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -579,11 +581,12 @@ class AdminAddProduct extends StatelessWidget {
                         child: Text("Add Product",
                             style: TextStyle(color: Colors.white)),
                         onPressed: () {
+                          int itemID = Random().nextInt(100000);
 //Auto generates ID for the product
-                          String autoID = FirebaseFirestore.instance
-                              .collection("product")
-                              .doc()
-                              .id;
+                          // String autoID = FirebaseFirestore.instance
+                          //     .collection("product")
+                          //     .doc()
+                          //     .id;
 
                           if (nameController.text.isNotEmpty &&
                               priceController.text.isNum &&
@@ -593,53 +596,39 @@ class AdminAddProduct extends StatelessWidget {
                               imgController.text.isNotEmpty) {
                             FirebaseFirestore.instance
                                 .collection("product")
-                                .doc(autoID)
+                                .doc(itemID.toString())
                                 .set({
                               "name": nameController.text,
-                              "price": priceController.text,
-                              "color1": colorController.text,
+                              "price": double.parse(priceController.text),
+                              "color": colorController.text,
                               "color2": color2Controller.text,
-                              "stock": stockController.text,
-                              "img": imgController.text,
-                              "id": autoID,
+                              "stock": double.parse(stockController.text),
+                              "imageUrl": imgController.text,
+                              "itemID": itemID.toString(),
+                              "manufacturer": manufacturerController.text,
+                              "category": categoryController.text,
+                              "description": descriptionController.text,
                             });
-                            Get.to(AdminHomePage());
+                            Get.to(const AdminHomePage());
                           } else {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: Text("Error"),
-                                    content: Text(
+                                    title: const Text("Error"),
+                                    content: const Text(
                                         "Please fill all the fields & make sure the price and stock is a numeric value"),
                                     actions: <Widget>[
                                       FlatButton(
-                                        child: Text("OK"),
+                                        child: const Text("OK"),
                                         onPressed: () {
-                                          Get.to(AdminHomePage());
+                                          Get.to(const AdminHomePage());
                                         },
                                       )
                                     ],
                                   );
                                 });
                           }
-
-                          // FirebaseFirestore.instance
-                          //     .collection('product')
-                          //     .doc(autoID)
-                          //     .set({
-                          //   'name': nameController.text,
-                          //   'price': double.tryParse(priceController.text),
-                          //   'description': descriptionController.text,
-                          //   'category': categoryController.text,
-                          //   'manufacturer': manufacturerController.text,
-                          //   'color': colorController.text,
-                          //   'color2': color2Controller.text,
-                          //   'stock': double.tryParse(stockController.text),
-                          //   'imageUrl': imgController.text,
-                          //   'itemId': autoID
-                          // });
-                          // Get.to(AdminHomePage());
                         },
                       ))
                 ]),

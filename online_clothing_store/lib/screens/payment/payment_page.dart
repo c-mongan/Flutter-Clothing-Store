@@ -23,7 +23,7 @@ import '../../widgets/customised_navbar.dart';
 import '../checkout/checkout_page.dart';
 
 class PaymentPage extends StatefulWidget {
-  const PaymentPage({Key? key}) : super(key: key);
+  const PaymentPage(BasketController controller, {Key? key}) : super(key: key);
   static String id = 'checkout_page';
 
   @override
@@ -167,17 +167,13 @@ class _PaymentPageState extends State<PaymentPage> {
                   Colors.black,
                   Colors.grey,
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-           
-                child:
-                   
-                    SingleChildScrollView(
+                child: SingleChildScrollView(
                   child: SizedBox(
                     height: 1250,
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                         
                           SizedBox(
                             height: 100,
                           ),
@@ -189,7 +185,6 @@ class _PaymentPageState extends State<PaymentPage> {
                               ),
                               value: i,
                               groupValue: index,
-                      
                               onChanged: (int? value) {
                                 setState(() {
                                   index = i;
@@ -198,7 +193,6 @@ class _PaymentPageState extends State<PaymentPage> {
                               dense: true,
                               activeColor: Colors.white,
                             ),
-
                           if (index == 0) ...[
                             Center(
                               child: SizedBox(
@@ -211,9 +205,10 @@ class _PaymentPageState extends State<PaymentPage> {
                             ),
                             Center(
                               child: NeumorphicButton(
-                                child: const Text('Pay Now'),
+                                child: const Text('Pay Now',
+                                    style: TextStyle(color: Colors.white)),
                                 onPressed: () {
-                                  Get.to(OrderConfirmation());
+                                  Get.to(OrderConfirmation(controller));
                                 },
                               ),
                             )
@@ -230,9 +225,10 @@ class _PaymentPageState extends State<PaymentPage> {
                             ),
                             Center(
                               child: NeumorphicButton(
-                                child: const Text('Pay Now'),
+                                child: const Text('Pay Now',
+                                    style: TextStyle(color: Colors.white)),
                                 onPressed: () {
-                                  Get.to(OrderConfirmation());
+                                  Get.to(OrderConfirmation(controller));
                                 },
                               ),
                             ),
@@ -259,10 +255,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             SizedBox(
                               height: 1,
                             ),
-
-                           
                             CreditCardWidget(
-                             
                               cardNumber: cardNumber,
                               expiryDate: expiryDate,
                               cardHolderName: cardHolderName,
@@ -310,16 +303,11 @@ class _PaymentPageState extends State<PaymentPage> {
                             SizedBox(
                               height: 50,
                             ),
-
                             if (isVisible) ShowCardForm(),
-
-                           
-
                             SizedBox(
                               height: 20,
                             ),
                             const SizedBox(height: LayoutConstants.spaceM),
-
                             OrderDetails(
                               deliveryCostStrategy: data[0],
                               order: data[1],
@@ -332,8 +320,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 child: const Text(
                                   'Pay Now',
                                   style: TextStyle(
-                                    color: Colors.black,
-                                 
+                                    color: Colors.white,
                                     fontSize: 14,
                                     package: 'flutter_credit_card',
                                   ),
@@ -341,7 +328,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
                                     print('valid!');
-                                    Get.to(OrderConfirmation());
+                                    Get.to(OrderConfirmation(controller));
                                   } else {
                                     print('invalid!');
                                   }
@@ -349,7 +336,6 @@ class _PaymentPageState extends State<PaymentPage> {
                               ),
                             ),
                           ],
-                    
                         ]),
                   ),
                 ))));
@@ -409,11 +395,9 @@ class _PaymentPageState extends State<PaymentPage> {
             const SizedBox(
               height: 20,
             ),
-
             const SizedBox(
               height: 20,
             ),
-
           ],
         ),
       ),

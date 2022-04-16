@@ -7,7 +7,7 @@ class Product {
   late final String name;
   num price;
   late final String imageUrl;
-  // final String uid;
+ late final String itemID;
   final String category;
   final String manufacturer;
   // late final String size;
@@ -27,7 +27,9 @@ class Product {
       required this.description,
       required this.color,
       required this.color2,
-      required this.stock});
+      required this.stock,
+      required this.itemID
+      });
 
   static Product fromSnapshot(DocumentSnapshot snap) {
     Product product = Product(
@@ -41,6 +43,8 @@ class Product {
       description: snap['description'],
       color: snap['color'],
       color2: snap['color2'],
+      itemID : snap['itemID'],
+      
     );
     return product;
   }

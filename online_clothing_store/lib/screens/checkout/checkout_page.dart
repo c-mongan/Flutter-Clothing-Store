@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:health_app_fyp/widgets/basket_products.dart';
 
-
 import '../../constants/layout_constants.dart';
 import '../../controllers/basket_controller.dart';
 import '../../designpatterns/strategy/delivery_interface.dart';
@@ -119,9 +118,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   Colors.grey,
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
                 child: SafeArea(
-                    child:
-                     
-                        ScrollConfiguration(
+                    child: ScrollConfiguration(
                   behavior: const ScrollBehavior(),
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(
@@ -131,7 +128,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         SizedBox(height: 20),
-                       
                         CheckoutProducts(),
                         const SizedBox(height: LayoutConstants.spaceM),
                         Stack(
@@ -169,7 +165,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   ),
                                   SizedBox(height: 20),
                                   NeumorphicButton(
-                                      child: const Text('Continue'),
+                                      child: const Text(
+                                        'Continue',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                       onPressed: () {
                                         if (_selectedDeliveryIndex ==
                                                 _deliveryOptionsList.length -
@@ -177,20 +176,18 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                             _selectedDeliveryIndex ==
                                                 _deliveryOptionsList.length -
                                                     2) {
-                                          Get.to(AddressPage(), arguments: [
+                                          Get.to(AddressPage(controller), arguments: [
                                             _deliveryOptionsList[
                                                 _selectedDeliveryIndex],
                                             _order
                                           ]);
                                         } else {
-                                          Get.to(PaymentPage(), arguments: [
+                                          Get.to(PaymentPage(controller), arguments: [
                                             _deliveryOptionsList[
                                                 _selectedDeliveryIndex],
-                                            _order
+                                            _order , controller
                                           ]);
                                         }
-
-                                        
                                       }),
                                   SizedBox(height: 20)
                                 ],
@@ -213,11 +210,9 @@ class OrderDetails extends StatelessWidget {
   final Order order;
   final InterfaceDeliveryCostsStrategy deliveryCostStrategy;
 
-  
   const OrderDetails({
     required this.order,
     required this.deliveryCostStrategy,
- 
   });
 
   double get deliveryCost => deliveryCostStrategy.calculate(order);
@@ -264,8 +259,6 @@ class OrderDetails extends StatelessWidget {
               label: 'Order total',
               value: total,
             ),
-
-           
           ],
         ),
       ),

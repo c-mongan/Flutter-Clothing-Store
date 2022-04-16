@@ -17,7 +17,6 @@ class BasketPage extends StatefulWidget {
 
   @override
   _BasketPageState createState() => _BasketPageState();
-  
 }
 
 class _BasketPageState extends State<BasketPage> {
@@ -34,7 +33,6 @@ class _BasketPageState extends State<BasketPage> {
     isProducts(controller);
 
     setState(() {});
-   
   }
 
   void asyncMethod(bool isVisible) async {
@@ -90,26 +88,23 @@ class _BasketPageState extends State<BasketPage> {
                         style: TextStyle(fontSize: 20, color: Colors.white),
                         textAlign: TextAlign.center,
                       ),
-                     
                     ] else if (isProducts(controller) == false) ...[
                       SizedBox(height: 20),
-                    
                       BasketProducts(),
                       BasketTotal(),
-
                       NeumorphicButton(
-                        child: Text("Continue"),
+                        child: Text(
+                          "Continue",
+                          style: TextStyle(color: Colors.white),
+                        ),
                         onPressed: () {
                           if (controller.products.length != 0) {
                             Get.to(CheckoutPage(controller));
                           } else if (controller.products.length == 0) {
                             Get.to(HomePage());
                           }
-                      
                         },
                       )
-
-                     
                     ]
                   ]),
                 )))));

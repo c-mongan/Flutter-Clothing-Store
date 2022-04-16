@@ -132,7 +132,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
   }
 
   void updatePrice() {
-    productController.custom[index].price = _product.getPrice();
+    productController.products[index].price = _product.getPrice();
   }
 
   void _changeColor() {
@@ -254,7 +254,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
     }
   }
 
-  late int index = productController.custom.indexOf(widget.product);
+  late int index = productController.products.indexOf(widget.product);
 
   @override
   Widget build(BuildContext context) {
@@ -457,7 +457,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                 NeumorphicButton(
                                   child: Text('Add to Cart'),
                                   onPressed: () => basketController.addProduct(
-                                      productController.custom[index], index),
+                                      productController.products[index], index),
                                 ),
                               ],
 
@@ -468,7 +468,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                 NeumorphicButton(
                                   child: Text('Add to Cart'),
                                   onPressed: () => basketController.addProduct(
-                                      productController.custom[index], index),
+                                      productController.products[index], index),
                                 ),
                               ],
                               if (showCustomisation == true) ...[
@@ -628,7 +628,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                           updatePrice();
 
                                           basketController.addProduct(
-                                              productController.custom[index],
+                                              productController.products[index],
                                               index);
                                         }),
                                     SizedBox(

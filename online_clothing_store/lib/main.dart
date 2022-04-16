@@ -75,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (await FirebaseAuth.instance.currentUser != null) {
         Get.to(const HomePage());
       } else {
-        if (FirebaseAuth.instance.currentUser!.email == "admin123@gmail.com") {
+        if (FirebaseAuth.instance.currentUser?.email == "admin123@gmail.com") {
           Get.to(const AdminHomePage());
         } else {
           Get.to(const LoginScreen());
