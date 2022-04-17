@@ -40,55 +40,51 @@ class WishlistProducts extends StatelessWidget {
           Colors.black,
           Colors.grey,
         ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-        child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+        child: SizedBox(
+            // width: MediaQuery.of(context).size.width,
+            // height: MediaQuery.of(context).size.height,
             child: Column(children: [
-              const SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                  child: Container(
-                      height: 225.0,
-                      child: StreamBuilder<QuerySnapshot>(
-                        stream: wishlistStream,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if (snapshot.hasError) {
-                            return const Text('Something went wrong');
-                          }
+          SizedBox(
+              height: 300.0,
+              child: StreamBuilder<QuerySnapshot>(
+                stream: wishlistStream,
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return const Text('Something went wrong');
+                  }
 
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Text("Loading");
-                          }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Text("Loading");
+                  }
 
-                          return ListView(
-                            shrinkWrap: true,
-                            physics: const ClampingScrollPhysics(),
-                            children: snapshot.data!.docs
-                                .map((DocumentSnapshot document) {
-                              Map<String, dynamic> data =
-                                  document.data()! as Map<String, dynamic>;
-                              return ListTile(
-                                leading: Image.network(data['imageUrl']),
-                                title: Text(
-                                  data['name'],
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                isThreeLine: true,
-                                subtitle: Text(
-                                  data['description'],
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                trailing: const Icon(Icons.line_weight),
-                                iconColor: Colors.white,
-                              );
-                            }).toList(),
-                          );
-                        },
-                      ))),
-            ])),
+                  return ListView(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    children:
+                        snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data =
+                          document.data()! as Map<String, dynamic>;
+                      return ListTile(
+                        leading: Image.network(data['imageUrl']),
+                        title: Text(
+                          data['name'],
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        isThreeLine: true,
+                        subtitle: Text(
+                          data['description'],
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        trailing: const Icon(Icons.line_weight),
+                        iconColor: Colors.white,
+                      );
+                    }).toList(),
+                  );
+                },
+              ))
+          //),
+        ])),
       ),
       floatingActionButton: getFloatingActionButton(),
     );

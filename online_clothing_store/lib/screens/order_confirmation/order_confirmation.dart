@@ -14,6 +14,7 @@ import '../../model/user_model.dart';
 import '../admin/admin_inventory/admin_product.dart';
 import '/widgets/widgets.dart';
 
+// ignore: must_be_immutable
 class OrderConfirmation extends StatelessWidget {
   OrderConfirmation(BasketController controller, {Key? key}) : super(key: key);
   var data = Get.arguments;

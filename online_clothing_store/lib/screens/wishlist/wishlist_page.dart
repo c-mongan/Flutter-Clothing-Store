@@ -1,4 +1,5 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -19,7 +20,6 @@ class WishlistPage extends StatefulWidget {
 
   @override
   _WishlistPageState createState() => _WishlistPageState();
- 
 }
 
 class _WishlistPageState extends State<WishlistPage> {
@@ -50,6 +50,18 @@ class _WishlistPageState extends State<WishlistPage> {
     debugPrint('_HomeScreenState.callThisMethod: isVisible: $isVisible');
   }
 
+  final Stream<QuerySnapshot> wishlistStream = FirebaseFirestore.instance
+      .collection('wishlist')
+      .orderBy("dateTime")
+      .where('userID', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+      .snapshots();
+
+  String uid = FirebaseAuth.instance.currentUser!.uid;
+
+  User? user = FirebaseAuth.instance.currentUser;
+
+  DateTime dateTimeText = DateTime.now();
+
   isProducts(controller) {
     if (controller.products.length == 0) {
       return true;
@@ -60,25 +72,12 @@ class _WishlistPageState extends State<WishlistPage> {
 
   @override
   Widget build(BuildContext context) {
-    return VisibilityDetector(
-        key: Key("key"),
-        onVisibilityChanged: (VisibilityInfo info) {
-          bool isVisible = info.visibleFraction != 0;
-          asyncMethod(isVisible);
-        },
-        child: Scaffold(
-            appBar: const CustomisedAppBar(title: "Wishlist"),
-            bottomNavigationBar: const CustomisedNavigationBar(),
-            body: SingleChildScrollView(
-              child: Column(children: <Widget>[
-                // SingleChildScrollView(
-                //   child: Column(children: [
-                SizedBox(
-                  height: 550,
-                  child: WishlistProducts(),
-                ),
-              ]),
-            )));
+    return Scaffold(
+      appBar: const CustomisedAppBar(title: "Wishlist"),
+      bottomNavigationBar: const CustomisedNavigationBar(),
+     
+      body: WishlistProducts(),
+    );
   }
 }
 

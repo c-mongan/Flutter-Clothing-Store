@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:health_app_fyp/screens/screens.dart';
@@ -23,13 +22,8 @@ class CustomisedAppBar extends StatelessWidget with PreferredSizeWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Text(
           title,
-          style:
-            
-              const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                 
-                  fontWeight: FontWeight.bold),
+          style: const TextStyle(
+              color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
 
@@ -37,7 +31,6 @@ class CustomisedAppBar extends StatelessWidget with PreferredSizeWidget {
       actions: [
         IconButton(
           onPressed: () {
-          
             Get.to(WishlistPage());
           },
           icon: const Icon(Icons.favorite_outline_sharp),

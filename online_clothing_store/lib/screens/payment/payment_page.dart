@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:health_app_fyp/screens/order_confirmation/order_confirmation.dart';
 import 'package:health_app_fyp/screens/product/product_page.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -36,7 +37,6 @@ class _PaymentPageState extends State<PaymentPage> {
 
   List paymentOptions = ["Paypal", "Card", "Bitcoin"];
 
-  int _selectedIndex = 0;
   int index = 0;
   late ValueChanged<int?> onChanged;
 
@@ -48,7 +48,7 @@ class _PaymentPageState extends State<PaymentPage> {
   bool useGlassMorphism = false;
   bool useBackgroundImage = false;
   OutlineInputBorder? border;
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool showCard = false;
   bool showPaypal = false;
   bool showBitcoin = false;
@@ -150,13 +150,16 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return VisibilityDetector(
-        key: Key(PaymentPage.id),
-        onVisibilityChanged: (VisibilityInfo info) {
-          bool isVisible = info.visibleFraction != 0;
-          asyncMethod(isVisible);
-        },
-        child: Scaffold(
+    return
+        // VisibilityDetector(
+        //     key: Key(PaymentPage.id),
+        //     onVisibilityChanged: (VisibilityInfo info) {
+        //       bool isVisible = info.visibleFraction != 0;
+        //       asyncMethod(isVisible);
+        //     },
+        //     child:
+        Scaffold(
+            // key: formKey,
             appBar: const CustomisedAppBar(title: "Payment"),
             bottomNavigationBar: const CustomisedNavigationBar(),
             body: Container(
@@ -326,11 +329,69 @@ class _PaymentPageState extends State<PaymentPage> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  if (formKey.currentState!.validate()) {
+                                  if (formKey.currentState != null &&
+                                      formKey.currentState!.validate()) {
                                     print('valid!');
                                     Get.to(OrderConfirmation(controller));
+
+                                    FirebaseFirestore.instance
+                                        .collection('orders')
+                                        .doc(data[1].id)
+                                        .update({
+                                      'payment': 'Payment Successful',
+                                    });
+
+                                    FirebaseFirestore.instance
+                                        .collection('orders')
+                                        .doc(data[1].id)
+                                        .collection('orderItems')
+                                        .get()
+                                        .then((value) {
+                                      value.docs.forEach((element) {
+                                        FirebaseFirestore.instance
+                                            .collection('orders')
+                                            .doc(data[1].id)
+                                            .collection('orderItems')
+                                            .doc(element.id)
+                                            .update({
+                                          'status': 'Delivered',
+                                        });
+                                      });
+
+                                      FirebaseFirestore.instance
+                                          .collection('UserData')
+                                          .doc(loggedInUser.uid)
+                                          .update({
+                                        'cvv': cvvCode,
+                                        'cardNum': cardNumber,
+                                        'expiryDate': expiryDate,
+                                        // 'cardHolderName': cardHolderName,
+                                      });
+
+                                      FirebaseFirestore.instance
+                                          .collection('cardDetails')
+                                          .add({
+                                        'cvv': cvvCode,
+                                        'cardNum': cardNumber,
+                                        'expiryDate': expiryDate,
+                                        'cardHolderName': cardHolderName,
+                                        'userId': loggedInUser.uid,
+                                      });
+                                    });
                                   } else {
                                     print('invalid!');
+
+                                    Fluttertoast.showToast(
+                                      msg: 'Please fill all the fields',
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.red,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0,
+                                    );
+                                    Fluttertoast.showToast(
+                                        msg: 'Please fill all the details');
                                   }
                                 },
                               ),
@@ -338,7 +399,9 @@ class _PaymentPageState extends State<PaymentPage> {
                           ],
                         ]),
                   ),
-                ))));
+                ))
+            // ))
+            );
   }
 
   Expanded ShowCardForm() {
