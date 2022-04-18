@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:health_app_fyp/model/product.dart';
 
 import 'package:health_app_fyp/widgets/customised_appbar.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../constants/colors.dart';
 import '../../../constants/layout_constants.dart';
@@ -16,10 +17,7 @@ import '../../../controllers/product_controller.dart';
 import '../../../designpatterns/command/command_history.dart';
 import '../../../widgets/customised_navbar.dart';
 
-
 class AdminProductPage extends StatefulWidget {
-
-
   final Product product;
   AdminProductPage({
     Key? key,
@@ -33,8 +31,43 @@ class AdminProductPage extends StatefulWidget {
 class _AdminProductPageState extends State<AdminProductPage> {
   final basketController = Get.put(BasketController());
 
+  User? user = FirebaseAuth.instance.currentUser;
+  Product FirestoreProduct = Product();
+
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseFirestore.instance
+        .collection("product")
+        .doc(widget.product.itemID)
+        .get()
+        .then((value) {
+      FirestoreProduct = Product.fromMap(value.data());
+    });
+
+    setState(() {});
+  }
+
+  void asyncMethod(bool isVisible) async {
+    FirebaseFirestore.instance
+        .collection("product")
+        .doc(widget.product.itemID)
+        .get()
+        .then((value) {
+      FirestoreProduct = Product.fromMap(value.data());
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
   String uid = FirebaseAuth.instance.currentUser!.uid;
   final ProductController productController = Get.find();
+
+  final priceEditingController = TextEditingController();
+
+  final stockEditingController = TextEditingController();
 
   final CommandHistory _commandHistory = CommandHistory();
   bool firstIsSelected = true;
@@ -48,42 +81,6 @@ class _AdminProductPageState extends State<AdminProductPage> {
   bool showDetails = true;
   bool showReviews = false;
 
-  late String color;
-  late String initialColor;
-
-  Color displayColor(String color) {
-    switch (color) {
-      //add more color as your wish
-      case "red":
-        return Colors.red;
-      case "blue":
-        return Colors.blue;
-      case "yellow":
-        return Colors.yellow;
-      case "orange":
-        return Colors.orange;
-      case "green":
-        return Colors.green;
-      case "black":
-        return Colors.black;
-      default:
-        return Colors.transparent;
-    }
-  }
-
-  Color getColor(_item) {
-    switch (_item.color) {
-      //add more color as your wish
-      case "1":
-        return displayColor(widget.product.color);
-      case "2":
-        return displayColor(widget.product.color2);
-
-      default:
-        return Colors.transparent;
-    }
-  }
-
   late final Stream<QuerySnapshot> reviewsStream = FirebaseFirestore.instance
       .collection('reviews')
       .orderBy("date")
@@ -94,226 +91,256 @@ class _AdminProductPageState extends State<AdminProductPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-        appBar: CustomisedAppBar(title: widget.product.name),
-        bottomNavigationBar: const CustomisedNavigationBar(),
-        body: Stack(children: [
-          Positioned(
-            top: 0,
-            child: Container(
-              alignment: Alignment.topCenter,
-              height: size.height - 430,
-              width: size.width,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    Colors.black,
-                    Colors.grey,
-                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-                  borderRadius: BorderRadius.circular(16),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(widget.product.imageUrl),
-                  )),
-            ),
-          ),
-          Positioned(
-              bottom: 0,
-              child: Container(
-                  height: size.height / 2.2,
+    return VisibilityDetector(
+        key: Key("key"),
+        onVisibilityChanged: (VisibilityInfo info) {
+          bool isVisible = info.visibleFraction != 0;
+          asyncMethod(isVisible);
+        },
+        child: Scaffold(
+            appBar: CustomisedAppBar(title: widget.product.name!),
+            bottomNavigationBar: const CustomisedNavigationBar(),
+            body: Stack(children: [
+              Positioned(
+                top: 0,
+                child: Container(
+                  alignment: Alignment.topCenter,
+                  height: size.height - 430,
                   width: size.width,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      Colors.black,
-                      Colors.grey,
-                    ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-
-                    color: Colors.black,
-                   
-                    borderRadius: BorderRadius.circular(34),
-                  ),
-                  child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: SingleChildScrollView(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Center(
-                                child: Container(
-                                  margin: const EdgeInsets.only(bottom: 16),
-                                  height: 5,
-                                  width: 32 * 1.5,
-                                  decoration: BoxDecoration(
-                                    gradient: AppColor.gradient,
-                                    borderRadius: BorderRadius.circular(3),
-                                  ),
-                                ),
-                              ),
-                              ProductNameAndPrice(product: widget.product),
-                            
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                      gradient: LinearGradient(
+                          colors: [
+                            Colors.black,
+                            Colors.grey,
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter),
+                      borderRadius: BorderRadius.circular(16),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(widget.product.imageUrl!),
+                      )),
+                ),
+              ),
+              Positioned(
+                  bottom: 0,
+                  child: Container(
+                      height: size.height / 2.2,
+                      width: size.width,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [
+                              Colors.black,
+                              Colors.grey,
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter),
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(34),
+                      ),
+                      child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: SingleChildScrollView(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    widget.product.manufacturer,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
+                                  Center(
+                                    child: Container(
+                                      margin: const EdgeInsets.only(bottom: 16),
+                                      height: 5,
+                                      width: 32 * 1.5,
+                                      decoration: BoxDecoration(
+                                        gradient: AppColor.gradient,
+                                        borderRadius: BorderRadius.circular(3),
+                                      ),
                                     ),
                                   ),
-                                ],
-                              ),
-                              SizedBox(height: 25),
-                              const SizedBox(height: LayoutConstants.spaceM),
-                              Divider(color: Colors.white, height: 3),
-                              Row(
-                                children: <Widget>[
-                                  SizedBox(height: LayoutConstants.spaceM),
-                                  const Spacing(),
+                                  ProductNameAndPrice(product: widget.product),
                                   Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      
-                                      TextButton(
-                                          style: TextButton.styleFrom(
-                                            textStyle: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.white),
-                                          ),
-                                          onPressed: () {
-                                            if (showDetails == false) {
-                                              setState(() {
-                                                showDetails = true;
-                                                showCustomisation = false;
-                                                showReviews = false;
-                                              });
-                                            }
-                                          },
-                                          child: Text(
-                                            'Details',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          )),
-
-                                      SizedBox(width: 8),
-
-                                      TextButton(
-                                          style: TextButton.styleFrom(
-                                            textStyle: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.white),
-                                          ),
-                                          onPressed: () {
-                                            if (showReviews == false) {
-                                              setState(() {
-                                                showReviews = true;
-                                                showCustomisation = false;
-                                                showDetails = false;
-                                              });
-                                            }
-                                          },
-                                          child: Text(
-                                            'Reviews',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          )),
-                                      SizedBox(width: 8),
-                                  
+                                      Text(
+                                        widget.product.manufacturer!,
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                ],
-                              ),
-                              if (showDetails == true) ...[
-                                PriceInput(),
-                                StockInput(),
-                              
-                                SizedBox(height: 30),
-                                Center(
-                                  child: NeumorphicButton(
-                                    child: Text(
-                                      'Add Product',
-                                      style: TextStyle(color: Colors.white),
+                                  SizedBox(height: 25),
+                                  const SizedBox(
+                                      height: LayoutConstants.spaceM),
+                                  Divider(color: Colors.white, height: 3),
+                                  Row(
+                                    children: <Widget>[
+                                      SizedBox(height: LayoutConstants.spaceM),
+                                      const Spacing(),
+                                      Row(
+                                        children: [
+                                          TextButton(
+                                              style: TextButton.styleFrom(
+                                                textStyle: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.white),
+                                              ),
+                                              onPressed: () {
+                                                if (showDetails == false) {
+                                                  setState(() {
+                                                    showDetails = true;
+                                                    showCustomisation = false;
+                                                    showReviews = false;
+                                                  });
+                                                }
+                                              },
+                                              child: Text(
+                                                'Details',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              )),
+                                          SizedBox(width: 8),
+                                          TextButton(
+                                              style: TextButton.styleFrom(
+                                                textStyle: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.white),
+                                              ),
+                                              onPressed: () {
+                                                if (showReviews == false) {
+                                                  setState(() {
+                                                    showReviews = true;
+                                                    showCustomisation = false;
+                                                    showDetails = false;
+                                                  });
+                                                }
+                                              },
+                                              child: Text(
+                                                'Reviews',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              )),
+                                          SizedBox(width: 8),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  if (showDetails == true) ...[
+                                    TextBox(
+                                      inputController: priceEditingController,
+                                      text: "${FirestoreProduct.price}",
+                                      label: 'Price',
                                     ),
-                                    onPressed: () =>
-                                        basketController.addProduct(
-                                            productController.products[index],
-                                            index),
-                                  ),
-                                )
-                              ],
+                                    TextBox(
+                                      label: 'Stock',
+                                      inputController: stockEditingController,
+                                      text: "${FirestoreProduct.stock}",
+                                    ),
+                                    // PriceInput(),
+                                    // StockInput(),
+                                    SizedBox(height: 30),
+                                    Center(
+                                      child: NeumorphicButton(
+                                        child: Text(
+                                          'Update Product',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        onPressed: () => FirebaseFirestore
+                                            .instance
+                                            .collection('product')
+                                            .doc(widget.product.itemID)
+                                            .update({
+                                          'price': double.parse(
+                                              priceEditingController.text),
+                                          'stock': double.parse(
+                                              stockEditingController.text),
+                                        }),
+                                      ),
+                                    )
+                                  ],
+                                  if (showReviews == true) ...[
+                                    SizedBox(height: 10),
+                                    Text(
+                                      "Reviews",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.white),
+                                    ),
+                                    Container(
+                                        height: 225.0,
+                                        child: StreamBuilder<QuerySnapshot>(
+                                          stream: reviewsStream,
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot<QuerySnapshot>
+                                                  snapshot) {
+                                            if (snapshot.hasError) {
+                                              return const Text(
+                                                  'No reviews Availiable');
+                                            }
 
-                              if (showReviews == true) ...[
-                                SizedBox(height: 10),
-                                Text(
-                                  "Reviews",
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.white),
-                                ),
-                                Container(
-                                    height: 225.0,
-                                    child: StreamBuilder<QuerySnapshot>(
-                                      stream: reviewsStream,
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot<QuerySnapshot>
-                                              snapshot) {
-                                        if (snapshot.hasError) {
-                                          return const Text(
-                                              'Something went wrong');
-                                        }
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const Text("Loading");
+                                            }
 
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return const Text("Loading");
-                                        }
-
-                                        return ListView(
-                                         
-                                          shrinkWrap: true,
-                                          physics:
-                                              const ClampingScrollPhysics(),
-                                          children: snapshot.data!.docs
-                                              .map((DocumentSnapshot document) {
-                                            Map<String, dynamic> data =
-                                                document.data()!
-                                                    as Map<String, dynamic>;
-                                            return ListTile(
-                                              title: Text(
-                                                data['usersName'] +
-                                                    " " +
-                                                    data['date'].toString(),
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                              isThreeLine: true,
-                                              subtitle: Text(
-                                                data['review'],
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                              trailing:
-                                                  const Icon(Icons.line_weight),
-                                              iconColor: Colors.white,
+                                            return ListView(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const ClampingScrollPhysics(),
+                                              children: snapshot.data!.docs.map(
+                                                  (DocumentSnapshot document) {
+                                                Map<String, dynamic> data =
+                                                    document.data()!
+                                                        as Map<String, dynamic>;
+                                                return ListTile(
+                                                  title: Text(
+                                                    data['usersName'] +
+                                                        " " +
+                                                        data['date'].toString(),
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                  isThreeLine: true,
+                                                  subtitle: Text(
+                                                    data['review'],
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                  trailing: const Icon(
+                                                      Icons.line_weight),
+                                                  iconColor: Colors.white,
+                                                );
+                                              }).toList(),
                                             );
-                                          }).toList(),
-                                        );
-                                      },
-                                    )),
-                                SizedBox(height: 30),
-                                NeumorphicButton(
-                                  child: Text(
-                                    'Add to Cart',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  onPressed: () => basketController.addProduct(
-                                      productController.products[index], index),
-                                ),
-                              ],
-                            ]),
-                      ))))
-        ]));
+                                          },
+                                        )),
+                                    SizedBox(height: 30),
+                                    NeumorphicButton(
+                                      child: Text(
+                                        'Update Item',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      onPressed: () => FirebaseFirestore
+                                          .instance
+                                          .collection('product')
+                                          .doc(widget.product.itemID)
+                                          .update({
+                                        'price': double.parse(
+                                            priceEditingController.text),
+                                        'stock': double.parse(
+                                            stockEditingController.text),
+
+                                        // basketController.addProduct(
+                                        //     productController.products[index], index),
+                                      }),
+                                    ),
+                                  ],
+                                ]),
+                          ))))
+            ])));
   }
 }
 
@@ -426,9 +453,7 @@ class ProductNameAndPrice extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          product.name,
-         
-         
+          product.name!,
           style: AppStyle.h1Light.copyWith(
               color: Colors.white, fontWeight: FontWeight.w600, fontSize: 30),
         ),
@@ -604,12 +629,9 @@ class PriceInput extends StatelessWidget {
                   color: Colors.grey.withOpacity(.1)),
             ]),
             child: TextField(
-              onChanged: (value) {
-               
-              },
+              onChanged: (value) {},
               style: const TextStyle(fontSize: 14, color: Colors.white),
               decoration: InputDecoration(
-              
                 filled: true,
                 fillColor: const Color(0xff161C22),
                 hintText: 'Update Price',
@@ -664,15 +686,12 @@ class StockInput extends StatelessWidget {
             ]),
             child: TextField(
               obscureText: true,
-              onChanged: (value) {
-            
-              },
+              onChanged: (value) {},
               style: const TextStyle(fontSize: 14, color: Colors.white),
               decoration: InputDecoration(
-               
                 filled: true,
                 fillColor: const Color(0xff161C22),
-                hintText: 'Update stock',
+                hintText: '',
                 hintStyle: TextStyle(color: Colors.grey.withOpacity(.75)),
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
@@ -724,12 +743,9 @@ class ConfirmStockInput extends StatelessWidget {
             ]),
             child: TextField(
               obscureText: true,
-              onChanged: (value) {
-               
-              },
+              onChanged: (value) {},
               style: const TextStyle(fontSize: 14, color: Colors.white),
               decoration: InputDecoration(
-              
                 filled: true,
                 fillColor: const Color(0xff161C22),
                 hintText: 'Enter your stock',
@@ -749,6 +765,84 @@ class ConfirmStockInput extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class TextBox extends StatelessWidget {
+  final TextEditingController inputController;
+  String text;
+  String label;
+  TextBox(
+      {Key? key,
+      required this.inputController,
+      required this.text,
+      required this.label})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    const primaryColor = Colors.grey;
+    const secondaryColor = Colors.black;
+    const accentColor = Color(0xffffffff);
+    const backgroundColor = Color(0xffffffff);
+    const errorColor = Color(0xffEF4444);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+              color: Colors.white.withOpacity(.9)),
+        ),
+        Container(
+          height: 50,
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+                offset: const Offset(12, 26),
+                blurRadius: 50,
+                spreadRadius: 0,
+                color: Colors.grey.withOpacity(.1)),
+          ]),
+          child: TextField(
+            controller: inputController,
+            onChanged: (value) {
+              value = inputController.text;
+            },
+            keyboardType: TextInputType.emailAddress,
+            style: const TextStyle(fontSize: 14, color: Colors.black),
+            decoration: InputDecoration(
+              //label: Text(text),
+              labelStyle: const TextStyle(color: Colors.black),
+              filled: true,
+              fillColor: accentColor,
+              hintText: text,
+              hintStyle: TextStyle(color: Colors.grey.withOpacity(.75)),
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+              border: const OutlineInputBorder(
+                borderSide: BorderSide(color: primaryColor, width: 1.0),
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: secondaryColor, width: 1.0),
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              ),
+              errorBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: errorColor, width: 1.0),
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              ),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: primaryColor, width: 1.0),
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

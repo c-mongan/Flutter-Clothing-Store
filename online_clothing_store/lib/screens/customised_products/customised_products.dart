@@ -122,9 +122,9 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
     switch (_item.color) {
      
       case "1":
-        return displayColor(widget.product.color);
+        return displayColor(widget.product.color!);
       case "2":
-        return displayColor(widget.product.color2);
+        return displayColor(widget.product.color2!);
 
       default:
         return Colors.transparent;
@@ -260,7 +260,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: CustomisedAppBar(title: widget.product.name),
+        appBar: CustomisedAppBar(title: widget.product.name!),
         bottomNavigationBar: const CustomisedNavigationBar(),
         body: Stack(children: [
           Positioned(
@@ -277,7 +277,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                   borderRadius: BorderRadius.circular(16),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(widget.product.imageUrl),
+                    image: NetworkImage(widget.product.imageUrl!),
                   )),
             ),
           ),
@@ -323,7 +323,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    widget.product.manufacturer,
+                                    widget.product.manufacturer!,
                                     style: const TextStyle(
                                       fontSize: 20,
                                       color: Colors.grey,
@@ -759,7 +759,7 @@ class ProductNameAndPrice extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          product.name,
+          product.name!,
           
           style: AppStyle.h1Light.copyWith(
               color: Colors.white, fontWeight: FontWeight.w600, fontSize: 30),

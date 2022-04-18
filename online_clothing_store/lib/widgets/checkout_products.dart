@@ -76,7 +76,7 @@ class BasketProductCard extends StatelessWidget {
           CircleAvatar(
             radius: 40,
             backgroundImage: NetworkImage(
-              product.imageUrl,
+              product.imageUrl!,
             ),
           ),
           SizedBox(
@@ -84,7 +84,7 @@ class BasketProductCard extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              product.name + "    €" + product.price.toString(),
+              product.name! + "    €" + product.price.toString(),
               style: TextStyle(fontSize: 20, color: Colors.white),
             ),
           ),

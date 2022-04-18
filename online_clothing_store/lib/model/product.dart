@@ -3,33 +3,32 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Product {
   //include title, manufacturer, price, category
 
-  // Product's variables: name, price, imageUrl. All required.
-  late final String name;
-  num price;
-  late final String imageUrl;
- late final String itemID;
-  final String category;
-  final String manufacturer;
-  // late final String size;
-  final String description;
-  late final String color;
-  late final String color2;
-  late final num stock;
+  // Product's variables: name, price, imageUrl. All .
+ String? name;
+  num? price;
+   String? imageUrl;
+   String? itemID;
+  final String? category;
+  final String? manufacturer;
+  //  String? size;
+  final String? description;
+   String? color;
+   String? color2;
+   num? stock;
 
   Product(
       {
-      // required this.uid,
-      required this.name,
-      required this.price,
-      required this.imageUrl,
-      required this.category,
-      required this.manufacturer,
-      required this.description,
-      required this.color,
-      required this.color2,
-      required this.stock,
-      required this.itemID
-      });
+      //  this.uid,
+       this.name,
+       this.price,
+       this.imageUrl,
+       this.category,
+       this.manufacturer,
+       this.description,
+       this.color,
+       this.color2,
+       this.stock,
+       this.itemID});
 
   static Product fromSnapshot(DocumentSnapshot snap) {
     Product product = Product(
@@ -43,9 +42,41 @@ class Product {
       description: snap['description'],
       color: snap['color'],
       color2: snap['color2'],
-      itemID : snap['itemID'],
-      
+      itemID: snap['itemID'],
     );
     return product;
+  }
+
+  //Get Data from the server
+  factory Product.fromMap(map) {
+    return Product(
+      // uid: map['uid'],
+      name: map['name'],
+      category: map['category'],
+      manufacturer: map['manufacturer'],
+      price: map['price'],
+      imageUrl: map['imageUrl'],
+      stock: map['stock'],
+      description: map['description'],
+      color: map['color'],
+      color2: map['color2'],
+      itemID: map['itemID'],
+    );
+  }
+  //Send data to our server
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'category': category,
+      'manufacturer': manufacturer,
+      'price': price,
+      'imageUrl': imageUrl,
+      'stock': stock,
+      'description': description,
+      'color': color,
+      'color2': color2,
+      'itemID': itemID,
+    };
   }
 }

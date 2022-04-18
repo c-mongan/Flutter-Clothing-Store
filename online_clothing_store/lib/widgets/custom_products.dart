@@ -56,13 +56,13 @@ class CustomProductCard extends StatelessWidget {
                 CircleAvatar(
                   radius: 40,
                   backgroundImage: NetworkImage(
-                    productController.custom[index].imageUrl,
+                    productController.custom[index].imageUrl!,
                   ),
                 ),
                 SizedBox(width: 20),
                 Expanded(
                   child: Text(
-                    productController.custom[index].name,
+                    productController.custom[index].name!,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,

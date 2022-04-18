@@ -55,13 +55,13 @@ class ShoesProductCard extends StatelessWidget {
                 CircleAvatar(
                   radius: 40,
                   backgroundImage: NetworkImage(
-                    productController.footwear[index].imageUrl,
+                    productController.footwear[index].imageUrl!,
                   ),
                 ),
                 SizedBox(width: 20),
                 Expanded(
                   child: Text(
-                    productController.footwear[index].name,
+                    productController.footwear[index].name!,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,

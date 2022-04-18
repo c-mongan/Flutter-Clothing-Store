@@ -145,6 +145,18 @@ class _AddressPageState extends State<AddressPage> {
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () {
+                    FirebaseFirestore.instance
+                        .collection("UserData")
+                        .doc(user!.uid)
+                        .update({
+                      'firstName': firstNameEditingController.text,
+                      'secondName': secondNameEditingController.text,
+                      'email': emailEditingController.text,
+                      'address': addressEditingController.text,
+                      'city': cityEditingController.text,
+                      'zipCode': zipCodeEditingController.text,
+                      'country': countryEditingController.text,
+                    });
                     Get.to(PaymentPage(controller),
                         arguments: [data[0], data[1], controller]);
                   },

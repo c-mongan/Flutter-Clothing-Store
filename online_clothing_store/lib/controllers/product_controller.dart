@@ -120,7 +120,7 @@ class ProductController extends GetxController {
       products.bindStream(getStream(filterCriterea).map((list) {
         return list
             .where(
-                (product) => product.manufacturer.toLowerCase() == searchText)
+                (product) => product.manufacturer!.toLowerCase() == searchText)
             .toList();
       }));
     } else if (titles.any(check)) {
@@ -153,7 +153,7 @@ class ProductController extends GetxController {
       products.bindStream(getStream(filterCriterea).map((list) {
         print("matched titles");
         return list
-            .where((product) => product.name.toLowerCase().contains(searchText))
+            .where((product) => product.name!.toLowerCase().contains(searchText))
             .toList();
       }));
     } else
@@ -164,12 +164,12 @@ class ProductController extends GetxController {
         //Concatonates all matching categories and names into one list and removes duplicates
         List<Product> newList = list
                 .where((product) =>
-                    product.category.toLowerCase().contains(searchText))
+                    product.category!.toLowerCase().contains(searchText))
                 .toSet()
                 .toList() +
             list
                 .where((product) =>
-                    product.name.toLowerCase().contains(searchText))
+                    product.name!.toLowerCase().contains(searchText))
                 .toSet()
                 .toList();
         return newList.toSet().toList();

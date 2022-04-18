@@ -169,7 +169,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                       child: ListView.builder(
                           itemCount: productController.products.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return InventoryProductCard(index: index);
+                            return AdminProductCard(index: index);
                           }),
                     ),
                   )),
@@ -208,12 +208,12 @@ class _AdminHomePageState extends State<AdminHomePage> {
   }
 }
 
-class InventoryProductCard extends StatelessWidget {
+class AdminProductCard extends StatelessWidget {
   final basketController = Get.put(BasketController());
   final ProductController productController = Get.find();
   final int index;
 
-  InventoryProductCard({
+  AdminProductCard({
     Key? key,
     required this.index,
   }) : super(key: key);
@@ -244,13 +244,13 @@ class InventoryProductCard extends StatelessWidget {
               CircleAvatar(
                 radius: 40,
                 backgroundImage: NetworkImage(
-                  productController.products[index].imageUrl,
+                  productController.products[index].imageUrl!,
                 ),
               ),
               SizedBox(width: 20),
               Expanded(
                 child: Text(
-                  productController.products[index].name,
+                  productController.products[index].name!,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -260,7 +260,7 @@ class InventoryProductCard extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                    ' € ${productController.products[index].price.toStringAsFixed(2)}',
+                    ' € ${productController.products[index].price!.toStringAsFixed(2)}',
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,

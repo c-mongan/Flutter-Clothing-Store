@@ -50,9 +50,9 @@ class MyApp extends StatelessWidget {
       ),
 
       //home: LoginScreen(),
-      home: SplashScreen(),
+      // home: SplashScreen(),
 
-      // home: HomePage(),
+      home: AdminHomePage(),
     );
   }
 }

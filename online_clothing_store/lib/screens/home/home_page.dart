@@ -245,13 +245,13 @@ class InventoryProductCard extends StatelessWidget {
               CircleAvatar(
                 radius: 40,
                 backgroundImage: NetworkImage(
-                  productController.products[index].imageUrl,
+                  productController.products[index].imageUrl!,
                 ),
               ),
               SizedBox(width: 20),
               Expanded(
                 child: Text(
-                  productController.products[index].name,
+                  productController.products[index].name!,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -261,7 +261,7 @@ class InventoryProductCard extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                    ' € ${productController.products[index].price.toStringAsFixed(2)}',
+                    ' € ${productController.products[index].price!.toStringAsFixed(2)}',
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
