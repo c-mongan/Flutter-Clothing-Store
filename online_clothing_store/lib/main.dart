@@ -14,7 +14,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   // HttpOverrides.global = MyHttpOverrides();
-  runApp(const GetMaterialApp(home: MyApp()));
+  runApp(const MaterialApp(home: MyApp()));
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner:
           false, //Gets rid of debug mode icon in top right
       title: 'Email and Password Login',

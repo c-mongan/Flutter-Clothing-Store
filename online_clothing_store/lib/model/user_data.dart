@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserInformation {
   String? uid;
   String? email;
@@ -77,4 +79,34 @@ class UserInformation {
         country: json['country'],
         studentID: json['studentID'],
       );
+
+
+
+
+  static UserInformation fromSnapshot(DocumentSnapshot snap) {
+    UserInformation product = UserInformation(
+     
+      uid: snap['uid'],
+      email: snap['email'],
+
+      firstName: snap['firstName'],
+      secondName: snap['secondName'],
+      address: snap['address'],
+
+      cardNum: snap['cardNum'],
+
+        
+      cvv: snap['cvv'],
+      expiryDate: snap['expiryDate'],
+      city: snap['city'],
+      zipCode: snap['zipCode'],
+      country: snap['country'],
+      studentID: snap['studentID'],
+
+      
+      
+    );
+    return product;
+  }
 }
+

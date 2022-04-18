@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../model/product.dart';
+import '../model/user_data.dart';
 
 class DatabaseService {
   static final DatabaseService databaseService = DatabaseService._internal();
@@ -147,4 +148,34 @@ class DatabaseService {
           'studentID': studentID,
         }));
   }
-}
+
+
+
+
+
+
+
+
+  Stream<List<UserInformation>> getAllUsers() {
+    return _firebaseFirestore.collection('UserData').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => UserInformation.fromSnapshot(doc)).toList();
+    });
+  }
+
+
+
+ 
+  
+
+ 
+  
+
+
+
+ 
+  }
+
+
+
+
+

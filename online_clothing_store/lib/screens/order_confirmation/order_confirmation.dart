@@ -11,6 +11,7 @@ import 'package:health_app_fyp/widgets/basket_products.dart';
 import '../../controllers/basket_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../model/user_model.dart';
+import '../../widgets/checkout_products.dart';
 import '../admin/admin_inventory/admin_product.dart';
 import '/widgets/widgets.dart';
 
@@ -79,14 +80,14 @@ class OrderConfirmation extends StatelessWidget {
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
                           ),
-                          BasketProducts(),
+                          CheckoutProducts(),
                           Divider(thickness: 2),
                           SizedBox(height: 5),
                           OrderDetails(
                               order: data[1], deliveryCostStrategy: data[0]),
                           NeumorphicButton(
                             child: Text(
-                              'Add Product',
+                              'Back to Home',
                               style: TextStyle(color: Colors.white),
                             ),
                             onPressed: () => addOrder(controller, orderNo),
@@ -108,25 +109,22 @@ class OrderConfirmation extends StatelessWidget {
     }
 
     Get.to(const HomePage());
+
+    controller.products.clear();
   }
 
   void addFirestore(i, orderNo, controller) async {
     String uid = controller.products.keys.toList()[i].itemID.toString();
 
-    // await Firestore.instance
-    //     .collection('orders')
-    //     .document(uid)
-    //     .collection('orders')
-    //     .document(orderNo.toString())
-    //     .setData({
-    //   'product': controller.products.values.toList()[i].product,
-    //   'quantity': controller.products.values.toList()[i].quantity,
-    //   'price': controller.products.values.toList()[i].price,
-    //   'totalPrice': controller.products.values.toList()[i].totalPrice,
-    //   'orderNo': orderNo,
-    //   'uid': uid,
-    //   'status': 'pending',
-    // });
+    FirebaseFirestore.instance
+        .collection("orders")
+        .doc(orderNo.toString())
+        .set({
+      "orderNo": orderNo,
+      "total": controller.total,
+      "userID": user?.uid,
+    });
+
     FirebaseFirestore.instance.collection("orderItems").doc().set({
       "name": controller.products.keys.toList()[i].name,
       "price": controller.products.keys.toList()[i].price,
@@ -137,12 +135,8 @@ class OrderConfirmation extends StatelessWidget {
       "quantity": controller.products.values.toList()[i],
       "id": orderNo.toString(),
     });
-// .doc('ABC123')
-//     .update({'company': 'Stokes and Sons'})
-//     .then((value) => print("User Updated"))
-//     .catchError((error) => print("Failed to update user: $error"));
-// }
 
+//Decrement stock level
     int quantity = controller.products.values.toList()[i];
     await FirebaseFirestore.instance
         .collection('product')
@@ -151,31 +145,4 @@ class OrderConfirmation extends StatelessWidget {
         .then((value) => print("Product Updated"))
         .catchError((error) => print("Failed to update product: $error"));
   }
-
-  // await FirebaseFirestore.instance.collection('post').doc(postId).update({"like": FieldValue.increment(-1)});
-
-  //.update({"like": FieldValue.increment(-1)});
 }
-  // void addOrderToUser(BasketController controller, orderNo) {
-  //   for (int i = 0; i < controller.products.length; i++) {
-  //     FirebaseFirestore.instance
-  //         .collection("users")
-  //         .doc(user.uid)
-  //         .collection("orders")
-  //         .doc(orderNo.toString())
-  //         .set({
-  //       "name": controller.products.keys.toList()[i].name,
-  //       "price": controller.products.keys.toList()[i].price,
-  //       "color1": controller.products.keys.toList()[i].color,
-  //       "color2": controller.products.keys.toList()[i].color2,
-  //       "stock": controller.products.keys.toList()[i].stock,
-  //       "img": controller.products.keys.toList()[i].imageUrl,
-  //       "quantity": controller.products.values.toList()[i],
-  //       "id": orderNo.toString(),
-  //     });
-
-  //   }
-
-  //   Get.to(HomePage());
-  // }
-

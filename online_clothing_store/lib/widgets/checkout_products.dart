@@ -88,6 +88,15 @@ class BasketProductCard extends StatelessWidget {
               style: TextStyle(fontSize: 20, color: Colors.white),
             ),
           ),
+          SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Text(
+              "Quantity : $quantity",
+              style: TextStyle(fontSize: 15, color: Colors.white),
+            ),
+          ),
         ],
       ),
     );

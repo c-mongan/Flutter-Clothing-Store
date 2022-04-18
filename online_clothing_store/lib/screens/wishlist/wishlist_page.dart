@@ -75,7 +75,6 @@ class _WishlistPageState extends State<WishlistPage> {
     return Scaffold(
       appBar: const CustomisedAppBar(title: "Wishlist"),
       bottomNavigationBar: const CustomisedNavigationBar(),
-     
       body: WishlistProducts(),
     );
   }
