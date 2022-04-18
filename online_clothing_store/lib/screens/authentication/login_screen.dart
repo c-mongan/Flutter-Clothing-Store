@@ -100,7 +100,6 @@ class _LoginScreenState extends State<LoginScreen> {
           //When the button is pressed , use the controllers to set the text
           onPressed: () {
             signIn(emailController.text, passwordController.text);
-          
           },
           child: const Text(
             "Login",
@@ -111,7 +110,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     return Scaffold(
-       
         body: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -121,7 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
               Colors.grey,
             ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
             child: SingleChildScrollView(
-           
                 child: Column(children: <Widget>[
               Center(
                   child: Padding(
@@ -132,8 +129,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: <Widget>[
                             Form(
                               key: _formKey,
-                           
-
                               child: SafeArea(
                                 child: SingleChildScrollView(
                                   child: Column(children: <Widget>[
@@ -144,9 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           CrossAxisAlignment.center,
                                       children: <Widget>[
                                         SizedBox(
-                                          height: 50.0,
-
-                                         
+                                          height: 30.0,
                                         ),
                                         Text(
                                           "CM Menswear",
@@ -155,11 +148,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white,
                                           ),
-                                        
                                         ),
                                         SizedBox(
                                           height: 200,
-                                         
                                         ),
                                         Text(
                                           "Login",
@@ -199,17 +190,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                           ],
                                         ),
                                         SizedBox(
-                                          height: 40,
+                                          height: 20,
                                         ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: <Widget>[
-                                          
                                             GestureDetector(
                                               onTap: () {
                                                 Get.to(AdminLoginScreen());
-                                              
                                               },
                                               child: const Text("Admin",
                                                   style: TextStyle(
@@ -270,8 +259,6 @@ class _LoginScreenState extends State<LoginScreen> {
             errorMessage = "An unexpected Error has occurred.";
         }
         Fluttertoast.showToast(msg: errorMessage!);
-    
-       
       }
     }
   }

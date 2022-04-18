@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:health_app_fyp/designpatterns/decorator/widgets/decorator_class.dart';
+import 'package:health_app_fyp/screens/admin/admin_inventory/admin_customers.dart';
 import 'package:health_app_fyp/screens/screens.dart';
 
 import '../screens/admin/admin_add_product.dart';
@@ -18,47 +19,15 @@ class AdminCarousel extends StatefulWidget {
 List<Widget> cards = [
   InnerNeumorphicCardFb1(
       text: "Add product",
-      imageUrl:
-          "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Designer_re_5v95%201.png?alt=media&token=5d053bd8-d0ea-4635-abb6-52d87539b7ec",
-      subtitle: "+30 books",
+      subtitle: "",
       onPressed: () {
         Get.to(AdminAddProduct());
       }),
   InnerNeumorphicCardFb1(
-      text: "Custom Products",
-      imageUrl:
-          "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Accept_terms_re_lj38%201.png?alt=media&token=476b97fd-ba66-4f62-94a7-bce4be794f36",
+      text: "View Customers",
       subtitle: "",
       onPressed: () {
-        // Get.to(CustomisedProducts());
-        Get.to(CustomItemPage());
-      }),
-  InnerNeumorphicCardFb1(
-      text: "Remove Product",
-      imageUrl:
-          "https://p7.hiclipart.com/preview/967/334/474/nike-free-shoe-nike-air-max-running-jogging-shoes.jpg",
-      
-      subtitle: "Browse all footwear",
-      onPressed: () {
-        Get.to(ShoesPage());
-      }),
-  InnerNeumorphicCardFb1(
-      text: "Update Product",
-      imageUrl:
-          "https://p7.hiclipart.com/preview/967/334/474/nike-free-shoe-nike-air-max-running-jogging-shoes.jpg",
-     
-      subtitle: "Browse all footwear",
-      onPressed: () {
-        Get.to(ShoesPage());
-      }),
-  InnerNeumorphicCardFb1(
-      text: "View Customers",
-      imageUrl:
-          "https://p7.hiclipart.com/preview/967/334/474/nike-free-shoe-nike-air-max-running-jogging-shoes.jpg",
-      
-      subtitle: "Browse all footwear",
-      onPressed: () {
-        Get.to(ShoesPage());
+        Get.to(CustomerPage());
       }),
 ];
 
@@ -109,7 +78,6 @@ class _AdminCarouselState extends State<AdminCarousel> {
     );
   }
 }
-
 
 class NeumorphicCard extends StatefulWidget {
   final String text;
@@ -183,7 +151,6 @@ class _NeumorphicCardState extends State<NeumorphicCard> {
           child: Container(
               child: InnerNeumorphicCardFb1(
                   text: widget.text,
-                  imageUrl: widget.imgUrl,
                   subtitle: widget.subTitle,
                   onPressed: () {}))),
     );
@@ -192,13 +159,12 @@ class _NeumorphicCardState extends State<NeumorphicCard> {
 
 class InnerNeumorphicCardFb1 extends StatelessWidget {
   final String text;
-  final String imageUrl;
+
   final String subtitle;
   final Function() onPressed;
 
   const InnerNeumorphicCardFb1(
       {required this.text,
-      required this.imageUrl,
       required this.subtitle,
       required this.onPressed,
       Key? key})
@@ -210,18 +176,17 @@ class InnerNeumorphicCardFb1 extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         width: 150,
-        height: 175,
+        height: 150,
         padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
-            Image.network(imageUrl, height: 70, fit: BoxFit.cover),
             const Spacer(),
             Text(text,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 20,
                 )),
             const SizedBox(
               height: 5,

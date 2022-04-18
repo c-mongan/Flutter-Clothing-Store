@@ -84,7 +84,7 @@ class UserInformation {
 
 
   static UserInformation fromSnapshot(DocumentSnapshot snap) {
-    UserInformation product = UserInformation(
+    UserInformation user = UserInformation(
      
       uid: snap['uid'],
       email: snap['email'],
@@ -106,7 +106,7 @@ class UserInformation {
       
       
     );
-    return product;
+    return user;
   }
 }
 

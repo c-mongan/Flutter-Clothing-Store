@@ -149,14 +149,7 @@ class DatabaseService {
         }));
   }
 
-
-
-
-
-
-
-
-  Stream<List<UserInformation>> getAllUsers() {
+ Stream<List<UserInformation>> getAllUsers() {
     return _firebaseFirestore.collection('UserData').snapshots().map((snapshot) {
       return snapshot.docs.map((doc) => UserInformation.fromSnapshot(doc)).toList();
     });
