@@ -31,8 +31,16 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   final basketController = Get.put(BasketController());
 
+  @override
+  void initState() {
+    super.initState();
+    rating = [false, false, false, false, false];
+  }
+
   String uid = FirebaseAuth.instance.currentUser!.uid;
   final ProductController productController = Get.find();
+
+  late List<bool> rating;
 
   final CommandHistory _commandHistory = CommandHistory();
   bool firstIsSelected = true;
@@ -203,28 +211,24 @@ class _ProductPageState extends State<ProductPage> {
   void selectSize(_item) {
     switch (_item.size) {
       case "Small":
-    
         secondIsSelected = false;
         thirdIsSelected = false;
         firstIsSelected = !firstIsSelected;
         fourthIsSelected = false;
         break;
       case "Medium":
-     
         firstIsSelected = false;
         thirdIsSelected = false;
         secondIsSelected = !secondIsSelected;
         fourthIsSelected = false;
         break;
       case "Large":
-  
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = !thirdIsSelected;
         fourthIsSelected = false;
         break;
       case "Extra Large":
-     
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = false;
@@ -300,7 +304,6 @@ class _ProductPageState extends State<ProductPage> {
                                 ),
                               ),
                               ProductNameAndPrice(product: widget.product),
-                             
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -363,7 +366,6 @@ class _ProductPageState extends State<ProductPage> {
                                   const Spacing(),
                                   Row(
                                     children: [
-                                     
                                       TextButton(
                                           style: TextButton.styleFrom(
                                             textStyle: TextStyle(
@@ -424,7 +426,6 @@ class _ProductPageState extends State<ProductPage> {
                                                 showDetails = false;
                                                 showReviews = false;
                                               });
-                                     
                                             }
                                           },
                                           child: Text(
@@ -448,7 +449,6 @@ class _ProductPageState extends State<ProductPage> {
                                       productController.products[index], index),
                                 ),
                               ],
-
                               if (showReviews == true) ...[
                                 SizedBox(height: 10),
                                 Text(
@@ -456,6 +456,97 @@ class _ProductPageState extends State<ProductPage> {
                                   style: TextStyle(
                                       fontSize: 20, color: Colors.white),
                                 ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    RatingStar(
+                                        selected: rating[0],
+                                        onPressed: () {
+                                          setState(() {
+                                            rating[0] = true;
+                                            if (rating[0]) {
+                                              rating[1] = false;
+                                              rating[2] = false;
+                                              rating[3] = false;
+                                              rating[4] = false;
+                                            }
+                                          });
+                                        }),
+                                    RatingStar(
+                                        selected: rating[1],
+                                        onPressed: () {
+                                          setState(() {
+                                            rating[0] = true;
+                                            rating[1] = true;
+                                            if (rating[1]) {
+                                              rating[2] = false;
+                                              rating[3] = false;
+                                              rating[4] = false;
+                                            }
+                                          });
+                                        }),
+                                    RatingStar(
+                                        selected: rating[2],
+                                        onPressed: () {
+                                          setState(() {
+                                            rating[0] = true;
+                                            rating[1] = true;
+                                            rating[2] = true;
+                                            if (rating[2]) {
+                                              rating[3] = false;
+                                              rating[4] = false;
+                                            }
+                                          });
+                                        }),
+                                    RatingStar(
+                                        selected: rating[3],
+                                        onPressed: () {
+                                          setState(() {
+                                            rating[0] = true;
+                                            rating[1] = true;
+                                            rating[2] = true;
+                                            rating[3] = true;
+                                            if (rating[3]) {
+                                              rating[4] = false;
+                                            }
+                                          });
+                                        }),
+                                    RatingStar(
+                                        selected: rating[4],
+                                        onPressed: () {
+                                          setState(() {
+                                            rating[0] = true;
+                                            rating[1] = true;
+                                            rating[2] = true;
+                                            rating[3] = true;
+                                            rating[4] = true;
+                                          });
+                                        }),
+                                  ],
+                                ),
+                                TextField(
+                                    maxLines: 5,
+                                    decoration: InputDecoration(
+                                        hintText: 'Write a review',
+                                        hintStyle:
+                                            TextStyle(color: Colors.white),
+                                        border: OutlineInputBorder())),
+                                SizedBox(height: 30),
+                                NeumorphicButton(
+                                    child: Text(
+                                      'Submit',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () => FirebaseFirestore.instance
+                                            .collection('reviews')
+                                            .add({
+                                          'userID': uid,
+                                          'productID': widget.product.itemID,
+                                          "dateTime": DateTime.now(),
+                                          'review': '',
+                                          'name': widget.product.name,
+                                          'rating': rating,
+                                        })),
                                 Container(
                                     height: 225.0,
                                     child: StreamBuilder<QuerySnapshot>(
@@ -474,7 +565,6 @@ class _ProductPageState extends State<ProductPage> {
                                         }
 
                                         return ListView(
-                                        
                                           shrinkWrap: true,
                                           physics:
                                               const ClampingScrollPhysics(),
@@ -521,8 +611,6 @@ class _ProductPageState extends State<ProductPage> {
                                 SizedBox(
                                   height: 5,
                                 ),
-                              
-                            
                                 Divider(color: Colors.white, height: 3),
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -552,12 +640,10 @@ class _ProductPageState extends State<ProductPage> {
                                     SizedBox(width: 3),
                                   ],
                                 ),
-
                                 Divider(color: Colors.white, height: 3),
                                 SizedBox(
                                   height: 35,
                                 ),
-                               
                                 Divider(color: Colors.white, height: 3),
                                 SizedBox(
                                   height: 5,
@@ -581,7 +667,6 @@ class _ProductPageState extends State<ProductPage> {
                                       onTap: () {
                                         setState(() {
                                           _changeSize();
-                                         
                                         });
                                       },
                                       child: Button(
@@ -626,7 +711,6 @@ class _ProductPageState extends State<ProductPage> {
                                         onPressed: _changeSize),
                                   ],
                                 ),
-
                                 Divider(color: Colors.white, height: 3),
                                 SizedBox(
                                   height: 35,
@@ -655,7 +739,6 @@ class _ProductPageState extends State<ProductPage> {
                                     ),
                                   ],
                                 ),
-                               
                               ],
                             ]),
                       ))))
@@ -916,5 +999,110 @@ class _NeumorphicButtonState extends State<NeumorphicButton> {
 extension ColorUtils on Color {
   Color mix(Color another, double amount) {
     return Color.lerp(this, another, amount)!;
+  }
+}
+
+class RatingWidget extends StatefulWidget {
+  RatingWidget({Key? key}) : super(key: key);
+
+  @override
+  _RatingWidgetState createState() => _RatingWidgetState();
+}
+
+class _RatingWidgetState extends State<RatingWidget> {
+  late List<bool> rating;
+  @override
+  void initState() {
+    super.initState();
+    rating = [false, false, false, false, false];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        RatingStar(
+            selected: rating[0],
+            onPressed: () {
+              setState(() {
+                rating[0] = true;
+                if (rating[0]) {
+                  rating[1] = false;
+                  rating[2] = false;
+                  rating[3] = false;
+                  rating[4] = false;
+                }
+              });
+            }),
+        RatingStar(
+            selected: rating[1],
+            onPressed: () {
+              setState(() {
+                rating[0] = true;
+                rating[1] = true;
+                if (rating[1]) {
+                  rating[2] = false;
+                  rating[3] = false;
+                  rating[4] = false;
+                }
+              });
+            }),
+        RatingStar(
+            selected: rating[2],
+            onPressed: () {
+              setState(() {
+                rating[0] = true;
+                rating[1] = true;
+                rating[2] = true;
+                if (rating[2]) {
+                  rating[3] = false;
+                  rating[4] = false;
+                }
+              });
+            }),
+        RatingStar(
+            selected: rating[3],
+            onPressed: () {
+              setState(() {
+                rating[0] = true;
+                rating[1] = true;
+                rating[2] = true;
+                rating[3] = true;
+                if (rating[3]) {
+                  rating[4] = false;
+                }
+              });
+            }),
+        RatingStar(
+            selected: rating[4],
+            onPressed: () {
+              setState(() {
+                rating[0] = true;
+                rating[1] = true;
+                rating[2] = true;
+                rating[3] = true;
+                rating[4] = true;
+              });
+            }),
+      ],
+    );
+  }
+}
+
+class RatingStar extends StatelessWidget {
+  final bool selected;
+  final Function() onPressed;
+
+  RatingStar({required this.selected, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Image.network(selected
+          ? "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/Star%20(1).png?alt=media&token=8fcd6d83-829c-4f1a-b4c4-780e44ee0a04"
+          : "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/Star.png?alt=media&token=60006252-d156-45d0-9ce4-aad6ceee7429"),
+    );
   }
 }

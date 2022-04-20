@@ -269,6 +269,7 @@ class _AdminProductPageState extends State<AdminProductPage> {
                                       style: TextStyle(
                                           fontSize: 20, color: Colors.white),
                                     ),
+                                 
                                     Container(
                                         height: 225.0,
                                         child: StreamBuilder<QuerySnapshot>(
@@ -843,6 +844,111 @@ class TextBox extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class RatingWidget extends StatefulWidget {
+  RatingWidget({Key? key}) : super(key: key);
+
+  @override
+  _RatingWidgetState createState() => _RatingWidgetState();
+}
+
+class _RatingWidgetState extends State<RatingWidget> {
+  late List<bool> rating;
+  @override
+  void initState() {
+    super.initState();
+    rating = [false, false, false, false, false];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        RatingStar(
+            selected: rating[0],
+            onPressed: () {
+              setState(() {
+                rating[0] = true;
+                if (rating[0]) {
+                  rating[1] = false;
+                  rating[2] = false;
+                  rating[3] = false;
+                  rating[4] = false;
+                }
+              });
+            }),
+        RatingStar(
+            selected: rating[1],
+            onPressed: () {
+              setState(() {
+                rating[0] = true;
+                rating[1] = true;
+                if (rating[1]) {
+                  rating[2] = false;
+                  rating[3] = false;
+                  rating[4] = false;
+                }
+              });
+            }),
+        RatingStar(
+            selected: rating[2],
+            onPressed: () {
+              setState(() {
+                rating[0] = true;
+                rating[1] = true;
+                rating[2] = true;
+                if (rating[2]) {
+                  rating[3] = false;
+                  rating[4] = false;
+                }
+              });
+            }),
+        RatingStar(
+            selected: rating[3],
+            onPressed: () {
+              setState(() {
+                rating[0] = true;
+                rating[1] = true;
+                rating[2] = true;
+                rating[3] = true;
+                if (rating[3]) {
+                  rating[4] = false;
+                }
+              });
+            }),
+        RatingStar(
+            selected: rating[4],
+            onPressed: () {
+              setState(() {
+                rating[0] = true;
+                rating[1] = true;
+                rating[2] = true;
+                rating[3] = true;
+                rating[4] = true;
+              });
+            }),
+      ],
+    );
+  }
+}
+
+class RatingStar extends StatelessWidget {
+  final bool selected;
+  final Function() onPressed;
+
+  RatingStar({required this.selected, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Image.network(selected
+          ? "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/Star%20(1).png?alt=media&token=8fcd6d83-829c-4f1a-b4c4-780e44ee0a04"
+          : "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/Star.png?alt=media&token=60006252-d156-45d0-9ce4-aad6ceee7429"),
     );
   }
 }

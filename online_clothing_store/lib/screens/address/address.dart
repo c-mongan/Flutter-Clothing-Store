@@ -182,7 +182,6 @@ class TextBox extends StatelessWidget {
     const primaryColor = Colors.grey;
     const secondaryColor = Colors.black;
     const accentColor = Color(0xffffffff);
-    const backgroundColor = Color(0xffffffff);
     const errorColor = Color(0xffEF4444);
 
     return Column(

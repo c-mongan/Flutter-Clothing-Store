@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-
 import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:health_app_fyp/screens/admin/admin_inventory/admin_home.dart';
 
@@ -13,8 +13,8 @@ import 'screens/home/home_page.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // HttpOverrides.global = MyHttpOverrides();
-  runApp(const MaterialApp(home: MyApp()));
+  HttpOverrides.global = MyHttpOverrides();
+  runApp(MaterialApp(home: MyApp()));
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
       //home: LoginScreen(),
       // home: SplashScreen(),
 
-      home: AdminHomePage(),
+      home: SplashScreen(),
     );
   }
 }
