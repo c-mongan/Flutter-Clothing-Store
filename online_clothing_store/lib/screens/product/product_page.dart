@@ -12,6 +12,7 @@ import '../../constants/style.dart';
 import '../../controllers/basket_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../designpatterns/command/index.dart';
+import '../../model/user_data.dart';
 import '../../widgets/customised_navbar.dart';
 
 // ignore: must_be_immutable
@@ -30,17 +31,30 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   final basketController = Get.put(BasketController());
+  var map = Map();
+  User? user = FirebaseAuth.instance.currentUser;
+  UserInformation loggedInUser = UserInformation();
+  late List<bool> rating;
+  final reviewController = TextEditingController();
+  String content = "";
 
+  String uid = FirebaseAuth.instance.currentUser!.uid;
   @override
   void initState() {
     super.initState();
-    rating = [false, false, false, false, false];
+
+    FirebaseFirestore.instance
+        .collection("UserData")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserInformation.fromMap(value.data());
+
+      rating = [false, false, false, false, false];
+    });
   }
 
-  String uid = FirebaseAuth.instance.currentUser!.uid;
   final ProductController productController = Get.find();
-
-  late List<bool> rating;
 
   final CommandHistory _commandHistory = CommandHistory();
   bool firstIsSelected = true;
@@ -58,6 +72,17 @@ class _ProductPageState extends State<ProductPage> {
 
   late String color;
   late String initialColor;
+
+  num getStars(rating) {
+    int stars = 0;
+
+    for (int i = 0; i < rating.length; i++) {
+      if (rating[i]) {
+        stars++;
+      }
+    }
+    return stars;
+  }
 
   // _showCustomisation(showCustomisation) {
   //   if (showCustomisation == false) {
@@ -159,15 +184,7 @@ class _ProductPageState extends State<ProductPage> {
 
         _commandHistory.undo();
         print(_commandHistory.commandHistoryList);
-        // print(_item.size);
       }
-      // for (int i = 0; i < _commandHistory.commandHistoryList.length; i++) {
-      //   if (_commandHistory.commandHistoryList[i] == "Change Size") {
-      //     undoSelectSize(_item);
-      //     _commandHistory.undo();
-      //   }
-      // }
-      // _commandHistory.undo();
     });
   }
 
@@ -240,7 +257,7 @@ class _ProductPageState extends State<ProductPage> {
 
   late final Stream<QuerySnapshot> reviewsStream = FirebaseFirestore.instance
       .collection('reviews')
-      .orderBy("date")
+      .orderBy("dateTime", descending: true)
       .where('name', isEqualTo: widget.product.name)
       .snapshots();
   late int index = productController.products.indexOf(widget.product);
@@ -441,7 +458,7 @@ class _ProductPageState extends State<ProductPage> {
                               if (showDetails == true) ...[
                                 SizedBox(height: 30),
                                 NeumorphicButton(
-                                  child: Text(
+                                  child: const Text(
                                     'Add to Cart',
                                     style: TextStyle(color: Colors.white),
                                   ),
@@ -524,13 +541,25 @@ class _ProductPageState extends State<ProductPage> {
                                         }),
                                   ],
                                 ),
-                                TextField(
-                                    maxLines: 5,
-                                    decoration: InputDecoration(
-                                        hintText: 'Write a review',
-                                        hintStyle:
-                                            TextStyle(color: Colors.white),
-                                        border: OutlineInputBorder())),
+
+                                TextFormField(
+                                  controller: reviewController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Review',
+                                    labelStyle: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+
+                                // TextField(
+                                //     maxLines: 5,
+                                //     decoration: InputDecoration(
+                                //         hintText: 'Write a review',
+                                //         hintStyle:
+                                //             TextStyle(color: Colors.white),
+                                //         border: OutlineInputBorder()),
+                                //     onChanged: (content) {
+                                //       reviewController.text = content;
+                                //     }),
                                 SizedBox(height: 30),
                                 NeumorphicButton(
                                     child: Text(
@@ -540,13 +569,24 @@ class _ProductPageState extends State<ProductPage> {
                                     onPressed: () => FirebaseFirestore.instance
                                             .collection('reviews')
                                             .add({
+                                          'usersName': loggedInUser.firstName! +
+                                              ' ' +
+                                              loggedInUser.secondName!,
                                           'userID': uid,
                                           'productID': widget.product.itemID,
                                           "dateTime": DateTime.now(),
-                                          'review': '',
+                                          'review': reviewController.text,
                                           'name': widget.product.name,
-                                          'rating': rating,
+                                          'rating': getStars(rating),
                                         })),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Center(
+                                  child: Text("Reviews",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.white)),
+                                ),
                                 Container(
                                     height: 225.0,
                                     child: StreamBuilder<QuerySnapshot>(
@@ -564,35 +604,57 @@ class _ProductPageState extends State<ProductPage> {
                                           return const Text("Loading");
                                         }
 
-                                        return ListView(
-                                          shrinkWrap: true,
-                                          physics:
-                                              const ClampingScrollPhysics(),
-                                          children: snapshot.data!.docs
-                                              .map((DocumentSnapshot document) {
-                                            Map<String, dynamic> data =
-                                                document.data()!
-                                                    as Map<String, dynamic>;
-                                            return ListTile(
-                                              title: Text(
-                                                data['usersName'] +
-                                                    " " +
-                                                    data['date'].toString(),
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                              isThreeLine: true,
-                                              subtitle: Text(
-                                                data['review'],
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                              trailing:
-                                                  const Icon(Icons.line_weight),
-                                              iconColor: Colors.white,
-                                            );
-                                          }).toList(),
+                                        return Container(
+                                          child: ListView(
+                                            shrinkWrap: true,
+                                            physics:
+                                                const ClampingScrollPhysics(),
+                                            children: snapshot.data!.docs.map(
+                                                (DocumentSnapshot document) {
+                                              Map<String, dynamic> data =
+                                                  document.data()!
+                                                      as Map<String, dynamic>;
+                                              return ListTile(
+                                                title: Text(
+                                                  data['usersName'].toString() +
+                                                      " " +
+                                                      (data['dateTime']
+                                                              as Timestamp)
+                                                          .toDate()
+                                                          .toString()
+                                                          .substring(0, 16),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15),
+                                                ),
+                                                isThreeLine: true,
+                                                subtitle: Text(
+                                                  data['review'].toString(),
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                trailing: Wrap(
+                                                  spacing:
+                                                      12, // space between two icons
+                                                  children: <Widget>[
+                                                    Text(data['rating']
+                                                        .toString()),
+                                                    Icon(
+                                                      Icons.star,
+                                                      color: Colors.yellow,
+                                                      size: 15,
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }).toList(),
+                                          ),
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  bottom: BorderSide(
+                                                      color: Colors.black26))),
                                         );
+                                        ;
                                       },
                                     )),
                                 SizedBox(height: 30),
@@ -1003,7 +1065,7 @@ extension ColorUtils on Color {
 }
 
 class RatingWidget extends StatefulWidget {
-  RatingWidget({Key? key}) : super(key: key);
+  RatingWidget({Key? key, rating}) : super(key: key);
 
   @override
   _RatingWidgetState createState() => _RatingWidgetState();
@@ -1014,6 +1076,7 @@ class _RatingWidgetState extends State<RatingWidget> {
   @override
   void initState() {
     super.initState();
+
     rating = [false, false, false, false, false];
   }
 
