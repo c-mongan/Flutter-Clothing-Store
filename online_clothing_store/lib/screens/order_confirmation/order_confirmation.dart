@@ -85,12 +85,14 @@ class OrderConfirmation extends StatelessWidget {
                           SizedBox(height: 5),
                           OrderDetails(
                               order: data[1], deliveryCostStrategy: data[0]),
-                          NeumorphicButton(
-                            child: Text(
-                              'Back to Home',
-                              style: TextStyle(color: Colors.white),
+                          Center(
+                            child: NeumorphicButton(
+                              child: Text(
+                                'Back to Home',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onPressed: () => addOrder(controller, orderNo),
                             ),
-                            onPressed: () => addOrder(controller, orderNo),
                           ),
                         ],
                       ),
@@ -123,6 +125,16 @@ class OrderConfirmation extends StatelessWidget {
       "orderNo": orderNo,
       "total": controller.total,
       "userID": user?.uid,
+      "products": [
+        {
+          "itemID": uid,
+          "name": controller.products.keys.toList()[i].name,
+          "price": controller.products.keys.toList()[i].price,
+          "quantity": controller.products.values.toList()[i],
+          "image": controller.products.keys.toList()[i].imageUrl,
+        }
+      ],
+      "dateTime": DateTime.now(),
     });
 
     FirebaseFirestore.instance.collection("orderItems").doc().set({
@@ -134,6 +146,8 @@ class OrderConfirmation extends StatelessWidget {
       "img": controller.products.keys.toList()[i].imageUrl,
       "quantity": controller.products.values.toList()[i],
       "id": orderNo.toString(),
+      "uid": uid,
+      "dateTime": DateTime.now(),
     });
 
 //Decrement stock level

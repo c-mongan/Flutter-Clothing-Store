@@ -41,6 +41,7 @@ class _CustomerPageState extends State<CustomerPage> {
               child: SingleChildScrollView(
                   child: Column(
             children: <Widget>[
+              
               SizedBox(
                   height: 300,
                   child: Obx(

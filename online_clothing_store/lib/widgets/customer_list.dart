@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:health_app_fyp/screens/admin/admin_view_customer_details.dart';
 
 import '../controllers/basket_controller.dart';
 import '../controllers/customer_controllers.dart';
@@ -26,9 +27,9 @@ class CustomerListCard extends StatelessWidget {
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
           onTap: (() {
-            //If the item is not in the custom items category, then navigate to the product page
-            // Get.to(() =>
-            //     (ProductPage(product: customerController.users[index])));
+            
+            Get.to(() =>
+                (AdminCustomerDetails(customer: customerController.users[index])));
           }),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

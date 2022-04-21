@@ -83,10 +83,9 @@ class _AdminProductPageState extends State<AdminProductPage> {
 
   late final Stream<QuerySnapshot> reviewsStream = FirebaseFirestore.instance
       .collection('reviews')
-      .orderBy("date")
+      .orderBy("dateTime")
       .where('name', isEqualTo: widget.product.name)
       .snapshots();
-  late int index = productController.products.indexOf(widget.product);
 
   @override
   Widget build(BuildContext context) {
@@ -269,7 +268,12 @@ class _AdminProductPageState extends State<AdminProductPage> {
                                       style: TextStyle(
                                           fontSize: 20, color: Colors.white),
                                     ),
-                                 
+                                    Center(
+                                      child: Text("Reviews",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white)),
+                                    ),
                                     Container(
                                         height: 225.0,
                                         child: StreamBuilder<QuerySnapshot>(
@@ -279,7 +283,7 @@ class _AdminProductPageState extends State<AdminProductPage> {
                                                   snapshot) {
                                             if (snapshot.hasError) {
                                               return const Text(
-                                                  'No reviews Availiable');
+                                                  'Something went wrong');
                                             }
 
                                             if (snapshot.connectionState ==
@@ -287,34 +291,58 @@ class _AdminProductPageState extends State<AdminProductPage> {
                                               return const Text("Loading");
                                             }
 
-                                            return ListView(
-                                              shrinkWrap: true,
-                                              physics:
-                                                  const ClampingScrollPhysics(),
-                                              children: snapshot.data!.docs.map(
-                                                  (DocumentSnapshot document) {
-                                                Map<String, dynamic> data =
-                                                    document.data()!
-                                                        as Map<String, dynamic>;
-                                                return ListTile(
-                                                  title: Text(
-                                                    data['usersName'] +
-                                                        " " +
-                                                        data['date'].toString(),
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  ),
-                                                  isThreeLine: true,
-                                                  subtitle: Text(
-                                                    data['review'],
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  ),
-                                                  trailing: const Icon(
-                                                      Icons.line_weight),
-                                                  iconColor: Colors.white,
-                                                );
-                                              }).toList(),
+                                            return Container(
+                                              child: ListView(
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const ClampingScrollPhysics(),
+                                                children: snapshot.data!.docs
+                                                    .map((DocumentSnapshot
+                                                        document) {
+                                                  Map<String, dynamic> data =
+                                                      document.data()! as Map<
+                                                          String, dynamic>;
+                                                  return ListTile(
+                                                    title: Text(
+                                                      data['usersName']
+                                                              .toString() +
+                                                          " " +
+                                                          (data['dateTime']
+                                                                  as Timestamp)
+                                                              .toDate()
+                                                              .toString()
+                                                              .substring(0, 16),
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15),
+                                                    ),
+                                                    isThreeLine: true,
+                                                    subtitle: Text(
+                                                      data['review'].toString(),
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                    trailing: Wrap(
+                                                      spacing:
+                                                          12, // space between two icons
+                                                      children: <Widget>[
+                                                        Text(data['rating']
+                                                            .toString()),
+                                                        Icon(
+                                                          Icons.star,
+                                                          color: Colors.yellow,
+                                                          size: 15,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                }).toList(),
+                                              ),
+                                              decoration: BoxDecoration(
+                                                  border: Border(
+                                                      bottom: BorderSide(
+                                                          color:
+                                                              Colors.black26))),
                                             );
                                           },
                                         )),

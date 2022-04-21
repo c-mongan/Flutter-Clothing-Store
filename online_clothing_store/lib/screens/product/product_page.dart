@@ -34,7 +34,7 @@ class _ProductPageState extends State<ProductPage> {
   var map = Map();
   User? user = FirebaseAuth.instance.currentUser;
   UserInformation loggedInUser = UserInformation();
-  late List<bool> rating;
+  List<bool>? rating;
   final reviewController = TextEditingController();
   String content = "";
 
@@ -42,15 +42,13 @@ class _ProductPageState extends State<ProductPage> {
   @override
   void initState() {
     super.initState();
-
+    rating = [false, false, false, false, false];
     FirebaseFirestore.instance
         .collection("UserData")
         .doc(user!.uid)
         .get()
         .then((value) {
       loggedInUser = UserInformation.fromMap(value.data());
-
-      rating = [false, false, false, false, false];
     });
   }
 
@@ -83,30 +81,6 @@ class _ProductPageState extends State<ProductPage> {
     }
     return stars;
   }
-
-  // _showCustomisation(showCustomisation) {
-  //   if (showCustomisation == false) {
-  //     setState(() {
-  //       showCustomisation = false;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       showCustomisation = true;
-  //     });
-  //   }
-  // }
-
-  // _showDetails(showDetails) {
-  //   if (showDetails == false) {
-  //     setState(() {
-  //       showDetails = false;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       showDetails = true;
-  //     });
-  //   }
-  // }
 
   Color displayColor(String color) {
     switch (color) {
@@ -172,9 +146,6 @@ class _ProductPageState extends State<ProductPage> {
         print(_commandHistory.commandHistoryList);
       } else if (_commandHistory.commandHistoryList[i - 1] == "Change color" &&
           i != -1) {
-        // _item.color = initialColor;
-        //  undoSelectColor(_item);
-
         _commandHistory.undo();
 
         print(_commandHistory.commandHistoryList);
@@ -191,7 +162,6 @@ class _ProductPageState extends State<ProductPage> {
   void undoSelectSize(_item) {
     switch (_item.size) {
       case "Medium":
-        //firstIsSelected = true;
         secondIsSelected = false;
         thirdIsSelected = false;
         firstIsSelected = !firstIsSelected;
@@ -477,66 +447,66 @@ class _ProductPageState extends State<ProductPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     RatingStar(
-                                        selected: rating[0],
+                                        selected: rating![0],
                                         onPressed: () {
                                           setState(() {
-                                            rating[0] = true;
-                                            if (rating[0]) {
-                                              rating[1] = false;
-                                              rating[2] = false;
-                                              rating[3] = false;
-                                              rating[4] = false;
+                                            rating![0] = true;
+                                            if (rating![0]) {
+                                              rating![1] = false;
+                                              rating![2] = false;
+                                              rating![3] = false;
+                                              rating![4] = false;
                                             }
                                           });
                                         }),
                                     RatingStar(
-                                        selected: rating[1],
+                                        selected: rating![1],
                                         onPressed: () {
                                           setState(() {
-                                            rating[0] = true;
-                                            rating[1] = true;
-                                            if (rating[1]) {
-                                              rating[2] = false;
-                                              rating[3] = false;
-                                              rating[4] = false;
+                                            rating![0] = true;
+                                            rating![1] = true;
+                                            if (rating![1]) {
+                                              rating![2] = false;
+                                              rating![3] = false;
+                                              rating![4] = false;
                                             }
                                           });
                                         }),
                                     RatingStar(
-                                        selected: rating[2],
+                                        selected: rating![2],
                                         onPressed: () {
                                           setState(() {
-                                            rating[0] = true;
-                                            rating[1] = true;
-                                            rating[2] = true;
-                                            if (rating[2]) {
-                                              rating[3] = false;
-                                              rating[4] = false;
+                                            rating![0] = true;
+                                            rating![1] = true;
+                                            rating![2] = true;
+                                            if (rating![2]) {
+                                              rating![3] = false;
+                                              rating![4] = false;
                                             }
                                           });
                                         }),
                                     RatingStar(
-                                        selected: rating[3],
+                                        selected: rating![3],
                                         onPressed: () {
                                           setState(() {
-                                            rating[0] = true;
-                                            rating[1] = true;
-                                            rating[2] = true;
-                                            rating[3] = true;
-                                            if (rating[3]) {
-                                              rating[4] = false;
+                                            rating![0] = true;
+                                            rating![1] = true;
+                                            rating![2] = true;
+                                            rating![3] = true;
+                                            if (rating![3]) {
+                                              rating![4] = false;
                                             }
                                           });
                                         }),
                                     RatingStar(
-                                        selected: rating[4],
+                                        selected: rating![4],
                                         onPressed: () {
                                           setState(() {
-                                            rating[0] = true;
-                                            rating[1] = true;
-                                            rating[2] = true;
-                                            rating[3] = true;
-                                            rating[4] = true;
+                                            rating![0] = true;
+                                            rating![1] = true;
+                                            rating![2] = true;
+                                            rating![3] = true;
+                                            rating![4] = true;
                                           });
                                         }),
                                   ],
