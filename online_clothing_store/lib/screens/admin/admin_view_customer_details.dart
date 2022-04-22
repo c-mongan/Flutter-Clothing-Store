@@ -44,7 +44,7 @@ class _AdminCustomerDetailsState extends State<AdminCustomerDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomisedAppBar(title: "Customers Details"),
+      appBar: const CustomisedAppBar(title: "{widget.customer.name}"),
       bottomNavigationBar: const CustomisedNavigationBar(),
       body: Container(
           width: MediaQuery.of(context).size.width,
@@ -59,6 +59,7 @@ class _AdminCustomerDetailsState extends State<AdminCustomerDetails> {
                   child: Column(
             children: <Widget>[
               CustomerInfo(customer: widget.customer),
+              SizedBox(height: 20),
               SizedBox(
                   height: 500.0,
                   child: StreamBuilder<QuerySnapshot>(
@@ -99,7 +100,7 @@ class _AdminCustomerDetailsState extends State<AdminCustomerDetails> {
                               ),
                               trailing: data['products'] != null
                                   ? Text(
-                                      "Number of products" +
+                                      "Number of products " +
                                           data['products'].length.toString(),
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 15),

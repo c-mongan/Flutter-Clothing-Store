@@ -17,13 +17,11 @@ import '../../designpatterns/decorator/decorator/decorator.dart';
 import '../../designpatterns/decorator/widgets/custom_product_selection.dart';
 import '../../designpatterns/decorator/widgets/product_information.dart';
 import '../../designpatterns/decorator/widgets/product_selection.dart';
+import '../../model/user_data.dart';
 import '../../widgets/customised_navbar.dart';
 import '../../widgets/platform_button.dart';
 
-
 class CustomisedProductPage extends StatefulWidget {
-
-
   final Product product;
   CustomisedProductPage({
     Key? key,
@@ -36,8 +34,27 @@ class CustomisedProductPage extends StatefulWidget {
 
 class _CustomisedProductPageState extends State<CustomisedProductPage> {
   final basketController = Get.put(BasketController());
+  List<bool>? rating;
+  final reviewController = TextEditingController();
+  String content = "";
+  User? user = FirebaseAuth.instance.currentUser;
+  UserInformation loggedInUser = UserInformation();
 
   String uid = FirebaseAuth.instance.currentUser!.uid;
+
+//  @override
+//   void initState() {
+//     super.initState();
+//     rating = [false, false, false, false, false];
+//     FirebaseFirestore.instance
+//         .collection("UserData")
+//         .doc(user!.uid)
+//         .get()
+//         .then((value) {
+//       loggedInUser = UserInformation.fromMap(value.data());
+//     });
+//   }
+
   final ProductController productController = Get.find();
 
   final CommandHistory _commandHistory = CommandHistory();
@@ -48,11 +65,28 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
   bool fifthIsSelected = false;
   bool isSubmitted = false;
 
+  num getStars(rating) {
+    int stars = 0;
+
+    for (int i = 0; i < rating.length; i++) {
+      if (rating[i]) {
+        stars++;
+      }
+    }
+    return stars;
+  }
+
   final Item _item = Item.initial();
 
   bool showCustomisation = true;
   bool showDetails = false;
   bool showReviews = false;
+
+  late final Stream<QuerySnapshot> reviewsStream = FirebaseFirestore.instance
+      .collection('reviews')
+      .orderBy("dateTime", descending: true)
+      .where('name', isEqualTo: widget.product.name)
+      .snapshots();
 
   late String color;
   late String initialColor;
@@ -68,6 +102,15 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
     super.initState();
     _productExtrasDataMap = productMenu.getProductExtrasDataMap();
     _product = productMenu.getProduct(0, _productExtrasDataMap);
+
+    rating = [false, false, false, false, false];
+    FirebaseFirestore.instance
+        .collection("UserData")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserInformation.fromMap(value.data());
+    });
   }
 
   void _onSelectedIndexChanged(int? index) {
@@ -120,7 +163,6 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
 
   Color getColor(_item) {
     switch (_item.color) {
-     
       case "1":
         return displayColor(widget.product.color!);
       case "2":
@@ -136,12 +178,9 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
   }
 
   void _changeColor() {
-    
     final command = ChangeColorCommand(_item);
     _executeCommand(command);
     print(_commandHistory.commandHistoryList);
-
-  
   }
 
   void _executeCommand(Command command) {
@@ -168,8 +207,6 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
         print(_commandHistory.commandHistoryList);
       } else if (_commandHistory.commandHistoryList[i - 1] == "Change color" &&
           i != -1) {
-       
-
         _commandHistory.undo();
 
         print(_commandHistory.commandHistoryList);
@@ -181,28 +218,24 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
         print(_commandHistory.commandHistoryList);
         // print(_item.size);
       }
-    
     });
   }
 
   void undoSelectSize(_item) {
     switch (_item.size) {
       case "Medium":
-
         secondIsSelected = false;
         thirdIsSelected = false;
         firstIsSelected = !firstIsSelected;
         fourthIsSelected = false;
         break;
       case "Large":
-    
         firstIsSelected = false;
         thirdIsSelected = false;
         secondIsSelected = !secondIsSelected;
         fourthIsSelected = false;
         break;
       case "Extra Large":
-      
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = !thirdIsSelected;
@@ -213,38 +246,32 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = false;
-    
 
         break;
-     
     }
   }
 
   void selectSize(_item) {
     switch (_item.size) {
       case "Small":
-        
         secondIsSelected = false;
         thirdIsSelected = false;
         firstIsSelected = !firstIsSelected;
         fourthIsSelected = false;
         break;
       case "Medium":
-
         firstIsSelected = false;
         thirdIsSelected = false;
         secondIsSelected = !secondIsSelected;
         fourthIsSelected = false;
         break;
       case "Large":
-     
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = !thirdIsSelected;
         fourthIsSelected = false;
         break;
       case "Extra Large":
-       
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = false;
@@ -291,7 +318,6 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                       Colors.black,
                       Colors.grey,
                     ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-                   
                     borderRadius: BorderRadius.circular(34),
                   ),
                   child: Padding(
@@ -316,7 +342,6 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                 product: widget.product,
                                 customProduct: _product,
                               ),
-                             
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -342,7 +367,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                         'color1': widget.product.color,
                                         'color2': widget.product.color2,
                                         'category': widget.product.category,
-                                       
+
                                         // 'productID': widget.product.uid,
                                         "dateTime": DateTime.now(),
                                         'description':
@@ -379,7 +404,6 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                   const Spacing(),
                                   Row(
                                     children: [
-                                     
                                       TextButton(
                                           style: TextButton.styleFrom(
                                             textStyle: TextStyle(
@@ -401,9 +425,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                               color: Colors.grey,
                                             ),
                                           )),
-
                                       SizedBox(width: 8),
-
                                       TextButton(
                                           style: TextButton.styleFrom(
                                             textStyle: TextStyle(
@@ -426,7 +448,6 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                             ),
                                           )),
                                       SizedBox(width: 8),
-                             
                                       TextButton(
                                           style: TextButton.styleFrom(
                                             textStyle: TextStyle(
@@ -440,7 +461,6 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                                 showDetails = false;
                                                 showReviews = false;
                                               });
-                                   
                                             }
                                           },
                                           child: Text(
@@ -460,11 +480,201 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                       productController.products[index], index),
                                 ),
                               ],
-
                               if (showReviews == true) ...[
                                 SizedBox(height: 10),
                                 Text("Reviews", style: TextStyle(fontSize: 20)),
                                 SizedBox(height: 30),
+
+                                SizedBox(height: 10),
+                                Text(
+                                  "Reviews",
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    RatingStar(
+                                        selected: rating![0],
+                                        onPressed: () {
+                                          setState(() {
+                                            rating![0] = true;
+                                            if (rating![0]) {
+                                              rating![1] = false;
+                                              rating![2] = false;
+                                              rating![3] = false;
+                                              rating![4] = false;
+                                            }
+                                          });
+                                        }),
+                                    RatingStar(
+                                        selected: rating![1],
+                                        onPressed: () {
+                                          setState(() {
+                                            rating![0] = true;
+                                            rating![1] = true;
+                                            if (rating![1]) {
+                                              rating![2] = false;
+                                              rating![3] = false;
+                                              rating![4] = false;
+                                            }
+                                          });
+                                        }),
+                                    RatingStar(
+                                        selected: rating![2],
+                                        onPressed: () {
+                                          setState(() {
+                                            rating![0] = true;
+                                            rating![1] = true;
+                                            rating![2] = true;
+                                            if (rating![2]) {
+                                              rating![3] = false;
+                                              rating![4] = false;
+                                            }
+                                          });
+                                        }),
+                                    RatingStar(
+                                        selected: rating![3],
+                                        onPressed: () {
+                                          setState(() {
+                                            rating![0] = true;
+                                            rating![1] = true;
+                                            rating![2] = true;
+                                            rating![3] = true;
+                                            if (rating![3]) {
+                                              rating![4] = false;
+                                            }
+                                          });
+                                        }),
+                                    RatingStar(
+                                        selected: rating![4],
+                                        onPressed: () {
+                                          setState(() {
+                                            rating![0] = true;
+                                            rating![1] = true;
+                                            rating![2] = true;
+                                            rating![3] = true;
+                                            rating![4] = true;
+                                          });
+                                        }),
+                                  ],
+                                ),
+
+                                TextFormField(
+                                  controller: reviewController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Review',
+                                    labelStyle: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+
+                                // TextField(
+                                //     maxLines: 5,
+                                //     decoration: InputDecoration(
+                                //         hintText: 'Write a review',
+                                //         hintStyle:
+                                //             TextStyle(color: Colors.white),
+                                //         border: OutlineInputBorder()),
+                                //     onChanged: (content) {
+                                //       reviewController.text = content;
+                                //     }),
+                                SizedBox(height: 30),
+                                NeumorphicButton(
+                                    child: Text(
+                                      'Submit',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: () => FirebaseFirestore.instance
+                                            .collection('reviews')
+                                            .add({
+                                          'usersName': loggedInUser.firstName! +
+                                              ' ' +
+                                              loggedInUser.secondName!,
+                                          'userID': uid,
+                                          'productID': widget.product.itemID,
+                                          "dateTime": DateTime.now(),
+                                          'review': reviewController.text,
+                                          'name': widget.product.name,
+                                          'rating': getStars(rating),
+                                        })),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Center(
+                                  child: Text("Reviews",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.white)),
+                                ),
+                                Container(
+                                    height: 225.0,
+                                    child: StreamBuilder<QuerySnapshot>(
+                                      stream: reviewsStream,
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<QuerySnapshot>
+                                              snapshot) {
+                                        if (snapshot.hasError) {
+                                          return const Text(
+                                              'Something went wrong');
+                                        }
+
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Text("Loading");
+                                        }
+
+                                        return Container(
+                                          child: ListView(
+                                            shrinkWrap: true,
+                                            physics:
+                                                const ClampingScrollPhysics(),
+                                            children: snapshot.data!.docs.map(
+                                                (DocumentSnapshot document) {
+                                              Map<String, dynamic> data =
+                                                  document.data()!
+                                                      as Map<String, dynamic>;
+                                              return ListTile(
+                                                title: Text(
+                                                  data['usersName'].toString() +
+                                                      " " +
+                                                      (data['dateTime']
+                                                              as Timestamp)
+                                                          .toDate()
+                                                          .toString()
+                                                          .substring(0, 16),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15),
+                                                ),
+                                                isThreeLine: true,
+                                                subtitle: Text(
+                                                  data['review'].toString(),
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                trailing: Wrap(
+                                                  spacing:
+                                                      12, // space between two icons
+                                                  children: <Widget>[
+                                                    Text(data['rating']
+                                                        .toString()),
+                                                    Icon(
+                                                      Icons.star,
+                                                      color: Colors.yellow,
+                                                      size: 15,
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }).toList(),
+                                          ),
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                                  bottom: BorderSide(
+                                                      color: Colors.black26))),
+                                        );
+                                        ;
+                                      },
+                                    )),
                                 NeumorphicButton(
                                   child: Text('Add to Cart'),
                                   onPressed: () => basketController.addProduct(
@@ -516,7 +726,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                 SizedBox(
                                   height: 5,
                                 ),
-                              
+
                                 Divider(color: Colors.grey, height: 3),
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -558,7 +768,6 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                       onTap: () {
                                         setState(() {
                                           _changeSize();
-                                         
                                         });
                                       },
                                       child: Button(
@@ -572,7 +781,6 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                       onTap: () {
                                         setState(() {
                                           _changeSize();
-                                        
                                         });
                                       },
                                       child: Button(
@@ -640,7 +848,6 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                     ),
                                   ],
                                 ),
-                               
                               ],
                             ]),
                       ))))
@@ -760,7 +967,6 @@ class ProductNameAndPrice extends StatelessWidget {
       children: [
         Text(
           product.name!,
-          
           style: AppStyle.h1Light.copyWith(
               color: Colors.white, fontWeight: FontWeight.w600, fontSize: 30),
         ),
@@ -903,5 +1109,111 @@ class _NeumorphicButtonState extends State<NeumorphicButton> {
 extension ColorUtils on Color {
   Color mix(Color another, double amount) {
     return Color.lerp(this, another, amount)!;
+  }
+}
+
+class RatingWidget extends StatefulWidget {
+  RatingWidget({Key? key, rating}) : super(key: key);
+
+  @override
+  _RatingWidgetState createState() => _RatingWidgetState();
+}
+
+class _RatingWidgetState extends State<RatingWidget> {
+  late List<bool> rating;
+  @override
+  void initState() {
+    super.initState();
+
+    rating = [false, false, false, false, false];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        RatingStar(
+            selected: rating[0],
+            onPressed: () {
+              setState(() {
+                rating[0] = true;
+                if (rating[0]) {
+                  rating[1] = false;
+                  rating[2] = false;
+                  rating[3] = false;
+                  rating[4] = false;
+                }
+              });
+            }),
+        RatingStar(
+            selected: rating[1],
+            onPressed: () {
+              setState(() {
+                rating[0] = true;
+                rating[1] = true;
+                if (rating[1]) {
+                  rating[2] = false;
+                  rating[3] = false;
+                  rating[4] = false;
+                }
+              });
+            }),
+        RatingStar(
+            selected: rating[2],
+            onPressed: () {
+              setState(() {
+                rating[0] = true;
+                rating[1] = true;
+                rating[2] = true;
+                if (rating[2]) {
+                  rating[3] = false;
+                  rating[4] = false;
+                }
+              });
+            }),
+        RatingStar(
+            selected: rating[3],
+            onPressed: () {
+              setState(() {
+                rating[0] = true;
+                rating[1] = true;
+                rating[2] = true;
+                rating[3] = true;
+                if (rating[3]) {
+                  rating[4] = false;
+                }
+              });
+            }),
+        RatingStar(
+            selected: rating[4],
+            onPressed: () {
+              setState(() {
+                rating[0] = true;
+                rating[1] = true;
+                rating[2] = true;
+                rating[3] = true;
+                rating[4] = true;
+              });
+            }),
+      ],
+    );
+  }
+}
+
+class RatingStar extends StatelessWidget {
+  final bool selected;
+  final Function() onPressed;
+
+  RatingStar({required this.selected, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Image.network(selected
+          ? "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/Star%20(1).png?alt=media&token=8fcd6d83-829c-4f1a-b4c4-780e44ee0a04"
+          : "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/Star.png?alt=media&token=60006252-d156-45d0-9ce4-aad6ceee7429"),
+    );
   }
 }

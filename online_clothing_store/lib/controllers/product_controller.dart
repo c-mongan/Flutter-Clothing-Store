@@ -8,10 +8,10 @@ import '../services/database.dart';
 class ProductController extends GetxController {
   //List of product objects
   late var products = <Product>[].obs;
-  final footwear = <Product>[].obs;
   final wishlist = <Product>[].obs;
   final custom = <Product>[].obs;
-  // final orderitems= <OrderItem>[].obs;
+  final upperwear = <Product>[].obs;
+  final lowerwear = <Product>[].obs;
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
@@ -40,20 +40,11 @@ class ProductController extends GetxController {
     products.bindStream(
         DatabaseService(uid: user!.uid).getAllProductsByPriceDesc());
 
-    // ***********OTHER CATEGORY STREAMS TO BE ADDED HERE*************
+    custom.bindStream(DatabaseService(uid: user!.uid).getAllCustom());
 
-//WRONG METHOD , PLEASE SEE BELOW FOR CORRECT METHOD
+    upperwear.bindStream(DatabaseService(uid: user!.uid).getAllUpperWear());
 
-    // footwear.bindStream(DatabaseService(uid: user!.uid).getAllFootwear());
-    // wishlist.bindStream(DatabaseService(uid: user!.uid).getAllWishlist());
-
-//*************MORE DATABASE METHODS IN DATABASE CLASS AND BIND THEM TO PRODUCTS******
-//Create get all footwear stream
-//Create get all custom stream in Database Class
-
-    // //Stream of custom products from the database
-    // custom.bindStream(DatabaseService(uid: user!.uid).getAllCustom());
-    // orderitems.bindStream(FirestoreDB().getAllOrders());
+    lowerwear.bindStream(DatabaseService(uid: user!.uid).getAllLowerWear());
 
     super.onInit();
   }
@@ -102,9 +93,15 @@ class ProductController extends GetxController {
 //Category or title Partial matching
 
 //Add list of manufacturers to this list
-    List<String> manufacturers = ["nike", "cm company"];
-    List<String> categories = ["shoes", "custom"];
-    List<String> titles = ["Nike Air Force 1", "Custom T-shirt"];
+    List<String> manufacturers = [];
+    List<String> categories = [];
+    List<String> titles = [];
+
+    for (var i = 0; i < products.length; i++) {
+      manufacturers.add(products[i].manufacturer! + "");
+      categories.add(products[i].category! + "");
+      titles.add(products[i].name! + "");
+    }
 
     check(String value) => value.contains(searchText);
     manufacturers.any(check);
@@ -115,7 +112,9 @@ class ProductController extends GetxController {
       return products.bindStream(getStream(filterCriterea));
     } else // ***TO Do*** Add all manufacturer names here to search for them
 
-    if (searchText == ("nike") || searchText == ("cm company")) {
+    if (searchText == manufacturers.any.toString().toLowerCase() ||
+        searchText == categories.any.toString().toLowerCase() ||
+        searchText == titles.any.toString().toLowerCase()) {
       print("matched manufacturer");
       products.bindStream(getStream(filterCriterea).map((list) {
         return list
@@ -123,42 +122,17 @@ class ProductController extends GetxController {
                 (product) => product.manufacturer!.toLowerCase() == searchText)
             .toList();
       }));
-    } else if (titles.any(check)) {
-      // searchText == 'a' ||
-      //     searchText == 'b' ||
-      //     searchText == 'c' ||
-      //     searchText == 'd' ||
-      //     searchText == 'e' ||
-      //     searchText == 'f' ||
-      //     searchText == 'g' ||
-      //     searchText == 'h' ||
-      //     searchText == 'i' ||
-      //     searchText == 'j' ||
-      //     searchText == 'k' ||
-      //     searchText == 'l' ||
-      //     searchText == 'm' ||
-      //     searchText == 'n' ||
-      //     searchText == 'o' ||
-      //     searchText == 'p' ||
-      //     searchText == 'q' ||
-      //     searchText == 'r' ||
-      //     searchText == 's' ||
-      //     searchText == 't' ||
-      //     searchText == 'u' ||
-      //     searchText == 'v' ||
-      //     searchText == 'w' ||
-      //     searchText == 'x' ||
-      //     searchText == 'y' ||
-      //     searchText == 'z') {
+    } else if (searchText == titles.any(check).toString().toLowerCase()) {
       products.bindStream(getStream(filterCriterea).map((list) {
         print("matched titles");
         return list
-            .where((product) => product.name!.toLowerCase().contains(searchText))
+            .where(
+                (product) => product.name!.toLowerCase().contains(searchText))
             .toList();
       }));
     } else
 //Add all categories types here to search for them
-    if (categories.any(check)) {
+    if (searchText == categories.any(check).toString().toLowerCase()) {
       products.bindStream(getStream(filterCriterea).map((list) {
         print("matched categories");
         //Concatonates all matching categories and names into one list and removes duplicates

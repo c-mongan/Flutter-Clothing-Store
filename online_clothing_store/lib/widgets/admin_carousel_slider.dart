@@ -7,7 +7,7 @@ import 'package:health_app_fyp/screens/screens.dart';
 
 import '../screens/admin/admin_add_product.dart';
 import '../screens/inventory/producttype/custom_item.dart';
-import '../screens/inventory/producttype/shoes.dart';
+import '../screens/inventory/producttype/upperwear.dart';
 
 class AdminCarousel extends StatefulWidget {
   AdminCarousel({Key? key}) : super(key: key);

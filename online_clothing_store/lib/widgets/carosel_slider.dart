@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:health_app_fyp/designpatterns/decorator/widgets/decorator_class.dart';
 import 'package:health_app_fyp/screens/screens.dart';
+import 'package:health_app_fyp/widgets/custom_products.dart';
 
 import '../screens/inventory/producttype/custom_item.dart';
-import '../screens/inventory/producttype/shoes.dart';
+import '../screens/inventory/producttype/lowerwear.dart';
+import '../screens/inventory/producttype/upperwear.dart';
 
 class ProductsCarousel extends StatefulWidget {
   ProductsCarousel({Key? key}) : super(key: key);
@@ -16,38 +18,29 @@ class ProductsCarousel extends StatefulWidget {
 
 List<Widget> cards = [
   InnerNeumorphicCardFb1(
-      text: "Explore",
-      imageUrl:
-          "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Designer_re_5v95%201.png?alt=media&token=5d053bd8-d0ea-4635-abb6-52d87539b7ec",
-      subtitle: "+30 books",
-      onPressed: () {}),
-  InnerNeumorphicCardFb1(
-      text: "Custom Products",
-      imageUrl:
-          "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Accept_terms_re_lj38%201.png?alt=media&token=476b97fd-ba66-4f62-94a7-bce4be794f36",
-      subtitle: "",
+      text: "Upper Wear",
+      subtitle: "T-shirts,Jackets & Shirts",
       onPressed: () {
-    
-        Get.to(CustomItemPage());
+        Get.to(UpperwearPage());
       }),
   InnerNeumorphicCardFb1(
-      text: "Footwear",
-      imageUrl:
-          "https://p7.hiclipart.com/preview/967/334/474/nike-free-shoe-nike-air-max-running-jogging-shoes.jpg",
-     
-      subtitle: "Browse all footwear",
+      text: "Bottoms",
+      subtitle: "Jeans, Trousers & Shorts",
       onPressed: () {
-        Get.to(ShoesPage());
+        Get.to(const LowerwearPage());
+      }),
+  InnerNeumorphicCardFb1(
+      text: "Custom Range",
+      subtitle: "Browse our customisable products",
+      onPressed: () {
+        Get.to(const CustomItemPage());
       }),
 ];
 
 class _ProductsCarouselState extends State<ProductsCarousel> {
- 
-
   final double carouselItemMargin = 16;
 
   late PageController _pageController;
-  int _position = 0;
 
   @override
   void initState() {
@@ -61,9 +54,7 @@ class _ProductsCarouselState extends State<ProductsCarousel> {
         controller: _pageController,
         itemCount: cards.length,
         onPageChanged: (int position) {
-          setState(() {
-            _position = position;
-          });
+          setState(() {});
         },
         itemBuilder: (BuildContext context, int position) {
           return imageSlider(position, context);
@@ -86,11 +77,9 @@ class _ProductsCarouselState extends State<ProductsCarousel> {
   }
 }
 
-
-
 class NeumorphicCard extends StatefulWidget {
   final String text;
-  final String imgUrl;
+
   final String subTitle;
 
   final double bevel;
@@ -103,8 +92,6 @@ class NeumorphicCard extends StatefulWidget {
     this.bevel = 10.0,
     this.padding = const EdgeInsets.all(12.5),
     this.text = "Example",
-    this.imgUrl =
-        "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/illustrations%2Fundraw_Working_late_re_0c3y%201.png?alt=media&token=7b880917-2390-4043-88e5-5d58a9d70555",
     this.subTitle = "Subtitle",
   })  : blurOffset = Offset(bevel / 2, bevel / 2),
         color = Colors.grey.shade200,
@@ -160,7 +147,6 @@ class _NeumorphicCardState extends State<NeumorphicCard> {
           child: Container(
               child: InnerNeumorphicCardFb1(
                   text: widget.text,
-                  imageUrl: widget.imgUrl,
                   subtitle: widget.subTitle,
                   onPressed: () {}))),
     );
@@ -169,13 +155,12 @@ class _NeumorphicCardState extends State<NeumorphicCard> {
 
 class InnerNeumorphicCardFb1 extends StatelessWidget {
   final String text;
-  final String imageUrl;
+
   final String subtitle;
   final Function() onPressed;
 
   const InnerNeumorphicCardFb1(
       {required this.text,
-      required this.imageUrl,
       required this.subtitle,
       required this.onPressed,
       Key? key})
@@ -191,14 +176,13 @@ class InnerNeumorphicCardFb1 extends StatelessWidget {
         padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
-            Image.network(imageUrl, height: 70, fit: BoxFit.cover),
             const Spacer(),
             Text(text,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 20,
                 )),
             const SizedBox(
               height: 5,
@@ -220,4 +204,3 @@ class InnerNeumorphicCardFb1 extends StatelessWidget {
     );
   }
 }
-

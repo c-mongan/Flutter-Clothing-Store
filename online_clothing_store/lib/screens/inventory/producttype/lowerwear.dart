@@ -4,20 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:health_app_fyp/screens/checkout/checkout_page.dart';
+import '../../../widgets/lowerwear_products.dart';
 import '../../../widgets/shoes_products.dart';
 import '../../../widgets/customised_appbar.dart';
 import '../../../widgets/customised_navbar.dart';
+import '../../../widgets/upperwear_products.dart';
 import '../../basket/basket_page.dart';
 
 
-class ShoesPage extends StatelessWidget {
-  const ShoesPage({Key? key}) : super(key: key);
+class LowerwearPage extends StatelessWidget {
+  const LowerwearPage({Key? key}) : super(key: key);
 
 
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: const CustomisedAppBar(title: 'Shoes'),
+        appBar: const CustomisedAppBar(title: 'Lowerwear'),
         bottomNavigationBar: const CustomisedNavigationBar(),
         body: Container(
             width: MediaQuery.of(context).size.width,
@@ -35,7 +37,7 @@ class ShoesPage extends StatelessWidget {
                 child: Column(
               children: [
                 
-                ShoesProducts(),
+               LowerwearProducts(),
                
               ],
             ))),

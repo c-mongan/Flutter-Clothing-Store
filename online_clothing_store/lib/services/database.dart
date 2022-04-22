@@ -7,6 +7,7 @@ import '../model/user_data.dart';
 class DatabaseService {
   static final DatabaseService databaseService = DatabaseService._internal();
   String uid = FirebaseAuth.instance.currentUser!.uid;
+  Product product = Product();
 
   factory DatabaseService({required String uid}) {
     return databaseService;
@@ -19,6 +20,38 @@ class DatabaseService {
 
   Stream<List<Product>> getAllProducts() {
     return _firebaseFirestore.collection('product').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
+    });
+  }
+
+  Stream<List<Product>> getAllCustom() {
+    return _firebaseFirestore
+        .collection('product')
+        .where('category', isEqualTo: 'custom')
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
+    });
+  }
+
+
+
+  Stream<List<Product>> getAllUpperWear() {
+    return _firebaseFirestore
+        .collection('product')
+        .where('category', isEqualTo: 'upperwear')
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
+    });
+  }
+
+  Stream<List<Product>> getAllLowerWear() {
+    return _firebaseFirestore
+        .collection('product')
+        .where('category', isEqualTo: 'lowerwear')
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
     });
   }
@@ -68,7 +101,7 @@ class DatabaseService {
   Stream<List<Product>> getAllProductsByPriceAsc() {
     return _firebaseFirestore
         .collection('product')
-        .orderBy('price')
+        .orderBy('price', descending: false)
         .snapshots()
         .map((snapshot) {
       return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
@@ -95,26 +128,7 @@ class DatabaseService {
     });
   }
 
-  Stream<List<Product>> getAllFootwear() {
-    return _firebaseFirestore
-        .collection('product')
-        .where('category', isEqualTo: 'footwear')
-        .snapshots()
-        .map((snapshot) {
-      return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
-    });
-  }
 
-//For Custom Products Category
-  Stream<List<Product>> getAllByCategory() {
-    return _firebaseFirestore
-        .collection('product')
-        .where('category', isEqualTo: 'custom')
-        .snapshots()
-        .map((snapshot) {
-      return snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
-    });
-  }
 
   //collection reference
   final CollectionReference userDataCollection = FirebaseFirestore.instance
@@ -149,26 +163,14 @@ class DatabaseService {
         }));
   }
 
- Stream<List<UserInformation>> getAllUsers() {
-    return _firebaseFirestore.collection('UserData').snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => UserInformation.fromSnapshot(doc)).toList();
+  Stream<List<UserInformation>> getAllUsers() {
+    return _firebaseFirestore
+        .collection('UserData')
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => UserInformation.fromSnapshot(doc))
+          .toList();
     });
   }
-
-
-
- 
-  
-
- 
-  
-
-
-
- 
-  }
-
-
-
-
-
+}
