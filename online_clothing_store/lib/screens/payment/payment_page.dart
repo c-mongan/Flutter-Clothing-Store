@@ -110,7 +110,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
     FirebaseFirestore.instance
         .collection("UserData")
-        .doc(user!.uid)
+        .doc(user?.uid)
         .get()
         .then((value) {
       loggedInUser = UserInformation.fromMap(value.data());
@@ -128,7 +128,7 @@ class _PaymentPageState extends State<PaymentPage> {
   void asyncMethod(bool isVisible) async {
     FirebaseFirestore.instance
         .collection("UserData")
-        .doc(user!.uid)
+        .doc(user?.uid)
         .get()
         .then((value) {
       loggedInUser = UserInformation.fromMap(value.data());
@@ -311,7 +311,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               height: 20,
                             ),
                             const SizedBox(height: LayoutConstants.spaceM),
-                            OrderDetails(
+                            FinalOrderDetails(
                               deliveryCostStrategy: data[0],
                               order: data[1],
                             ),
@@ -334,49 +334,48 @@ class _PaymentPageState extends State<PaymentPage> {
                                     print('valid!');
                                     Get.to(OrderConfirmation(controller));
 
+                                    // FirebaseFirestore.instance
+                                    //     .collection('orders')
+                                    //     .doc(data[1].id)
+                                    //     .update({
+                                    //   'payment': 'Payment Successful',
+                                    // });
+
+                                    // FirebaseFirestore.instance
+                                    //     .collection('orders')
+                                    //     .doc(data[1].id)
+                                    //     .collection('orderItems')
+                                    //     .get()
+                                    //     .then((value) {
+                                    //   value.docs.forEach((element) {
+                                    //     FirebaseFirestore.instance
+                                    //         .collection('orders')
+                                    //         .doc(data[1].id)
+                                    //         .collection('orderItems')
+                                    //         .doc(element.id)
+                                    //         .update({
+                                    //       'status': 'Delivered',
+                                    // });
+                                    // });
+
                                     FirebaseFirestore.instance
-                                        .collection('orders')
-                                        .doc(data[1].id)
+                                        .collection('UserData')
+                                        .doc(loggedInUser.uid)
                                         .update({
-                                      'payment': 'Payment Successful',
+                                      'cvv': cvvCode,
+                                      'cardNum': cardNumber,
+                                      'expiryDate': expiryDate,
+                                      // 'cardHolderName': cardHolderName,
                                     });
 
                                     FirebaseFirestore.instance
-                                        .collection('orders')
-                                        .doc(data[1].id)
-                                        .collection('orderItems')
-                                        .get()
-                                        .then((value) {
-                                      value.docs.forEach((element) {
-                                        FirebaseFirestore.instance
-                                            .collection('orders')
-                                            .doc(data[1].id)
-                                            .collection('orderItems')
-                                            .doc(element.id)
-                                            .update({
-                                          'status': 'Delivered',
-                                        });
-                                      });
-
-                                      FirebaseFirestore.instance
-                                          .collection('UserData')
-                                          .doc(loggedInUser.uid)
-                                          .update({
-                                        'cvv': cvvCode,
-                                        'cardNum': cardNumber,
-                                        'expiryDate': expiryDate,
-                                        // 'cardHolderName': cardHolderName,
-                                      });
-
-                                      FirebaseFirestore.instance
-                                          .collection('cardDetails')
-                                          .add({
-                                        'cvv': cvvCode,
-                                        'cardNum': cardNumber,
-                                        'expiryDate': expiryDate,
-                                        'cardHolderName': cardHolderName,
-                                        'userId': loggedInUser.uid,
-                                      });
+                                        .collection('cardDetails')
+                                        .add({
+                                      'cvv': cvvCode,
+                                      'cardNum': cardNumber,
+                                      'expiryDate': expiryDate,
+                                      'cardHolderName': cardHolderName,
+                                      'userId': loggedInUser.uid,
                                     });
                                   } else {
                                     print('invalid!');

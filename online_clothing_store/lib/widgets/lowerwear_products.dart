@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 import '../controllers/basket_controller.dart';
 import '../controllers/product_controller.dart';
 import '../screens/customised_products/customised_products.dart';
-
+import '../screens/product/lowerwear_product_page.dart';
+import '../screens/product/product_page.dart';
 
 class LowerwearProducts extends StatelessWidget {
   final productController = Get.put(ProductController());
@@ -47,8 +48,8 @@ class LowerwearProductCard extends StatelessWidget {
         child: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {
-              Get.to(() => (CustomisedProductPage(
-                  product: productController.lowerwear[index])));
+              Get.to(() =>
+                  (LowerwearProductPage(product: productController.lowerwear[index])));
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

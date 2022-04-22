@@ -8,8 +8,12 @@ import 'package:health_app_fyp/screens/checkout/checkout_page.dart';
 import 'package:health_app_fyp/screens/home/home_page.dart';
 import 'package:health_app_fyp/widgets/basket_products.dart';
 
+import '../../constants/layout_constants.dart';
 import '../../controllers/basket_controller.dart';
 import '../../controllers/product_controller.dart';
+import '../../designpatterns/strategy/delivery_interface.dart';
+import '../../designpatterns/strategy/order.dart';
+import '../../designpatterns/strategy/order_info_row.dart';
 import '../../model/user_model.dart';
 import '../../widgets/checkout_products.dart';
 import '../admin/admin_inventory/admin_product.dart';
@@ -83,8 +87,10 @@ class OrderConfirmation extends StatelessWidget {
                           CheckoutProducts(),
                           Divider(thickness: 2),
                           SizedBox(height: 5),
-                          OrderDetails(
-                              order: data[1], deliveryCostStrategy: data[0]),
+                          FinalOrderDetails(
+                            deliveryCostStrategy: data[0],
+                            order: data[1],
+                          ),
                           Center(
                             child: NeumorphicButton(
                               child: Text(
@@ -158,5 +164,65 @@ class OrderConfirmation extends StatelessWidget {
         .update({'stock': FieldValue.increment(-quantity)})
         .then((value) => print("Product Updated"))
         .catchError((error) => print("Failed to update product: $error"));
+  }
+}
+
+class FinalOrderDetails extends StatelessWidget {
+  final Order order;
+  final InterfaceDeliveryCostsStrategy deliveryCostStrategy;
+
+  const FinalOrderDetails({
+    required this.order,
+    required this.deliveryCostStrategy,
+  });
+
+  double get deliveryCost => deliveryCostStrategy.calculate(order);
+  double get total => order.price + deliveryCost;
+
+  double getTotal(
+      Order order,
+      InterfaceDeliveryCostsStrategy _deliveryOptionsList(
+          [_selectedDeliveryIndex])) {
+    return (order.price) + deliveryCostStrategy.calculate(order);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.grey,
+      child: Padding(
+        padding: const EdgeInsets.all(LayoutConstants.paddingM),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Order Details',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6!
+                  .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+            const Divider(),
+            OrderInformationRow(
+              fontFamily: 'Montserrat',
+              label: 'Subtotal',
+              value: order.price / 2,
+            ),
+            const SizedBox(height: LayoutConstants.spaceM),
+            OrderInformationRow(
+              fontFamily: 'Roboto',
+              label: 'Delivery',
+              value: deliveryCost / 2,
+            ),
+            const Divider(),
+            OrderInformationRow(
+              fontFamily: 'RobotoMedium',
+              label: 'Order total',
+              value: total / 2,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

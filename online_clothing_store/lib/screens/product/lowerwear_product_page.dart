@@ -11,49 +11,46 @@ import '../../constants/layout_constants.dart';
 import '../../constants/style.dart';
 import '../../controllers/basket_controller.dart';
 import '../../controllers/product_controller.dart';
-import '../../designpatterns/command/command_history.dart';
 import '../../designpatterns/command/index.dart';
-import '../../designpatterns/decorator/decorator/decorator.dart';
-import '../../designpatterns/decorator/widgets/custom_product_selection.dart';
-import '../../designpatterns/decorator/widgets/product_information.dart';
-import '../../designpatterns/decorator/widgets/product_selection.dart';
 import '../../model/user_data.dart';
 import '../../widgets/customised_navbar.dart';
-import '../../widgets/platform_button.dart';
 
-class CustomisedProductPage extends StatefulWidget {
+// ignore: must_be_immutable
+class LowerwearProductPage extends StatefulWidget {
+  // static const String routeName = '/product';
+
   final Product product;
-  CustomisedProductPage({
+  LowerwearProductPage({
     Key? key,
     required this.product,
   }) : super(key: key);
 
   @override
-  State<CustomisedProductPage> createState() => _CustomisedProductPageState();
+  State<LowerwearProductPage> createState() => _LowerwearProductPageState();
 }
 
-class _CustomisedProductPageState extends State<CustomisedProductPage> {
+class _LowerwearProductPageState extends State<LowerwearProductPage> {
   final basketController = Get.put(BasketController());
+  var map = Map();
+  User? user = FirebaseAuth.instance.currentUser;
+  UserInformation loggedInUser = UserInformation();
   List<bool>? rating;
   final reviewController = TextEditingController();
   String content = "";
-  User? user = FirebaseAuth.instance.currentUser;
-  UserInformation loggedInUser = UserInformation();
 
   String uid = FirebaseAuth.instance.currentUser!.uid;
-
-//  @override
-//   void initState() {
-//     super.initState();
-//     rating = [false, false, false, false, false];
-//     FirebaseFirestore.instance
-//         .collection("UserData")
-//         .doc(user!.uid)
-//         .get()
-//         .then((value) {
-//       loggedInUser = UserInformation.fromMap(value.data());
-//     });
-//   }
+  @override
+  void initState() {
+    super.initState();
+    rating = [false, false, false, false, false];
+    FirebaseFirestore.instance
+        .collection("UserData")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserInformation.fromMap(value.data());
+    });
+  }
 
   final ProductController productController = Get.find();
 
@@ -64,6 +61,15 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
   bool fourthIsSelected = false;
   bool fifthIsSelected = false;
   bool isSubmitted = false;
+
+  final Item _item = Item.initial();
+
+  bool showCustomisation = false;
+  bool showDetails = true;
+  bool showReviews = false;
+
+  late String color;
+  late String initialColor;
 
   num getStars(rating) {
     int stars = 0;
@@ -76,74 +82,11 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
     return stars;
   }
 
-  final Item _item = Item.initial();
-
-  bool showCustomisation = true;
-  bool showDetails = false;
-  bool showReviews = false;
-
-  late final Stream<QuerySnapshot> reviewsStream = FirebaseFirestore.instance
-      .collection('reviews')
-      .orderBy("dateTime", descending: true)
-      .where('name', isEqualTo: widget.product.name)
-      .snapshots();
-
-  late String color;
-  late String initialColor;
-
-  final ProductMenu productMenu = ProductMenu();
-
-  late final Map<int, ProductExtrasData> _productExtrasDataMap;
-  late CustomProduct _product;
-  int _selectedIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _productExtrasDataMap = productMenu.getProductExtrasDataMap();
-    _product = productMenu.getProduct(0, _productExtrasDataMap);
-
-    rating = [false, false, false, false, false];
-    FirebaseFirestore.instance
-        .collection("UserData")
-        .doc(user!.uid)
-        .get()
-        .then((value) {
-      loggedInUser = UserInformation.fromMap(value.data());
-    });
-  }
-
-  void _onSelectedIndexChanged(int? index) {
-    _setSelectedIndex(index!);
-    _setSelectedProduct(index);
-  }
-
-  void _setSelectedIndex(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  void _onCustomProductChipSelected(int index, bool? selected) {
-    _setChipSelected(index, selected!);
-    _setSelectedProduct(_selectedIndex);
-  }
-
-  void _setChipSelected(int index, bool selected) {
-    setState(() {
-      _productExtrasDataMap[index]!.setSelected(isSelected: selected);
-    });
-  }
-
-  void _setSelectedProduct(int index) {
-    setState(() {
-      _product = productMenu.getProduct(index, _productExtrasDataMap);
-    });
-  }
-
   Color displayColor(String color) {
     switch (color) {
       //add more color as your wish
+      case "white":
+        return Colors.white;
       case "red":
         return Colors.red;
       case "blue":
@@ -156,6 +99,8 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
         return Colors.green;
       case "black":
         return Colors.black;
+      case "navy":
+        return Color.fromARGB(255, 3, 21, 48);
       default:
         return Colors.transparent;
     }
@@ -163,6 +108,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
 
   Color getColor(_item) {
     switch (_item.color) {
+      //add more color as your wish
       case "1":
         return displayColor(widget.product.color!);
       case "2":
@@ -173,11 +119,8 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
     }
   }
 
-  void updatePrice() {
-    productController.custom[0].price = _product.getPrice();
-  }
-
   void _changeColor() {
+    // print(_item.color.toString() + " first ");
     final command = ChangeColorCommand(_item);
     _executeCommand(command);
     print(_commandHistory.commandHistoryList);
@@ -216,7 +159,6 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
 
         _commandHistory.undo();
         print(_commandHistory.commandHistoryList);
-        // print(_item.size);
       }
     });
   }
@@ -230,12 +172,14 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
         fourthIsSelected = false;
         break;
       case "Large":
+        //  secondIsSelected = true;
         firstIsSelected = false;
         thirdIsSelected = false;
         secondIsSelected = !secondIsSelected;
         fourthIsSelected = false;
         break;
       case "Extra Large":
+        // thirdIsSelected = true;
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = !thirdIsSelected;
@@ -246,8 +190,12 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = false;
+        //fourthIsSelected = !fourthIsSelected;
 
         break;
+      // case "Extra Extra Large":
+      //   fifthIsSelected = true;
+      //   break;
     }
   }
 
@@ -281,8 +229,12 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
     }
   }
 
-  // late int index = productController.custom.indexOf(widget.product);
-  int index = 0;
+  late final Stream<QuerySnapshot> reviewsStream = FirebaseFirestore.instance
+      .collection('reviews')
+      .orderBy("dateTime", descending: true)
+      .where('name', isEqualTo: widget.product.name)
+      .snapshots();
+  late int index = productController.lowerwear.indexOf(widget.product);
 
   @override
   Widget build(BuildContext context) {
@@ -319,10 +271,13 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                       Colors.black,
                       Colors.grey,
                     ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+
+                    color: Colors.black,
+                    //AppColor.secondary,
                     borderRadius: BorderRadius.circular(34),
                   ),
                   child: Padding(
-                      padding: const EdgeInsets.all(24.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: SingleChildScrollView(
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -339,10 +294,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                   ),
                                 ),
                               ),
-                              ProductNameAndPrice(
-                                product: widget.product,
-                                customProduct: _product,
-                              ),
+                              ProductNameAndPrice(product: widget.product),
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
@@ -352,14 +304,14 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                     widget.product.manufacturer!,
                                     style: const TextStyle(
                                       fontSize: 20,
-                                      color: Colors.grey,
+                                      color: Colors.white,
                                     ),
                                   ),
                                   FloatingActionButton(
-                                    backgroundColor: Colors.white,
+                                    backgroundColor: Colors.black,
                                     elevation: 0,
                                     onPressed: () {
-                                      // FIRE BASE ADD TO FAVOURITES
+                                      //FIRE BASE ADD TO FAVOURITES
 
                                       FirebaseFirestore.instance
                                           .collection('wishlist')
@@ -385,20 +337,20 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                           toastLength: Toast.LENGTH_SHORT,
                                           gravity: ToastGravity.TOP,
                                           timeInSecForIosWeb: 1,
-                                          backgroundColor: Colors.grey,
+                                          backgroundColor: Colors.black,
                                           textColor: Colors.white,
                                           fontSize: 16.0);
                                     },
                                     child: const Icon(
                                       Icons.favorite_border,
-                                      color: Colors.grey,
+                                      color: Colors.white,
                                     ),
                                   )
                                 ],
                               ),
                               SizedBox(height: 25),
                               const SizedBox(height: LayoutConstants.spaceM),
-                              Divider(color: Colors.grey, height: 3),
+                              Divider(color: Colors.white, height: 3),
                               Row(
                                 children: <Widget>[
                                   SizedBox(height: LayoutConstants.spaceM),
@@ -409,7 +361,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                           style: TextButton.styleFrom(
                                             textStyle: TextStyle(
                                                 fontSize: 15,
-                                                color: Colors.grey),
+                                                color: Colors.white),
                                           ),
                                           onPressed: () {
                                             if (showDetails == false) {
@@ -423,15 +375,17 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                           child: Text(
                                             'Details',
                                             style: TextStyle(
-                                              color: Colors.grey,
+                                              color: Colors.white,
                                             ),
                                           )),
+
                                       SizedBox(width: 8),
+
                                       TextButton(
                                           style: TextButton.styleFrom(
                                             textStyle: TextStyle(
                                                 fontSize: 15,
-                                                color: Colors.grey),
+                                                color: Colors.white),
                                           ),
                                           onPressed: () {
                                             if (showReviews == false) {
@@ -445,15 +399,16 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                           child: Text(
                                             'Reviews',
                                             style: TextStyle(
-                                              color: Colors.grey,
+                                              color: Colors.white,
                                             ),
                                           )),
                                       SizedBox(width: 8),
+                                      // TabTitle(label: 'Review', selected: false),
                                       TextButton(
                                           style: TextButton.styleFrom(
                                             textStyle: TextStyle(
                                                 fontSize: 15,
-                                                color: Colors.grey),
+                                                color: Colors.white),
                                           ),
                                           onPressed: () {
                                             if (showCustomisation == false) {
@@ -467,7 +422,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                           child: Text(
                                             'Customise',
                                             style: TextStyle(
-                                              color: Colors.grey,
+                                              color: Colors.white,
                                             ),
                                           ))
                                     ],
@@ -475,17 +430,97 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                 ],
                               ),
                               if (showDetails == true) ...[
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _changeSize();
+                                        });
+                                      },
+                                      child: Button(
+                                        selector: firstIsSelected,
+                                        color: Colors.black,
+                                        submitted: isSubmitted,
+                                        text: "S",
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _changeSize();
+                                        });
+                                      },
+                                      child: Button(
+                                        selector: secondIsSelected,
+                                        color: Colors.black,
+                                        submitted: isSubmitted,
+                                        text: "M",
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _changeSize();
+                                        });
+                                      },
+                                      child: Button(
+                                        selector: thirdIsSelected,
+                                        color: Colors.black,
+                                        submitted: isSubmitted,
+                                        text: "L",
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _changeSize();
+                                        });
+                                      },
+                                      child: Button(
+                                        selector: fourthIsSelected,
+                                        color: Colors.black,
+                                        submitted: isSubmitted,
+                                        text: "XL",
+                                      ),
+                                    ),
+                                    SizedBox(width: 55),
+                                    NeumorphicButton(
+                                        child: Text(
+                                          'Change Size',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        onPressed: _changeSize),
+                                  ],
+                                ),
+                                SizedBox(height: LayoutConstants.spaceM),
+                                Center(
+                                  child: Text(
+                                    'Details',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(widget.product.description!,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                    )),
+                                SizedBox(height: 30),
                                 NeumorphicButton(
-                                  child: Text('Add to Cart'),
+                                  child: const Text(
+                                    'Add to Cart',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                   onPressed: () => basketController.addProduct(
-                                      productController.custom[index], index),
+                                      productController.lowerwear[index],
+                                      index),
                                 ),
                               ],
                               if (showReviews == true) ...[
-                                SizedBox(height: 10),
-                                Text("Reviews", style: TextStyle(fontSize: 20)),
-                                SizedBox(height: 30),
-
                                 SizedBox(height: 10),
                                 Text(
                                   "Reviews",
@@ -676,59 +711,24 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                         ;
                                       },
                                     )),
+                                SizedBox(height: 30),
                                 NeumorphicButton(
-                                  child: Text('Add to Cart'),
+                                  child: Text(
+                                    'Add to Cart',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                   onPressed: () => basketController.addProduct(
-                                      productController.custom[index], index),
+                                      productController.lowerwear[index],
+                                      index),
                                 ),
                               ],
                               if (showCustomisation == true) ...[
-                                SizedBox(height: 30),
-                                ScrollConfiguration(
-                                  behavior: const ScrollBehavior(),
-                                  child: SingleChildScrollView(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: LayoutConstants.paddingL,
-                                    ),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            Text(
-                                              'Select your product:',
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        ProductSelection(
-                                          selectedIndex: _selectedIndex,
-                                          onChanged: _onSelectedIndexChanged,
-                                        ),
-                                        if (_selectedIndex == 2)
-                                          CustomProductSelection(
-                                            productExtrasDataMap:
-                                                _productExtrasDataMap,
-                                            onSelected:
-                                                _onCustomProductChipSelected,
-                                          ),
-                                        Divider(color: Colors.grey, height: 3),
-                                        ProductInformation(
-                                          product: _product,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Divider(color: Colors.grey, height: 3),
+                                Divider(color: Colors.white, height: 3),
                                 SizedBox(height: 25),
                                 SizedBox(
                                   height: 5,
                                 ),
-
-                                Divider(color: Colors.grey, height: 3),
+                                Divider(color: Colors.white, height: 3),
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment:
@@ -747,19 +747,21 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                         text: "",
                                       ),
                                     ),
+                                    SizedBox(width: 35),
                                     NeumorphicButton(
-                                        child: Text('Change Color'),
+                                        child: Text(
+                                          'Change Color',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
                                         onPressed: _changeColor),
+                                    SizedBox(width: 3),
                                   ],
                                 ),
-
-                                Divider(color: Colors.grey, height: 3),
+                                Divider(color: Colors.white, height: 3),
                                 SizedBox(
                                   height: 35,
                                 ),
-                                // Divider(color: Colors.grey, height: 3),
-                                // Text("Change Size"),
-                                Divider(color: Colors.grey, height: 3),
+                                Divider(color: Colors.white, height: 3),
                                 SizedBox(
                                   height: 5,
                                 ),
@@ -773,7 +775,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                       },
                                       child: Button(
                                         selector: firstIsSelected,
-                                        color: Colors.grey,
+                                        color: Colors.black,
                                         submitted: isSubmitted,
                                         text: "S",
                                       ),
@@ -786,7 +788,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                       },
                                       child: Button(
                                         selector: secondIsSelected,
-                                        color: Colors.grey,
+                                        color: Colors.black,
                                         submitted: isSubmitted,
                                         text: "M",
                                       ),
@@ -799,7 +801,7 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                       },
                                       child: Button(
                                         selector: thirdIsSelected,
-                                        color: Colors.grey,
+                                        color: Colors.black,
                                         submitted: isSubmitted,
                                         text: "L",
                                       ),
@@ -812,39 +814,45 @@ class _CustomisedProductPageState extends State<CustomisedProductPage> {
                                       },
                                       child: Button(
                                         selector: fourthIsSelected,
-                                        color: Colors.grey,
+                                        color: Colors.black,
                                         submitted: isSubmitted,
                                         text: "XL",
                                       ),
                                     ),
-                                    SizedBox(width: 65),
+                                    SizedBox(width: 55),
                                     NeumorphicButton(
-                                        child: Text('Change Size'),
+                                        child: Text(
+                                          'Change Size',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
                                         onPressed: _changeSize),
                                   ],
                                 ),
-
-                                Divider(color: Colors.grey, height: 3),
+                                Divider(color: Colors.white, height: 3),
                                 SizedBox(
                                   height: 35,
                                 ),
-
                                 Row(
                                   children: <Widget>[
                                     NeumorphicButton(
-                                        child: Text('Add to Cart'),
-                                        onPressed: () {
-                                          updatePrice();
-
+                                      child: Text(
+                                        'Add to Cart',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      onPressed: () =>
                                           basketController.addProduct(
-                                              productController.custom[0],
-                                              index);
-                                        }),
+                                              productController
+                                                  .lowerwear[index],
+                                              index),
+                                    ),
                                     SizedBox(
                                       width: 150,
                                     ),
                                     NeumorphicButton(
-                                      child: Text('Undo'),
+                                      child: Text(
+                                        'Undo',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                       onPressed: _undo,
                                     ),
                                   ],
@@ -955,9 +963,7 @@ class RectButton extends StatelessWidget {
 
 class ProductNameAndPrice extends StatelessWidget {
   final Product product;
-  final CustomProduct customProduct;
-  const ProductNameAndPrice(
-      {Key? key, required this.product, required this.customProduct})
+  const ProductNameAndPrice({Key? key, required this.product})
       : super(key: key);
 
   @override
@@ -968,11 +974,12 @@ class ProductNameAndPrice extends StatelessWidget {
       children: [
         Text(
           product.name!,
+          // style: AppStyle.h1Light,
           style: AppStyle.h1Light.copyWith(
-              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 30),
+              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 25),
         ),
         Text(
-          " €" + customProduct.getPrice().toStringAsFixed(2),
+          " €" + product.price.toString(),
           style: AppStyle.h1Light.copyWith(
               color: Colors.white, fontWeight: FontWeight.w600, fontSize: 20),
         ),
@@ -1036,7 +1043,7 @@ class NeumorphicButton extends StatefulWidget {
     this.padding = const EdgeInsets.all(12.5),
     required this.onPressed,
   })  : blurOffset = Offset(bevel / 2, bevel / 2),
-        color = Colors.grey.shade200,
+        color = Colors.black,
         super(key: key);
 
   @override

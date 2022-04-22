@@ -244,21 +244,50 @@ class _AdminProductPageState extends State<AdminProductPage> {
                                     SizedBox(height: 30),
                                     Center(
                                       child: NeumorphicButton(
-                                        child: Text(
-                                          'Update Product',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        onPressed: () => FirebaseFirestore
-                                            .instance
-                                            .collection('product')
-                                            .doc(widget.product.itemID)
-                                            .update({
-                                          'price': double.parse(
-                                              priceEditingController.text),
-                                          'stock': double.parse(
-                                              stockEditingController.text),
-                                        }),
-                                      ),
+                                          child: Text(
+                                            'Update Product',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          onPressed: () {
+                                            if (priceEditingController.text !=
+                                                    "" &&
+                                                stockEditingController.text !=
+                                                    "") {
+                                              FirebaseFirestore.instance
+                                                  .collection('product')
+                                                  .doc(widget.product.itemID)
+                                                  .update({
+                                                'price': double.parse(
+                                                    priceEditingController
+                                                        .text),
+                                                'stock': double.parse(
+                                                    stockEditingController
+                                                        .text),
+                                              });
+                                            } else {
+                                              showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: Text('Error'),
+                                                      content: Text(
+                                                          'Please fill in all the fields'),
+                                                      actions: <Widget>[
+                                                        FlatButton(
+                                                          child: Text('Ok'),
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                        )
+                                                      ],
+                                                    );
+                                                  });
+                                            }
+                                          }),
                                     )
                                   ],
                                   if (showReviews == true) ...[
@@ -484,7 +513,7 @@ class ProductNameAndPrice extends StatelessWidget {
         Text(
           product.name!,
           style: AppStyle.h1Light.copyWith(
-              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 30),
+              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 25),
         ),
         Text(
           " €" + product.price.toString(),

@@ -102,14 +102,17 @@ class _AddressPageState extends State<AddressPage> {
                       color: Colors.black),
                 ),
                 TextBox(
+                  label: "First name",
                   inputController: firstNameEditingController,
                   text: "${loggedInUser.firstName}",
                 ),
                 TextBox(
+                  label: "Last name",
                   inputController: secondNameEditingController,
                   text: "${loggedInUser.secondName}",
                 ),
                 TextBox(
+                  label: "Email",
                   inputController: emailEditingController,
                   text: "${loggedInUser.email}",
                 ),
@@ -123,18 +126,22 @@ class _AddressPageState extends State<AddressPage> {
                       color: Colors.black),
                 ),
                 TextBox(
+                  label: "Address",
                   inputController: addressEditingController,
                   text: "${loggedInUser.address}",
                 ),
                 TextBox(
+                  label: "City",
                   inputController: cityEditingController,
                   text: "${loggedInUser.city}",
                 ),
                 TextBox(
+                  label: "Zip code",
                   inputController: zipCodeEditingController,
                   text: "${loggedInUser.zipCode}",
                 ),
                 TextBox(
+                  label: "Country",
                   inputController: countryEditingController,
                   text: "${loggedInUser.country}",
                 ),
@@ -147,8 +154,9 @@ class _AddressPageState extends State<AddressPage> {
                   onPressed: () {
                     FirebaseFirestore.instance
                         .collection("UserData")
-                        .doc(user!.uid)
-                        .update({
+                        .doc(user?.uid)
+                        .set({
+                      'uid': user?.uid,
                       'firstName': firstNameEditingController.text,
                       'secondName': secondNameEditingController.text,
                       'email': emailEditingController.text,
@@ -174,7 +182,12 @@ class _AddressPageState extends State<AddressPage> {
 class TextBox extends StatelessWidget {
   final TextEditingController inputController;
   String text;
-  TextBox({Key? key, required this.inputController, required this.text})
+  String label;
+  TextBox(
+      {Key? key,
+      required this.inputController,
+      required this.text,
+      required this.label})
       : super(key: key);
 
   @override
@@ -209,7 +222,7 @@ class TextBox extends StatelessWidget {
             keyboardType: TextInputType.emailAddress,
             style: const TextStyle(fontSize: 14, color: Colors.black),
             decoration: InputDecoration(
-              label: Text(text),
+              label: Text(label),
               labelStyle: const TextStyle(color: primaryColor),
               filled: true,
               fillColor: accentColor,

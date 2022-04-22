@@ -184,6 +184,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
         backgroundColor: Colors.red,
         onPressed: () {
           controller.dispose();
+          
+          // _tabcontroller.dispose();
+          // _tabcontroller2.dispose();
 
           logout(context, controller);
         });

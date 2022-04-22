@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:health_app_fyp/screens/product/upperwear_product_page.dart';
 import '../../controllers/basket_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../widgets/carosel_slider.dart';
@@ -9,6 +10,7 @@ import '../../widgets/customised_appbar.dart';
 import '../../widgets/customised_navbar.dart';
 import '../authentication/login_screen.dart';
 import '../customised_products/customised_products.dart';
+import '../product/lowerwear_product_page.dart';
 import '../product/product_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,12 +37,11 @@ class _HomePageState extends State<HomePage> {
 
   String setFilterCriterea() {
     String filterCriterea = "";
-    
+
     String setBy =
         setOrderBy(_TabBarAndTabViewsState2._tabController2.index).toString();
     String filterBy =
         setFilterBy(_TabBarAndTabViewsState._tabController.index).toString();
- 
 
     if (setBy != "" && filterBy != "") {
       filterCriterea = filterBy + " " + setBy;
@@ -112,11 +113,8 @@ class _HomePageState extends State<HomePage> {
                   textAlign: TextAlign.center,
 
                   //When text is entered call the search products method and pass in the text (value)
-                  onChanged: (value) =>
-                   
-
-                      productController.searchProducts(
-                          value, setFilterCriterea()),
+                  onChanged: (value) => productController.searchProducts(
+                      value, setFilterCriterea()),
                   style: const TextStyle(fontSize: 14),
                   decoration: InputDecoration(
                     prefixIcon:
@@ -149,14 +147,12 @@ class _HomePageState extends State<HomePage> {
                 height: 100,
                 child: TabBarAndTabViews(),
               ),
-             
               RaisedButton(
                   color: Colors.grey,
                   child: const Text('Sort Items',
                       style: TextStyle(color: Colors.white, fontSize: 15)),
                   onPressed: () {
                     setState(() {
-                    
                       productController.searchProducts(
                           " ", setFilterCriterea());
                     });
@@ -229,15 +225,25 @@ class InventoryProductCard extends StatelessWidget {
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
           onTap: (() {
-            //If the item is in the custom items category, then navigate to the customised products page
-            if (productController.products[index].category == 'custom') {
-              Get.to(() => (CustomisedProductPage(
-                  product: productController.products[index])));
-            } else {
-              //If the item is not in the custom items category, then navigate to the product page
-              Get.to(() =>
-                  (ProductPage(product: productController.products[index])));
-            }
+            // if (productController.products[index].category == 'upperwear') {
+            //   Get.to(() => (UpperwearProductPage(
+            //       product: productController.products[index])));
+            // } else {
+            //   if (productController.products[index].category == 'lower') {
+            //     Get.to(() => (LowerwearProductPage(
+            //         product: productController.products[index])));
+            //   } else {
+                //If the item is in the custom items category, then navigate to the customised products page
+                if (productController.products[index].category == 'custom') {
+                  Get.to(() => (CustomisedProductPage(
+                      product: productController.products[index])));
+                } else {
+                  //If the item is not in the custom items category, then navigate to the product page
+                  Get.to(() => (ProductPage(
+                      product: productController.products[index])));
+                }
+            //   }
+            // }
           }),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -267,8 +273,6 @@ class InventoryProductCard extends StatelessWidget {
                         fontSize: 20,
                         color: Colors.white)),
               ),
-
-              
               Divider(
                 color: Colors.white,
                 thickness: 1,
@@ -319,7 +323,6 @@ List<TabPair> TabPairs = [
       text: 'Manufacturer',
     ),
     view: Center(
-    
       child: Text(
         'Sort by : Manufacturer',
         style: TextStyle(
@@ -368,7 +371,6 @@ class _TabBarAndTabViewsState extends State<TabBarAndTabViews>
         _selectedIndex = _tabController.index;
       });
       setFilterBy(_tabController.index);
-    
     });
   }
 
@@ -384,7 +386,6 @@ class _TabBarAndTabViewsState extends State<TabBarAndTabViews>
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-    
           Container(
             height: 45,
             decoration: BoxDecoration(
@@ -397,7 +398,6 @@ class _TabBarAndTabViewsState extends State<TabBarAndTabViews>
               padding: EdgeInsets.all(6),
               child: TabBar(
                   controller: _tabController,
-               
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(
                       25.0,
@@ -487,7 +487,6 @@ class _TabBarAndTabViewsState2 extends State<TabBarAndTabViews2>
         _selectedIndex2 = _tabController2.index;
       });
       setOrderBy(_tabController2.index);
-     
     });
   }
 
@@ -503,7 +502,6 @@ class _TabBarAndTabViewsState2 extends State<TabBarAndTabViews2>
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-      
           Container(
             height: 45,
             decoration: BoxDecoration(
@@ -516,7 +514,6 @@ class _TabBarAndTabViewsState2 extends State<TabBarAndTabViews2>
               padding: EdgeInsets.all(6),
               child: TabBar(
                   controller: _tabController2,
-           
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(
                       25.0,
@@ -543,7 +540,7 @@ String setOrderBy(int i) {
   String orderBy;
   if (i == 0) {
     orderBy = 'ascending';
-  
+
     return orderBy;
   } else if (i == 1) {
     orderBy = 'descending';
@@ -557,11 +554,11 @@ String setFilterBy(int i) {
   String filterBy;
   if (i == 0) {
     filterBy = 'title';
-  
+
     return filterBy;
   } else if (i == 1) {
     filterBy = 'manufacturer';
-  
+
     return filterBy;
   } else if (i == 2) {
     filterBy = 'price';

@@ -85,6 +85,8 @@ class _ProductPageState extends State<ProductPage> {
   Color displayColor(String color) {
     switch (color) {
       //add more color as your wish
+      case "white":
+        return Colors.white;
       case "red":
         return Colors.red;
       case "blue":
@@ -97,6 +99,8 @@ class _ProductPageState extends State<ProductPage> {
         return Colors.green;
       case "black":
         return Colors.black;
+      case "navy":
+        return Color.fromARGB(255, 3, 21, 48);
       default:
         return Colors.transparent;
     }
@@ -316,7 +320,7 @@ class _ProductPageState extends State<ProductPage> {
                                         'color1': widget.product.color,
                                         'color2': widget.product.color2,
                                         'category': widget.product.category,
-                                        // 'size': widget.product.size,
+
                                         // 'productID': widget.product.uid,
                                         "dateTime": DateTime.now(),
                                         'description':
@@ -426,13 +430,94 @@ class _ProductPageState extends State<ProductPage> {
                                 ],
                               ),
                               if (showDetails == true) ...[
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _changeSize();
+                                        });
+                                      },
+                                      child: Button(
+                                        selector: firstIsSelected,
+                                        color: Colors.black,
+                                        submitted: isSubmitted,
+                                        text: "S",
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _changeSize();
+                                        });
+                                      },
+                                      child: Button(
+                                        selector: secondIsSelected,
+                                        color: Colors.black,
+                                        submitted: isSubmitted,
+                                        text: "M",
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _changeSize();
+                                        });
+                                      },
+                                      child: Button(
+                                        selector: thirdIsSelected,
+                                        color: Colors.black,
+                                        submitted: isSubmitted,
+                                        text: "L",
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _changeSize();
+                                        });
+                                      },
+                                      child: Button(
+                                        selector: fourthIsSelected,
+                                        color: Colors.black,
+                                        submitted: isSubmitted,
+                                        text: "XL",
+                                      ),
+                                    ),
+                                    SizedBox(width: 55),
+                                    NeumorphicButton(
+                                        child: Text(
+                                          'Change Size',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        onPressed: _changeSize),
+                                  ],
+                                ),
+                                SizedBox(height: LayoutConstants.spaceM),
+                                Center(
+                                  child: Text(
+                                    'Details',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(widget.product.description!,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                    )),
                                 SizedBox(height: 30),
                                 NeumorphicButton(
                                   child: const Text(
                                     'Add to Cart',
                                     style: TextStyle(color: Colors.white),
                                   ),
-                                  onPressed: () => basketController.addProduct(
+                                  onPressed: () => 
+                                  
+                                  basketController.addProduct(
                                       productController.products[index], index),
                                 ),
                               ],
@@ -890,7 +975,7 @@ class ProductNameAndPrice extends StatelessWidget {
           product.name!,
           // style: AppStyle.h1Light,
           style: AppStyle.h1Light.copyWith(
-              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 30),
+              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 25),
         ),
         Text(
           " €" + product.price.toString(),

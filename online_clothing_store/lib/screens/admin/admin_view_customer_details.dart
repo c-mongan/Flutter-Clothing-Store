@@ -44,7 +44,7 @@ class _AdminCustomerDetailsState extends State<AdminCustomerDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomisedAppBar(title: "{widget.customer.name}"),
+      appBar: const CustomisedAppBar(title: "View Customer"),
       bottomNavigationBar: const CustomisedNavigationBar(),
       body: Container(
           width: MediaQuery.of(context).size.width,
@@ -98,20 +98,10 @@ class _AdminCustomerDetailsState extends State<AdminCustomerDetails> {
                                 "",
                                 style: TextStyle(color: Colors.white),
                               ),
-                              trailing: data['products'] != null
-                                  ? Text(
-                                      "Number of products " +
-                                          data['products'].length.toString(),
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 15),
-                                    )
-                                  : Text("Number of products " + "0",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 15)),
                             );
                           }).toList(),
                         ),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(color: Colors.black26))),
                       );
@@ -183,20 +173,16 @@ class CustomerInfo extends StatelessWidget {
         ),
         Text(
           "Name :" + customer.firstName! + " " + customer.secondName!,
-          // style: AppStyle.h1Light,
           style: AppStyle.h1Light.copyWith(
               color: Colors.white, fontWeight: FontWeight.w600, fontSize: 15),
         ),
         Text(
           "Email :" + customer.email!,
-
-          // style: AppStyle.h1Light,
           style: AppStyle.h1Light.copyWith(
               color: Colors.white, fontWeight: FontWeight.w600, fontSize: 15),
         ),
         Text(
           "Address :" + customer.address!,
-          // style: AppStyle.h1Light,
           style: AppStyle.h1Light.copyWith(
               color: Colors.white, fontWeight: FontWeight.w600, fontSize: 15),
         ),
