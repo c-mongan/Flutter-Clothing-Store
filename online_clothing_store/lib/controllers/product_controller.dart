@@ -12,6 +12,8 @@ class ProductController extends GetxController {
   final custom = <Product>[].obs;
   final upperwear = <Product>[].obs;
   final lowerwear = <Product>[].obs;
+  var db = DatabaseService(uid:"");
+  
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
@@ -19,69 +21,72 @@ class ProductController extends GetxController {
 //Connects our products list to the database
   @override
   void onInit() {
+    
+
+    var db = DatabaseService(uid: user!.uid);
     //Stream of products from the database
-    products.bindStream(DatabaseService(uid: user!.uid).getAllProducts());
+    products.bindStream(db.getAllProducts());
     //Stream of products from the database by title (Ascending)
     products
-        .bindStream(DatabaseService(uid: user!.uid).getAllProductsByTitleAsc());
+        .bindStream(db.getAllProductsByTitleAsc());
     //Stream of products from the database by title (Descending)
     products.bindStream(
-        DatabaseService(uid: user!.uid).getAllProductsByTitleDesc());
+        db.getAllProductsByTitleDesc());
     //Stream of products from the database by manufacturer (Descending)
     products.bindStream(
-        DatabaseService(uid: user!.uid).getAllProductsByManufacturerDesc());
+        db.getAllProductsByManufacturerDesc());
     //Stream of products from the database by manufacturer (Ascending)
     products.bindStream(
-        DatabaseService(uid: user!.uid).getAllProductsByManufacturerAsc());
+        db.getAllProductsByManufacturerAsc());
     //Stream of products from the database by price (Ascending)
     products
-        .bindStream(DatabaseService(uid: user!.uid).getAllProductsByPriceAsc());
+        .bindStream(db.getAllProductsByPriceAsc());
     //Stream of products from the database by price (Descending)
     products.bindStream(
-        DatabaseService(uid: user!.uid).getAllProductsByPriceDesc());
+        db.getAllProductsByPriceDesc());
 
-    custom.bindStream(DatabaseService(uid: user!.uid).getAllCustom());
+    custom.bindStream(db.getAllCustom());
 
-    upperwear.bindStream(DatabaseService(uid: user!.uid).getAllUpperWear());
+    upperwear.bindStream(db.getAllUpperWear());
 
-    lowerwear.bindStream(DatabaseService(uid: user!.uid).getAllLowerWear());
+    lowerwear.bindStream(db.getAllLowerWear());
 
     super.onInit();
   }
 
-  Stream<List<Product>> getStream(String filterCriterea) {
+  Stream<List<Product>> getStream(String filterCriterea ,) {
     // print(filterCriterea + " Filter Criterea");
+    
 
     switch (filterCriterea) {
       case "title ascending":
-        return DatabaseService(uid: user!.uid).getAllProductsByTitleAsc();
+        return db.getAllProductsByTitleAsc();
 
       case "title descending":
-        return DatabaseService(uid: user!.uid).getAllProductsByTitleDesc();
+        return db.getAllProductsByTitleDesc();
 
       case "manufacturer ascending":
-        return DatabaseService(uid: user!.uid)
+        return db
             .getAllProductsByManufacturerAsc();
 
       case "manufacturer descending":
-        return DatabaseService(uid: user!.uid)
+        return db
             .getAllProductsByManufacturerDesc();
 
       case "price ascending":
-        return DatabaseService(uid: user!.uid).getAllProductsByPriceAsc();
+        return db.getAllProductsByPriceAsc();
 
       case "price descending":
-        return DatabaseService(uid: user!.uid).getAllProductsByPriceDesc();
+        return db.getAllProductsByPriceDesc();
 
       case "":
-        return DatabaseService(uid: user!.uid).getAllProducts();
+        return db.getAllProducts();
 
       default:
-        return DatabaseService(uid: user!.uid).getAllProducts();
+        return db.getAllProducts();
     }
 
-    // return products
-    //         .bindStream(DatabaseService(uid: user!.uid).getAllProducts());
+   
   }
 
   void searchProducts(String searchText, String setFilterCriterea) {
@@ -90,9 +95,6 @@ class ProductController extends GetxController {
 
     getStream(filterCriterea);
 
-//Category or title Partial matching
-
-//Add list of manufacturers to this list
     List<String> manufacturers = [];
     List<String> categories = [];
     List<String> titles = [];

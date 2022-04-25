@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
 import 'package:health_app_fyp/screens/admin/admin_inventory/admin_home.dart';
+import 'package:health_app_fyp/services/database.dart';
 
 import 'screens/authentication/login_screen.dart';
 import 'screens/home/home_page.dart';
@@ -15,6 +16,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   HttpOverrides.global = MyHttpOverrides();
   runApp(MaterialApp(home: MyApp()));
+  
 }
 
 class MyHttpOverrides extends HttpOverrides {

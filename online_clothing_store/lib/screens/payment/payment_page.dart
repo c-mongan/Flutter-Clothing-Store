@@ -334,30 +334,6 @@ class _PaymentPageState extends State<PaymentPage> {
                                     print('valid!');
                                     Get.to(OrderConfirmation(controller));
 
-                                    // FirebaseFirestore.instance
-                                    //     .collection('orders')
-                                    //     .doc(data[1].id)
-                                    //     .update({
-                                    //   'payment': 'Payment Successful',
-                                    // });
-
-                                    // FirebaseFirestore.instance
-                                    //     .collection('orders')
-                                    //     .doc(data[1].id)
-                                    //     .collection('orderItems')
-                                    //     .get()
-                                    //     .then((value) {
-                                    //   value.docs.forEach((element) {
-                                    //     FirebaseFirestore.instance
-                                    //         .collection('orders')
-                                    //         .doc(data[1].id)
-                                    //         .collection('orderItems')
-                                    //         .doc(element.id)
-                                    //         .update({
-                                    //       'status': 'Delivered',
-                                    // });
-                                    // });
-
                                     FirebaseFirestore.instance
                                         .collection('UserData')
                                         .doc(loggedInUser.uid)
@@ -365,7 +341,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                       'cvv': cvvCode,
                                       'cardNum': cardNumber,
                                       'expiryDate': expiryDate,
-                                      // 'cardHolderName': cardHolderName,
+                                      
                                     });
 
                                     FirebaseFirestore.instance

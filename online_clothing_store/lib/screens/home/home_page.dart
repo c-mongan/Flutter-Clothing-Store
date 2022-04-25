@@ -27,6 +27,8 @@ class _HomePageState extends State<HomePage> {
   late int index = index;
   final searchController = TextEditingController();
 
+  
+
   isProducts(controller) {
     if (controller.products.length == 0) {
       return true;
@@ -225,14 +227,7 @@ class InventoryProductCard extends StatelessWidget {
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
           onTap: (() {
-            // if (productController.products[index].category == 'upperwear') {
-            //   Get.to(() => (UpperwearProductPage(
-            //       product: productController.products[index])));
-            // } else {
-            //   if (productController.products[index].category == 'lower') {
-            //     Get.to(() => (LowerwearProductPage(
-            //         product: productController.products[index])));
-            //   } else {
+           
                 //If the item is in the custom items category, then navigate to the customised products page
                 if (productController.products[index].category == 'custom') {
                   Get.to(() => (CustomisedProductPage(
@@ -242,8 +237,7 @@ class InventoryProductCard extends StatelessWidget {
                   Get.to(() => (ProductPage(
                       product: productController.products[index])));
                 }
-            //   }
-            // }
+          
           }),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
