@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import '../../../constants/constants.dart';
 import 'delivery_interface.dart';
 
+// ignore: must_be_immutable
 class DeliveryMethods extends StatelessWidget {
   List<InterfaceDeliveryCostsStrategy> deliveryOptions;
   final int selectedIndex;
   final ValueChanged<int?> onChanged;
 
-  DeliveryMethods({
+  DeliveryMethods({Key? key, 
     required this.deliveryOptions,
     required this.selectedIndex,
     required this.onChanged,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

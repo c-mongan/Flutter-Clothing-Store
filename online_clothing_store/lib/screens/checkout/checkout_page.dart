@@ -220,6 +220,7 @@ class OrderDetails extends StatelessWidget {
 
   double getTotal(
       Order order,
+      // ignore: use_function_type_syntax_for_parameters
       InterfaceDeliveryCostsStrategy _deliveryOptionsList(
           [_selectedDeliveryIndex])) {
     return order.price + deliveryCostStrategy.calculate(order);

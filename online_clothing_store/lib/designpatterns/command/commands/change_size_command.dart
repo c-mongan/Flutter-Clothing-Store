@@ -1,4 +1,4 @@
-import 'package:faker/faker.dart';
+
 
 import '../command.dart';
 import '../item.dart';
@@ -12,8 +12,7 @@ class ChangeSizeCommand implements Command {
     'Medium',
     'Large',
     'Extra Large',
-    // 'Extra Extra Large',
-    // 'Extra Extra Extra Large',
+
   ];
 
   ChangeSizeCommand(this.item) {

@@ -10,6 +10,7 @@ import '../services/database.dart';
 class UserController extends GetxController {
   //List of product objects
   late var users = <UserInformation>[].obs;
+  var db = DatabaseService(uid: "");
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
@@ -17,8 +18,9 @@ class UserController extends GetxController {
 //Connects our users list to the database
   @override
   void onInit() {
+    var db = DatabaseService(uid: user!.uid);
     //Stream of users from the database
-    users.bindStream(DatabaseService(uid: user!.uid).getAllUsers());
+    users.bindStream(db.getAllUsers());
     //Stream of users from the database by title (Ascending)
 
     super.onInit();

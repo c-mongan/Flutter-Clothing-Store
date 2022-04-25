@@ -15,12 +15,11 @@ import '../../designpatterns/command/index.dart';
 import '../../model/user_data.dart';
 import '../../widgets/customised_navbar.dart';
 
-// ignore: must_be_immutable
 class ProductPage extends StatefulWidget {
-  // static const String routeName = '/product';
+
 
   final Product product;
-  ProductPage({
+  const ProductPage({
     Key? key,
     required this.product,
   }) : super(key: key);
@@ -30,94 +29,8 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  final basketController = Get.put(BasketController());
-  var map = Map();
-  User? user = FirebaseAuth.instance.currentUser;
-  UserInformation loggedInUser = UserInformation();
-  List<bool>? rating;
-  final reviewController = TextEditingController();
-  String content = "";
 
-  String uid = FirebaseAuth.instance.currentUser!.uid;
-  @override
-  void initState() {
-    super.initState();
-    rating = [false, false, false, false, false];
-    FirebaseFirestore.instance
-        .collection("UserData")
-        .doc(user!.uid)
-        .get()
-        .then((value) {
-      loggedInUser = UserInformation.fromMap(value.data());
-    });
-  }
 
-  final ProductController productController = Get.find();
-
-  final CommandHistory _commandHistory = CommandHistory();
-  bool firstIsSelected = true;
-  bool secondIsSelected = false;
-  bool thirdIsSelected = false;
-  bool fourthIsSelected = false;
-  bool fifthIsSelected = false;
-  bool isSubmitted = false;
-
-  final Item _item = Item.initial();
-
-  bool showCustomisation = false;
-  bool showDetails = true;
-  bool showReviews = false;
-
-  late String color;
-  late String initialColor;
-
-  num getStars(rating) {
-    int stars = 0;
-
-    for (int i = 0; i < rating.length; i++) {
-      if (rating[i]) {
-        stars++;
-      }
-    }
-    return stars;
-  }
-
-  Color displayColor(String color) {
-    switch (color) {
-      //add more color as your wish
-      case "white":
-        return Colors.white;
-      case "red":
-        return Colors.red;
-      case "blue":
-        return Colors.blue;
-      case "yellow":
-        return Colors.yellow;
-      case "orange":
-        return Colors.orange;
-      case "green":
-        return Colors.green;
-      case "black":
-        return Colors.black;
-      case "navy":
-        return Color.fromARGB(255, 3, 21, 48);
-      default:
-        return Colors.transparent;
-    }
-  }
-
-  Color getColor(_item) {
-    switch (_item.color) {
-      //add more color as your wish
-      case "1":
-        return displayColor(widget.product.color!);
-      case "2":
-        return displayColor(widget.product.color2!);
-
-      default:
-        return Colors.transparent;
-    }
-  }
 
   void _changeColor() {
     // print(_item.color.toString() + " first ");
@@ -172,14 +85,14 @@ class _ProductPageState extends State<ProductPage> {
         fourthIsSelected = false;
         break;
       case "Large":
-        //  secondIsSelected = true;
+       
         firstIsSelected = false;
         thirdIsSelected = false;
         secondIsSelected = !secondIsSelected;
         fourthIsSelected = false;
         break;
       case "Extra Large":
-        // thirdIsSelected = true;
+
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = !thirdIsSelected;
@@ -190,12 +103,10 @@ class _ProductPageState extends State<ProductPage> {
         firstIsSelected = false;
         secondIsSelected = false;
         thirdIsSelected = false;
-        //fourthIsSelected = !fourthIsSelected;
+      
 
         break;
-      // case "Extra Extra Large":
-      //   fifthIsSelected = true;
-      //   break;
+     
     }
   }
 
@@ -228,6 +139,98 @@ class _ProductPageState extends State<ProductPage> {
         break;
     }
   }
+
+  
+ Color displayColor(String color) {
+    switch (color) {
+      //add more color as your wish
+      case "white":
+        return Colors.white;
+      case "red":
+        return Colors.red;
+      case "blue":
+        return Colors.blue;
+      case "yellow":
+        return Colors.yellow;
+      case "orange":
+        return Colors.orange;
+      case "green":
+        return Colors.green;
+      case "black":
+        return Colors.black;
+      case "navy":
+        return Color.fromARGB(255, 3, 21, 48);
+      default:
+        return Colors.transparent;
+    }
+  }
+
+  Color getColor(_item) {
+    switch (_item.color) {
+      //add more color as your wish
+      case "1":
+        return displayColor(widget.product.color!);
+      case "2":
+        return displayColor(widget.product.color2!);
+
+      default:
+        return Colors.transparent;
+    }
+  }
+  
+  final ProductController productController = Get.find();
+
+  final CommandHistory _commandHistory = CommandHistory();
+  bool firstIsSelected = true;
+  bool secondIsSelected = false;
+  bool thirdIsSelected = false;
+  bool fourthIsSelected = false;
+  bool fifthIsSelected = false;
+  bool isSubmitted = false;
+
+  final Item _item = Item.initial();
+
+  bool showCustomisation = false;
+  bool showDetails = true;
+  bool showReviews = false;
+
+  late String color;
+  late String initialColor;
+  final basketController = Get.put(BasketController());
+  var map = Map();
+  User? user = FirebaseAuth.instance.currentUser;
+  UserInformation loggedInUser = UserInformation();
+  List<bool>? rating;
+  final reviewController = TextEditingController();
+  String content = "";
+
+  String uid = FirebaseAuth.instance.currentUser!.uid;
+  @override
+  void initState() {
+    super.initState();
+    rating = [false, false, false, false, false];
+    FirebaseFirestore.instance
+        .collection("UserData")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserInformation.fromMap(value.data());
+    });
+  }
+
+
+  num getStars(rating) {
+    int stars = 0;
+
+    for (int i = 0; i < rating.length; i++) {
+      if (rating[i]) {
+        stars++;
+      }
+    }
+    return stars;
+  }
+
+ 
 
   late final Stream<QuerySnapshot> reviewsStream = FirebaseFirestore.instance
       .collection('reviews')
